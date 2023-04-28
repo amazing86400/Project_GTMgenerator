@@ -37,8 +37,45 @@
     <div class="export_data">
         <button class="export_button" onclick="json(tag,trigger,variable)">데이터 내보내기</button>
     </div>
+
+    <form>
+        <div class="form_card">
+            <div class="set_variable">
+                <input type="text" value="태그이름을 입력하세요"><button class="create_button">저장</button>
+                <h3>태그 구성</h3>
+                <div>
+                    <input type="radio" name="tagType" value="configuration" checked="checked"><label for="configuration">구성</label>    
+                    <input type="radio" name="tagType" value="event"><label for="event">이벤트</label>    
+                </div>
+                <div>
+                    <div>측정 ID</div>
+                    <input type="text">
+                </div>
+                <div>
+                    <div>설정할 필드</div><textarea id="event_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="addEvent()">zmfflr</button>
+                    <div id="event_parameter">
+                    </div>
+                    <input type="button" value="추가" onclick="addEventInput();">
+                </div>
+                <div>
+                    <div>사용자 속성</div><textarea id="user_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="addUser()">zmfflr</button>
+                    <div id="user_property">
+                    </div>
+                    <input type="button" value="추가" onclick="addUserInput();">
+                </div>
+            </div>
+            <div class="set_trigger">
+                <h3>트리거</h3>
+                <div>
+                    <input type="radio" name="triggerType" value="All Pages" checked="checked"><label for="All Pages">All Pages</label>    
+                    <input type="radio" name="triggerType" value="맞춤 이벤트"><label for="맞춤 이벤트">맞춤 이벤트</label>    
+                </div>
+            </div>
+        </div>
+    </form>
 </body>
 <script src="./common.js" type="text/javascript"></script>
+<script src="./input.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
     //tag,trigger,variable ID값 전역변수
