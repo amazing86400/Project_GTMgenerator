@@ -1,13 +1,129 @@
-// 변수 생성 함수
-function createVariable(...args) {
-  let variableId = 2; // 변수 ID 초기값 설정
+
+// 태그 생성 함수
+function createTag(args) {
   let fingerprint = Date.now(); // fingerprint 초기값 설정: 현재 시간 밀리초
   const array = args.map((arg) => {
+      fingerprint += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
+      variableId += 1;
+      return {
+      accountId: '6064990558',
+              containerId: '115156524',
+              tagId: String(variableId),
+              name: arg.tagName,
+              type: 'gaawc',
+              parameter: [
+                  {
+                      type: 'LIST',
+                      key: 'fieldsToSet',
+                      list: TagVariable(arg.VAR_Array)
+                  },
+                  {
+                      type: 'LIST',
+                      key: 'userProperties',
+                      list: TagVariable(arg.user_Array)
+                  },
+                  {
+                      type: 'BOOLEAN',
+                      key: 'sendPageView',
+                      value: 'true'
+                  },
+                  {
+                      type: 'BOOLEAN',
+                      key: 'enableSendToServerContainer',
+                      value: 'false'
+                  },
+                  {
+                      type: 'TEMPLATE',
+                      key: 'measurementId',
+                      value: arg.measurementId
+                  }
+              ],
+              fingerprint: String(fingerprint),
+              firingTriggerId: [
+                  '2147479553'
+              ],
+              tagFiringOption: 'ONCE_PER_EVENT',
+              monitoringMetadata: {
+                  type: 'MAP'
+              },
+              consentSettings: {
+                  consentStatus: 'NOT_SET'
+              }
+    };
+  });
+
+  return array;
+}
+
+
+// 태그 내 변수 설정 함수
+function TagVariable(arrs) {
+  const list = arrs.map((arr)=>{
+      return {
+          type: 'MAP',
+          map: [
+              {
+                  type: 'TEMPLATE',
+                  key: 'name',
+                  value: arr
+              },
+              {
+                  type: 'TEMPLATE',
+                  key: 'value',
+                  value: '{{'+arr+'}}'
+              }
+          ]
+      }
+  })
+  return list;
+}
+
+function createTrigger(args) {
+  let fingerprint = Date.now(); // fingerprint 초기값 설정: 현재 시간 밀리초
+  const array = args.map((arg) => {
+    variableId  += 1;
+    fingerprint += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
+    return {
+      accountId: '6064990558',
+      containerId: '115156524',
+      triggerId: String(variableId),
+      name: arg.name,
+      type: 'CUSTOM_EVENT',
+      customEventFilter: [
+          {
+              type: 'EQUALS',
+              parameter: [
+                  {
+                      type: 'TEMPLATE',
+                      key: 'arg0',
+                      value: '{{_event}}'
+                  },
+                  {
+                      type: 'TEMPLATE',
+                      key: 'arg1',
+                      value: arg.variable
+                  }
+              ]
+          }
+      ],
+      fingerprint: String(fingerprint)
+    };
+  });
+
+  return array;
+}
+
+// 변수 생성 함수
+function createVariable(args) {
+  // let variableId = 2; // 변수 ID 초기값 설정
+  let fingerprint = Date.now(); // fingerprint 초기값 설정: 현재 시간 밀리초
+  const array = args.map((arg) => {
+    variableId  += 1;
     fingerprint += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
     return {
       accountId: '6006787882', // 고정값
       containerId: '115641829', // 고정값
-      variableId: String(++variableId), // 변수 추가될 때마다 1씩 증가
+      variableId: String(variableId), // 변수 추가될 때마다 1씩 증가
       name: arg, // 변수명
       type: 'v',
       parameter: [
@@ -36,7 +152,7 @@ function createVariable(...args) {
 }
 
 // 컨테이너 데이터 설정
-function setData(containerID, ...variable) {
+function setData(tag,trigger,variable) {
   const now = new Date().toISOString().replace('T', ' ').substr(0, 19); // 내보내기 시간 추출
 
   // GTM 컨테이너 설정
@@ -53,7 +169,7 @@ function setData(containerID, ...variable) {
         accountId: '6006787882', // 고정값
         containerId: '115641829', // 고정값
         name: 'json',
-        publicId: containerID, // 컨테이너 ID
+        publicId: 'GTM-1234567', // 컨테이너 ID
         usageContext: ['WEB'], // 컨테이너 플랫폼
         fingerprint: '1682579928362',
         tagManagerUrl: 'https://tagmanager.google.com/#/container/accounts/6006787882/containers/115641829/workspaces?apiLink=container',
@@ -73,9 +189,11 @@ function setData(containerID, ...variable) {
           supportZones: true,
           supportTransformations: false,
         },
-        tagIds: [containerID],
+        tagIds: ['GTM-1234567'],
       },
-      variable: createVariable(...variable), // 변수 설정
+      tag: createTag(tag), // 변수 설정
+      trigger: createTrigger(trigger), // 변수 설정
+      variable: createVariable(variable), // 변수 설정
       fingerprint: Date.now().toString(),
       tagManagerUrl: 'https://tagmanager.google.com/#/versions/accounts/6006787882/containers/115641829/versions/0?apiLink=version',
     },
@@ -84,9 +202,9 @@ function setData(containerID, ...variable) {
   return gtmContainer;
 }
 
-function json(containerID, ...variable) {
+function json(tag,trigger,variable) {
   // JSON 파일로 저장
-  const jsonString = JSON.stringify(setData(containerID, ...variable));
+  const jsonString = JSON.stringify(setData(tag,trigger,variable));
   const blob = new Blob([jsonString], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
 
