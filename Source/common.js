@@ -1,9 +1,12 @@
+// variableId 초기값 설정
+let variableId = 0;
+
 // 태그 생성 함수 정의
 function createTag(args) {
   let fingerprint = Date.now(); // fingerprint 초기값 설정: 현재 시간 밀리초
   const array = args.map((arg) => {
     fingerprint += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
-    variableId += 1;
+    variableId += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
     return {
       accountId: "6064990558",
       containerId: "115156524",
@@ -26,85 +29,92 @@ function createTag(args) {
   return array;
 }
 
-// 20230429 생성_기범
 // 태그 내 parameter 반환 함수 정의
 // 구성 태그, 이벤트 태그 구분하여 설정
-function setParameter(args) {
-  const array = args.map((arg) => {
-    // 구성 태그
-    if (arg.type === "config") {
-      return [
-        {
-          type: "LIST",
-          key: "fieldsToSet",
-          list: setVariable(arg.VAR_Array),
-        },
-        {
-          type: "LIST",
-          key: "userProperties",
-          list: setVariable(arg.user_Array),
-        },
-        {
-          type: "BOOLEAN",
-          key: "sendPageView",
-          value: "true",
-        },
-        {
-          type: "BOOLEAN",
-          key: "enableSendToServerContainer",
-          value: "false",
-        },
-        {
-          type: "TEMPLATE",
-          key: "measurementId",
-          value: arg.measurementId,
-        },
-      ];
-    } else {
-      const ecommerceData = {
-        type: "BOOLEAN",
-        key: "sendEcommerceData",
-        value: arg.isEcommerce ? "true" : "false",
-      };
-
-      const eventParameters = {
+function setParameter(arg) {
+  // 구성 태그
+  if (arg.type === "config") {
+    return [
+      {
         type: "LIST",
-        key: "eventParameters",
+        key: "fieldsToSet",
         list: setVariable(arg.VAR_Array),
-      };
-
-      const measurementId = {
-        type: "TAG_REFERENCE",
-        key: "measurementId",
-        value: args.configTag,
-      };
-
-      const eventName = {
+      },
+      {
+        type: "LIST",
+        key: "userProperties",
+        list: setVariable(arg.user_Array),
+      },
+      {
+        type: "BOOLEAN",
+        key: "sendPageView",
+        value: "true",
+      },
+      {
+        type: "BOOLEAN",
+        key: "enableSendToServerContainer",
+        value: "false",
+      },
+      {
         type: "TEMPLATE",
-        key: "eventName",
-        value: args.eventName,
-      };
+        key: "measurementId",
+        value: arg.measurementId,
+      },
+    ];
+  } else {
+    const ecommerceData = {
+      type: "BOOLEAN",
+      key: "sendEcommerceData",
+      value: arg.isEcommerce ? "true" : "false",
+    };
 
-      // ecommerce가 설정된 경우
-      if (arg.isEcommerce) {
-        return [
-          ecommerceData,
-          eventParameters,
-          measurementId,
-          eventName,
-          { type: "TEMPLATE", key: "getEcommerceDataFrom", value: "dataLayer" },
-        ];
-      }
+    const eventParameters = {
+      type: "LIST",
+      key: "eventParameters",
+      list: setVariable(arg.VAR_Array),
+    };
 
-      // ecommerce가 설정되지 않은 경우
-      return [ecommerceData, eventParameters, measurementId, eventName];
+    const userProperties = {
+      type: "LIST",
+      key: "userProperties",
+      list: setVariable(arg.user_Array),
+    };
+
+    const measurementId = {
+      type: "TAG_REFERENCE",
+      key: "measurementId",
+      value: arg.configTag,
+    };
+
+    const eventName = {
+      type: "TEMPLATE",
+      key: "eventName",
+      value: arg.eventName,
+    };
+
+    // ecommerce가 설정된 경우
+    if (arg.isEcommerce) {
+      return [
+        ecommerceData,
+        eventParameters,
+        measurementId,
+        eventName,
+        userProperties,
+        { type: "TEMPLATE", key: "getEcommerceDataFrom", value: "dataLayer" },
+      ];
     }
-  });
 
-  return array;
+    // ecommerce가 설정되지 않은 경우
+    return [
+      ecommerceData,
+      eventParameters,
+      measurementId,
+      eventName,
+      userProperties,
+    ];
+  }
 }
 
-// 20230429 key, value 설정 변경_기범
 // 태그 내 변수 설정 함수 정의
 function setVariable(arrs) {
   const list = arrs.map((arr) => {
@@ -114,12 +124,12 @@ function setVariable(arrs) {
         {
           type: "TEMPLATE",
           key: "name",
-          value: arr.name,
+          value: arr.name, // 변수 이름
         },
         {
           type: "TEMPLATE",
           key: "value",
-          value: "{{" + arr.variable + "}}",
+          value: "{{" + arr.variable + "}}", // 변수 값
         },
       ],
     };
@@ -132,13 +142,13 @@ function setVariable(arrs) {
 function createTrigger(args) {
   let fingerprint = Date.now(); // fingerprint 초기값 설정: 현재 시간 밀리초
   const array = args.map((arg) => {
-    variableId += 1;
     fingerprint += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
+    variableId += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
     return {
       accountId: "6064990558",
       containerId: "115156524",
       triggerId: String(variableId),
-      name: arg.name,
+      name: arg.name, // 트리거 이름
       type: "CUSTOM_EVENT",
       customEventFilter: [
         {
@@ -152,7 +162,7 @@ function createTrigger(args) {
             {
               type: "TEMPLATE",
               key: "arg1",
-              value: arg.variable,
+              value: arg.variable, // 트리거 변수 값
             },
           ],
         },
@@ -166,16 +176,15 @@ function createTrigger(args) {
 
 // 변수 생성 함수 정의
 function createVariable(args) {
-  // let variableId = 2; // 변수 ID 초기값 설정
   let fingerprint = Date.now(); // fingerprint 초기값 설정: 현재 시간 밀리초
   const array = args.map((arg) => {
-    variableId += 1;
+    variableId += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
     fingerprint += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
     return {
-      accountId: "6006787882", // 고정값
-      containerId: "115641829", // 고정값
-      variableId: String(variableId), // 변수 추가될 때마다 1씩 증가
-      name: arg, // 변수명
+      accountId: "6006787882",
+      containerId: "115641829",
+      variableId: String(variableId),
+      name: arg, // 변수 이름
       type: "v",
       parameter: [
         {
@@ -191,10 +200,10 @@ function createVariable(args) {
         {
           type: "TEMPLATE",
           key: "name",
-          value: arg, // 변수명
+          value: arg, // 변수 값
         },
       ],
-      fingerprint: String(fingerprint), // fingerprint 문자열 변환
+      fingerprint: String(fingerprint),
       formatValue: {},
     };
   });
