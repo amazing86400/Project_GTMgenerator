@@ -132,3 +132,9 @@ form {
     margin: 0 auto;
     /* background-color: #f1f3f4; */
 }
+
+.form_input {
+    margin-bottom: 8px;
+    margin-right: 16px;
+    flex: 1 1 33.3333333333%;
+}

@@ -252,8 +252,8 @@ function setData(tag, trigger, variable) {
         },
         tagIds: ["GTM-1234567"],
       },
-      tag: createTag(tag), // 변수 설정
-      trigger: createTrigger(trigger), // 변수 설정
+      tag: createTag(tag), // 태그 설정
+      trigger: createTrigger(trigger), // 트리거 설정
       variable: createVariable(variable), // 변수 설정
       fingerprint: Date.now().toString(),
       tagManagerUrl:

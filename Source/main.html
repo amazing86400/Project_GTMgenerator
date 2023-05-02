@@ -41,32 +41,35 @@
     </div>
     <!-- Json 테스트할 경우 form태그 주석처리 -->
     <form class="form">
+        <div>
+            <i></i><input class="form_input" id="tag_name" type="text" value="태그이름을 입력하세요"><button class="create_button">저장</button>
+        </div>
         <div class="form_card">
-            <div>
-                <i></i><input class="tag_name" type="text" value="태그이름을 입력하세요"><button class="create_button">저장</button>
-            </div>
             <div class="content">
                 <div class="tag_fonf">
                     <h3>태그 구성</h3>
                     <div>
-                        <input type="radio" name="tagType" value="configuration" checked="checked"><label
-                            for="configuration">구성</label>
-                        <input type="radio" name="tagType" value="event"><label for="event">이벤트</label>
+                        <input class="radio" type="radio" name="tagType" value="configuration" checked="checked"><label for="configuration">구성</label>
+                        <input class="radio" type="radio" name="tagType" value="event"><label for="event">이벤트</label>
                     </div>
                     <div>
                         <div>측정 ID</div>
-                        <input type="text">
+                        <input class="form_input" type="text">
                     </div>
                     <div>
-                        <div>설정할 필드</div><textarea id="event_excelData" style="width:250px;height:150px;"></textarea><button
-                            type="button" onclick="addEvent()">zmfflr</button>
+                        <div>설정할 필드</div>
+                        <div>
+                            <textarea id="event_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="addEvent()">zmfflr</button>
+                        </div>
                         <div id="event_parameter">
                         </div>
                         <input type="button" value="추가" onclick="addEventInput();">
                     </div>
                     <div>
-                        <div>사용자 속성</div><textarea id="user_excelData" style="width:250px;height:150px;"></textarea><button
-                            type="button" onclick="addUser()">zmfflr</button>
+                        <div>사용자 속성</div>
+                        <div>
+                            <textarea id="user_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="addUser()">zmfflr</button>
+                        </div>
                         <div id="user_property">
                         </div>
                         <input type="button" value="추가" onclick="addUserInput();">
@@ -75,8 +78,7 @@
                 <div class="set_trigger">
                     <h3>트리거</h3>
                     <div>
-                        <input type="radio" name="triggerType" value="All Pages" checked="checked"><label
-                            for="All Pages">All Pages</label>
+                        <input type="radio" name="triggerType" value="All Pages" checked="checked"><label for="All Pages">All Pages</label>
                         <input type="radio" name="triggerType" value="맞춤 이벤트"><label for="맞춤 이벤트">맞춤 이벤트</label>
                     </div>
                 </div>
