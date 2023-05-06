@@ -18,26 +18,15 @@
 ## Todo
 
 <details><summary> <b>기능 구현</b></summary>
-* 111
-* 111
-* 111
-
-</details>
-<br>
-
-<details><summary> <b>디자인</b></summary>
-* 111
-* 111
-* 111
-
+* 각 input태그 값 추출하여 배열로 저장
+* 배열로 저장된 태그 정보 태그 리스트 출력
+* 태그 유형별 디자인 변경
 </details>
 <br>
 
 <details><summary> <b>예외처리</b></summary>
-* 111
-* 111
-* 111
-
+* 태그 생성 중에 input태그에 값 있는 경우 닫기 눌렀을 때 alert창 출력
+* 이벤트 매개변수 동일한 변수명 있을 시 alert출력
 </details>
 <br>
 
