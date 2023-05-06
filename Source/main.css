@@ -1,3 +1,14 @@
+@font-face {
+    font-family: 'Material Icons Extended';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/materialiconsextended/v149/kJEjBvgX7BgnkSrUwT8UnLVc38YydejYY-oE_LvJ.woff2) format('woff2');
+}
+
+body {
+    margin: 0px;
+}
+
 .container {
     background: #fff;
     border: none;
@@ -97,44 +108,119 @@ tr>td:first-child {
     color: #1565cf;
 }
 
-form {
-    width: 100%;
-    box-shadow: 0 0 10px -5px rgba(0,0,0,.2), 0 0 24px 2px rgba(0,0,0,.14), 0 0 30px 5px rgba(0,0,0,.12);
-    /* transform: translate(259px, 0px); */
-    /* transition: transform .4s; */
-    max-width: 1187px;
-    /* display: flex;
-    justify-content: flex-end; */
-    /* float: right; */
-    bottom: 0;
-    /* left: 0; */
+.editor_background {
+    display: none;
     position: absolute;
-    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: .32;
     top: 0;
-    background-color: white;
+    left: 0;
+    z-index: 1;
+}
+
+.card_title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+}
+
+i {
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-top: 8px;
+    cursor: pointer;
+    color: #000;
+    opacity: .54;
+}
+
+i::before {
+    font-family: "Material Icons Extended";
+    content: "close";
+    font-size: 24px;
+    font-style: normal;
+    text-align: center;
+    width: 40px;
 }
 
 .tag_name {
+    flex: auto;
+    line-height: 32px;
+    margin: 0 0 1px;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Google Sans",Roboto,Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    min-height: 64px;
+    padding-top: 18px;
+}
+
+.input_tag_name {
     border-bottom: solid 1px #dadce0;
     border-left: none;
     border-right: none;
     border-top: none;
-    outline: 0px solid rgba(0, 0, 0, 0);
     font-size: 20px;
-    line-height: 32px;
-    font-family: "Google Sans",Roboto,Helvetica,Arial,sans-serif;
-    padding-top: 18px;
-    overflow: visible;
-    display: inline-block;
+    height: 33px;
 }
 
-.content {
+.editor {
+    display: none;
+    width: 1000px;
+    height: 100vh;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.form_card {
+    /* width: 650px; */
+    height: 88.7vh;
     margin: 0 auto;
-    /* background-color: #f1f3f4; */
+    padding: 24px 24px 16px;
+    background-color: #F1F3F4;
 }
 
-.form_input {
+.tag_conf, .set_trigger {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    padding-top: 16px;
+}
+
+.conf_title {
     margin-bottom: 8px;
-    margin-right: 16px;
-    flex: 1 1 33.3333333333%;
+    margin: -16px -24px 0;
+    padding: 15px 24px 16px;
+    line-height: 24px;
+    border-bottom: 1px solid #dadce0;
+}
+
+.create_button {
+    border-radius: 4px;
+    border-width: 1px;
+    cursor: pointer;
+    letter-spacing: .25px;
+    line-height: 34px;
+    padding: 1px 24px 2px;
+    background-color: #1a73e8;
+    border-color: transparent;
+    color: #fff;
+    margin-right: 25px;
+}
+
+.input_area {
+    display: flex;
+}
+
+.textarea {
+    display: flex;
+    align-items: flex-end;
 }

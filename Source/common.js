@@ -39,3 +39,21 @@ function addUserInput(){
 function deleteInput(num){
     document.getElementById('test'+num).remove();
 }
+
+const ediotr = document.querySelector('.editor');
+const editor_backgroud = document.querySelector('.editor_background');
+function editorOpen() {
+    ediotr.style.display = 'block';
+    editor_backgroud.style.display = 'block';
+}
+
+function editorClose() {
+    ediotr.style.display = 'none';
+    editor_backgroud.style.display = 'none';
+}
+document.addEventListener('click', (e) => {
+    e.target === editor_backgroud ? editorClose() : false;
+})
+
+document.querySelector('.create_button').addEventListener('click', editorOpen);
+document.querySelector('.card_close').addEventListener('click', editorClose);

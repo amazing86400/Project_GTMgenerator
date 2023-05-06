@@ -15,6 +15,32 @@
 
 <br>
 
+## Todo
+
+<details><summary> <b>기능 구현</b></summary>
+* 111
+* 111
+* 111
+
+</details>
+<br>
+
+<details><summary> <b>디자인</b></summary>
+* 111
+* 111
+* 111
+
+</details>
+<br>
+
+<details><summary> <b>예외처리</b></summary>
+* 111
+* 111
+* 111
+
+</details>
+<br>
+
 ## Development environment
 
 > - HTML
