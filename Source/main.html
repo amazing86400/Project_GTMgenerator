@@ -57,8 +57,8 @@
                     </div>
                     <div>
                         <div>태그 유형</div>
-                        <input class="radio" type="radio" name="tagType" value="configuration" checked="checked"><label for="configuration">구성</label>
-                        <input class="radio" type="radio" name="tagType" value="event"><label for="event">이벤트</label>
+                        <input class="radio" type="radio" name="tagType" value="gaawc" checked="checked"><label for="configuration">구성</label>
+                        <input class="radio" type="radio" name="tagType" value="gaawe"><label for="event">이벤트</label>
                     </div>
                     <div>
                         <div>측정 ID</div>
@@ -68,9 +68,9 @@
                         <div class="input_area">
                             <div>
                                 <div id="event_parameter">
-                                    <input class="form_input" type="text"><input class="form_input" type="text"><br>
-                                    <input class="form_input" type="text"><input class="form_input" type="text"><br>
-                                    <input class="form_input" type="text"><input class="form_input" type="text"><br>
+                                    <div id="test1"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(1)'>-</button></div>
+                                    <div id="test2"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(2)'>-</button></div>
+                                    <div id="test3"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(3)'>-</button></div>
                                 </div>
                                 <input type="button" value="추가" onclick="addEventInput();">
                             </div>
@@ -84,9 +84,9 @@
                         <div class="input_area">
                             <div>
                                 <div id="user_property">
-                                    <input class="form_input" type="text"><input class="form_input" type="text"><br>
-                                    <input class="form_input" type="text"><input class="form_input" type="text"><br>
-                                    <input class="form_input" type="text"><input class="form_input" type="text"><br>
+                                    <div id="test4"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(4)'>-</button></div>
+                                    <div id="test5"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(5)'>-</button></div>
+                                    <div id="test6"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(6)'>-</button></div>
                                 </div>
                                 <input type="button" value="추가" onclick="addUserInput();">
                             </div>
@@ -120,8 +120,8 @@
     //태그 값
     let tag = [
         {
-            tagName: 'screenview',
-            measurementId: 'G-1234',
+            tagName: document.getElementById('tag_name').value,
+            type: document.querySelector('input[name="tagType"]:checked').value,
             VAR_Array: eventArr,
             user_Array: userArr
         }

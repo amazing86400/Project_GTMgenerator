@@ -1,4 +1,4 @@
-var inputNo = 0;  //input태그 번호
+var inputNo = 6;  //input태그 번호
 const eventParameter = document.getElementById('event_parameter')   //이벤트 매개변수 태그
 const userParameter = document.getElementById('user_property')      //사용자 속성 태그
 
@@ -40,20 +40,23 @@ function deleteInput(num){
     document.getElementById('test'+num).remove();
 }
 
-const ediotr = document.querySelector('.editor');
-const editor_backgroud = document.querySelector('.editor_background');
+const ediotr = document.querySelector('.editor');    //editor
+const editor_backgroud = document.querySelector('.editor_background');  // editor_background
+
+// editor창 열기
 function editorOpen() {
     ediotr.style.display = 'block';
     editor_backgroud.style.display = 'block';
 }
-
+// editor창 닫기
 function editorClose() {
     ediotr.style.display = 'none';
     editor_backgroud.style.display = 'none';
 }
+// editor창 밖 영역(editor_background) 클릭 시 닫기
 document.addEventListener('click', (e) => {
     e.target === editor_backgroud ? editorClose() : false;
 })
 
-document.querySelector('.create_button').addEventListener('click', editorOpen);
-document.querySelector('.card_close').addEventListener('click', editorClose);
+document.querySelector('.create_button').addEventListener('click', editorOpen); //editorOpen함수 호출
+document.querySelector('.card_close').addEventListener('click', editorClose);   //editorClose함수 호출
