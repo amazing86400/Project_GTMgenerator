@@ -112,10 +112,10 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
     //태그 내 이벤트 매개변수
-    var eventArr = ['ep_category', 'ep_action'];
-
+    var eventArr = [{'name':'ep_category','variable':'ep_category2'},{'name':'ep_action','variable':'ep_action'}];
+    
     //태그 내 사용자 속성 매개변수
-    var userArr = ['up_uid', 'up_gender'];
+    var userArr = [{'name':'up_uid','variable':'up_uid2'},{'name':'up_gender','variable':'up_gender2'}];
 
     //태그 값
     let tag = [
@@ -123,7 +123,8 @@
             tagName: document.getElementById('tag_name').value,
             type: document.querySelector('input[name="tagType"]:checked').value,
             VAR_Array: eventArr,
-            user_Array: userArr
+            user_Array: userArr,
+            measurementId: 'G-1234'
         }
     ]
 
