@@ -33,7 +33,7 @@ function createTag(args) {
 // 구성 태그, 이벤트 태그 구분하여 설정
 function setParameter(arg) {
   // 구성 태그
-  if (arg.type === "config") {
+  if (arg.type === "gaawc") {
     return [
       {
         type: "LIST",
@@ -184,7 +184,7 @@ function createVariable(args) {
       accountId: "6006787882",
       containerId: "115641829",
       variableId: String(variableId),
-      name: arg, // 변수 이름
+      name: arg.variable, // 변수 이름
       type: "v",
       parameter: [
         {
@@ -200,7 +200,7 @@ function createVariable(args) {
         {
           type: "TEMPLATE",
           key: "name",
-          value: arg, // 변수 값
+          value: arg.variable, // 변수 값
         },
       ],
       fingerprint: String(fingerprint),
