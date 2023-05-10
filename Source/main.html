@@ -42,12 +42,12 @@
     <!-- Json 테스트할 경우 form태그 주석처리 -->
     <div class="editor_background"></div>
     <div class="editor">
-        <div class="card_title">
-            <i class="card_close"></i>
+        <div class="editor_title">
+            <i class="editor_close"></i>
             <div class="tag_name">
                 <input class="input_tag_name" id="tag_name" type="text" value="태그이름을 입력하세요">
             </div>
-            <button class="create_button">저장</button>
+            <button class="create_button" onclick="setTag()">저장</button>
         </div>
         <div class="form_card">
             <div class="content">
@@ -68,9 +68,7 @@
                         <div class="input_area">
                             <div>
                                 <div id="event_parameter">
-                                    <div id="test1"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(1)'>-</button></div>
-                                    <div id="test2"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(2)'>-</button></div>
-                                    <div id="test3"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(3)'>-</button></div>
+                                    <div id="test1"><input type="text" name="ep_key" class="form_input" value="page_title"><input type="text" name="ep_value" class="form_input" value="title"><button type='button' onclick='deleteInput(1)'>-</button></div>
                                 </div>
                                 <input type="button" value="추가" onclick="addEventInput();">
                             </div>
@@ -84,9 +82,7 @@
                         <div class="input_area">
                             <div>
                                 <div id="user_property">
-                                    <div id="test4"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(4)'>-</button></div>
-                                    <div id="test5"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(5)'>-</button></div>
-                                    <div id="test6"><input type="text" class="form_input"><input type="text" class="form_input"><button type='button' onclick='deleteInput(6)'>-</button></div>
+                                    <div id="test2"><input type="text" name="up_key" class="form_input" value="up_cid"><input type="text" name="up_value" class="form_input" value="up_cid"><button type='button' onclick='deleteInput(2)'>-</button></div>
                                 </div>
                                 <input type="button" value="추가" onclick="addUserInput();">
                             </div>
@@ -111,6 +107,11 @@
 <script src="./common.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
+    
+    function setTag(){
+
+    }
+
     //태그 내 이벤트 매개변수
     var eventArr = [{'name':'ep_category','variable':'ep_category2'},{'name':'ep_action','variable':'ep_action'}];
     

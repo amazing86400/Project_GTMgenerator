@@ -1,4 +1,4 @@
-var inputNo = 6;  //input태그 번호
+var inputNo = 2;  //input태그 번호
 const eventParameter = document.getElementById('event_parameter')   //이벤트 매개변수 태그
 const userParameter = document.getElementById('user_property')      //사용자 속성 태그
 
@@ -8,7 +8,7 @@ function addEvent() {
     const rows = data.split('\n');
     for (i of rows){
         inputNo += 1
-        eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input' value='${i}'><input type='text' class='form_input' value='{{${i}}}'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
+        eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input' value='${i}'><input type='text' class='form_input' value='${i}'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
     }
     document.getElementById('event_excelData').value = '';
 }
@@ -19,20 +19,20 @@ function addUser() {
     const rows = data.split('\n');
     for (i of rows){
         inputNo += 1
-        userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input' value='${i}'><input type='text' class='form_input' value='{{${i}}}'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
+        userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input' value='${i}'><input type='text' class='form_input' value='${i}'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
     }
     document.getElementById('user_excelData').value = '';
 }
 // 버튼 이벤트 매개변수 input태그 생성함수
 function addEventInput(){
     inputNo += 1
-    eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input'><input type='text' class='form_input'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
+    eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input'><input type='text' name="ep_value" class='form_input'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
 }
 
 // 버튼 사용자 속성 input태그 생성함수
 function addUserInput(){
     inputNo += 1
-    userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input'><input type='text' class='form_input'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
+    userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_key" class='form_input'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
 }
 
 // input태그 삭제 함수
@@ -59,4 +59,4 @@ document.addEventListener('click', (e) => {
 })
 
 document.querySelector('.create_button').addEventListener('click', editorOpen); //editorOpen함수 호출
-document.querySelector('.card_close').addEventListener('click', editorClose);   //editorClose함수 호출
+document.querySelector('.editor_close').addEventListener('click', editorClose);   //editorClose함수 호출

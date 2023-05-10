@@ -120,7 +120,7 @@ tr>td:first-child {
     z-index: 1;
 }
 
-.card_title {
+.editor_title {
     display: flex;
     align-items: center;
     justify-content: space-between;
