@@ -14,28 +14,9 @@
         <div class="card">
             <h2 class="title">GTM 태그 생성기</h2><button class="create_button">새로 만들기</button>
         </div>
-        <div class="empty_table">'새로 만들기' 버튼을 클릭하여 태그를 만드세요.</div>
-        <!-- <table>
-            <thead>
-                <tr>
-                    <th>이름</th>
-                    <th>유형</th>
-                    <th>트리거 실행</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>GA4_Pageview</td>
-                    <td>Google 애널리틱스: GA4 구성</td>
-                    <td>ALL Pages</td>
-                </tr>
-                <tr>
-                    <td>GA4_Event</td>
-                    <td>Google 애널리틱스: GA4 이벤트</td>
-                    <td>TRI_Event</td>
-                </tr>
-            </tbody>
-        </table> -->
+        <div id="empty_table">'새로 만들기' 버튼을 클릭하여 태그를 만드세요.</div>
+        <div class="table">
+        </div>
     </div>
     <div class="export_data">
         <button class="export_button" onclick="json(tag,trigger,variable)">데이터 내보내기</button>
@@ -48,7 +29,7 @@
             <div class="tag_name">
                 <input class="input_tag_name" id="tag_name" type="text" placeholder="태그이름을 입력하세요">
             </div>
-            <button class="create_button" onclick="setTag()">저장</button>
+            <button class="create_button" onclick="setData()">저장</button>
         </div>
         <div class="form_card">
             <div class="content">
@@ -113,7 +94,7 @@
     var variable = [];
     
     //input값 가져와서 데이터 설정해주는 함수
-    function setTag(){
+    function setData(){
         var ep_key = document.getElementsByName('ep_key');
         var ep_value = document.getElementsByName('ep_value');
         var up_key = document.getElementsByName('up_key');
@@ -122,7 +103,7 @@
         var userArr = []
 
         //이벤트 매개변수 값 설정
-        for(var i=0;i < ep_key.length; i++){
+        for(var i=0; i < ep_key.length; i++){
             eventArr.push({
                 name:ep_key[i].value,
                 variable:ep_value[i].value
@@ -130,7 +111,7 @@
         }
 
         //사용자 속성 매개변수 설정
-        for(var i=0;i < up_key.length; i++){
+        for(var i=0; i < up_key.length; i++){
             userArr.push({
                 name:up_key[i].value,
                 variable:up_value[i].value
@@ -146,37 +127,63 @@
         }
 
         //태그 설정
-        tag.push({
+        let setTag = {
             tagName:document.getElementById('tag_name').value,
             type: document.querySelector('input[name="tagType"]:checked').value,
             measurementId: document.getElementById('measurementId').value,
             VAR_Array: eventArr,
             user_Array: userArr
-        })
+        }
+        tag.push(setTag);
 
         //input값 초기화
         var inp = document.getElementsByClassName('form_input')
         for(i of inp){
             i.value = null;
+            //input태그도 하나 남기고 삭제
         }
 
         //editor 창 닫기
         ediotr.style.display = 'none';
         editor_backgroud.style.display = 'none';
         document.querySelector('.export_data').style.display = 'block';
+        setDataList(setTag);
     }
 
-    function setTagList(){
-        // for(tag)
+    //태그 생성하면 리스트로 출력해주는 함수
+    function setDataList(setTag){
+        let tagName = setTag.tagName;
+        let tagType = (setTag.type == 'gaawc') ? 'Google 애널리틱스: GA4 구성' : 'Google 애널리틱스: GA4 이벤트';
+        let tagTri = (setTag.type == 'gaawc') ? 'ALL Pages' : '이벤트명';
+        let div_empty_table = document.getElementById('empty_table');
+        if(div_empty_table){
+            div_empty_table.remove();
+            let tableEle = document.createElement('table');
+            tableEle.innerHTML =  
+                `<table>
+                    <thead>
+                        <tr>
+                            <th>이름</th>
+                            <th>유형</th>
+                            <th>트리거 실행</th>
+                        </tr>
+                    </thead>
+                    <tbody id='tbody'>
+                    </tbody>
+                </table>`;
+            document.querySelector('.table').append(tableEle);
+        }
+        let tbody = document.getElementById('tbody');
+        tbody.insertAdjacentHTML('beforeend',`<tr><td>${tagName}</td><td>${tagType}</td><td>${tagTri}</td></tr>`)
     }
 
     // 트리거 값
-    // let trigger = [
-    //     {
-    //         name: 'TRI_event',
-    //         variable: 'ga_event'
-    //     }
-    // ]
+    let trigger = [
+        {
+            name: 'TRI_event',
+            variable: 'ga_event'
+        }
+    ]
     
 </script>
 </html>
