@@ -18,6 +18,15 @@ body {
     width: 900px;
     margin-left: auto;
     margin-right: auto;
+    min-height: 182px;
+}
+
+.empty_table {
+    font-size: 15px;
+    margin-bottom: 48px;
+    margin-top: 50px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.87);
 }
 
 .card {
@@ -223,4 +232,8 @@ i::before {
 .textarea {
     display: flex;
     align-items: flex-end;
+}
+
+.export_data {
+    display: none;
 }
