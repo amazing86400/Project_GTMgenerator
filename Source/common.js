@@ -60,3 +60,4 @@ document.addEventListener('click', (e) => {
 
 document.querySelector('.create_button').addEventListener('click', editorOpen); //editorOpen함수 호출
 document.querySelector('.editor_close').addEventListener('click', editorClose);   //editorClose함수 호출
+

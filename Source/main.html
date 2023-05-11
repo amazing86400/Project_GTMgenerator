@@ -14,7 +14,8 @@
         <div class="card">
             <h2 class="title">GTM 태그 생성기</h2><button class="create_button">새로 만들기</button>
         </div>
-        <table>
+        <div class="empty_table">'새로 만들기' 버튼을 클릭하여 태그를 만드세요.</div>
+        <!-- <table>
             <thead>
                 <tr>
                     <th>이름</th>
@@ -34,7 +35,7 @@
                     <td>TRI_Event</td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
     </div>
     <div class="export_data">
         <button class="export_button" onclick="json(tag,trigger,variable)">데이터 내보내기</button>
@@ -162,6 +163,11 @@
         //editor 창 닫기
         ediotr.style.display = 'none';
         editor_backgroud.style.display = 'none';
+        document.querySelector('.export_data').style.display = 'block';
+    }
+
+    function setTagList(){
+        // for(tag)
     }
 
     // 트리거 값
