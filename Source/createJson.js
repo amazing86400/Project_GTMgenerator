@@ -184,7 +184,7 @@ function createVariable(args) {
       accountId: "6006787882",
       containerId: "115641829",
       variableId: String(variableId),
-      name: arg.variable, // 변수 이름
+      name: arg, // 변수 이름
       type: "v",
       parameter: [
         {
@@ -200,7 +200,7 @@ function createVariable(args) {
         {
           type: "TEMPLATE",
           key: "name",
-          value: arg.variable, // 변수 값
+          value: arg, // 변수 값
         },
       ],
       fingerprint: String(fingerprint),

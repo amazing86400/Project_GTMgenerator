@@ -45,7 +45,7 @@
         <div class="editor_title">
             <i class="editor_close"></i>
             <div class="tag_name">
-                <input class="input_tag_name" id="tag_name" type="text" value="태그이름을 입력하세요">
+                <input class="input_tag_name" id="tag_name" type="text" placeholder="태그이름을 입력하세요">
             </div>
             <button class="create_button" onclick="setTag()">저장</button>
         </div>
@@ -108,16 +108,17 @@
 <script src="./common.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
-    var eventArr = []
-    var userArr = []
     var tag = []
     var variable = [];
-
+    
+    //input값 가져와서 데이터 설정해주는 함수
     function setTag(){
         var ep_key = document.getElementsByName('ep_key');
         var ep_value = document.getElementsByName('ep_value');
         var up_key = document.getElementsByName('up_key');
         var up_value = document.getElementsByName('up_value');
+        var eventArr = []
+        var userArr = []
 
         //이벤트 매개변수 값 설정
         for(var i=0;i < ep_key.length; i++){
@@ -136,7 +137,12 @@
         }
         
         //데이터 영역변수 설정
-        variable = eventArr.concat(userArr);
+        var arr = eventArr.concat(userArr)
+        for(i in arr){
+            if(variable.indexOf(arr[i].variable) == -1){
+                variable.push(arr[i].variable);
+            }
+        }
 
         //태그 설정
         tag.push({
@@ -159,12 +165,12 @@
     }
 
     // 트리거 값
-    let trigger = [
-        {
-            name: 'TRI_event',
-            variable: 'ga_event'
-        }
-    ]
+    // let trigger = [
+    //     {
+    //         name: 'TRI_event',
+    //         variable: 'ga_event'
+    //     }
+    // ]
     
 </script>
 </html>
