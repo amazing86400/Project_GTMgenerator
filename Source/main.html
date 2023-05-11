@@ -57,11 +57,12 @@
                     </div>
                     <div>
                         <div>태그 유형</div>
-                        <input class="radio" type="radio" name="tagType" value="gaawc" checked="checked"><label for="configuration">구성</label>
-                        <input class="radio" type="radio" name="tagType" value="gaawe"><label for="event">이벤트</label>
+                        <input class="radio" type="radio" name="tagType" value="gep_keywc" checked="checked"><label for="configuration">구성</label>
+                        <input class="radio" type="radio" name="tagType" value="gep_keywe"><label for="event">이벤트</label>
                     </div>
                     <div>
                         <div>측정 ID</div>
+                        <input type="text" class="form_input" id="measurementId">
                     </div>
                     <div>
                         <div>설정할 필드</div>
@@ -70,10 +71,10 @@
                                 <div id="event_parameter">
                                     <div id="test1"><input type="text" name="ep_key" class="form_input" value="page_title"><input type="text" name="ep_value" class="form_input" value="title"><button type='button' onclick='deleteInput(1)'>-</button></div>
                                 </div>
-                                <input type="button" value="추가" onclick="addEventInput();">
+                                <input type="button" value="추가" onclick="aup_valueEventInput();">
                             </div>
                             <div class="textarea">
-                                <textarea id="event_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="addEvent()">추가</button>
+                                <textarea id="event_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="aup_valueEvent()">추가</button>
                             </div>
                         </div>
                     </div>
@@ -84,10 +85,10 @@
                                 <div id="user_property">
                                     <div id="test2"><input type="text" name="up_key" class="form_input" value="up_cid"><input type="text" name="up_value" class="form_input" value="up_cid"><button type='button' onclick='deleteInput(2)'>-</button></div>
                                 </div>
-                                <input type="button" value="추가" onclick="addUserInput();">
+                                <input type="button" value="추가" onclick="aup_valueUserInput();">
                             </div>
                             <div class="textarea">
-                                <textarea id="user_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="addUser()">추가</button>
+                                <textarea id="user_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="aup_valueUser()">추가</button>
                             </div>
                         </div>
                     </div>
@@ -107,27 +108,55 @@
 <script src="./common.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
-    
+    var eventArr = []
+    var userArr = []
+    var tag = []
+    var variable = [];
+
     function setTag(){
+        var ep_key = document.getElementsByName('ep_key');
+        var ep_value = document.getElementsByName('ep_value');
+        var up_key = document.getElementsByName('up_key');
+        var up_value = document.getElementsByName('up_value');
 
-    }
-
-    //태그 내 이벤트 매개변수
-    var eventArr = [{'name':'ep_category','variable':'ep_category2'},{'name':'ep_action','variable':'ep_action'}];
-    
-    //태그 내 사용자 속성 매개변수
-    var userArr = [{'name':'up_uid','variable':'up_uid2'},{'name':'up_gender','variable':'up_gender2'}];
-
-    //태그 값
-    let tag = [
-        {
-            tagName: document.getElementById('tag_name').value,
-            type: document.querySelector('input[name="tagType"]:checked').value,
-            VAR_Array: eventArr,
-            user_Array: userArr,
-            measurementId: 'G-1234'
+        //이벤트 매개변수 값 설정
+        for(var i=0;i < ep_key.length; i++){
+            eventArr.push({
+                name:ep_key[i].value,
+                variable:ep_value[i].value
+            })
         }
-    ]
+
+        //사용자 속성 매개변수 설정
+        for(var i=0;i < up_key.length; i++){
+            userArr.push({
+                name:up_key[i].value,
+                variable:up_value[i].value
+            })
+        }
+        
+        //데이터 영역변수 설정
+        variable = eventArr.concat(userArr);
+
+        //태그 설정
+        tag.push({
+            tagName:document.getElementById('tag_name').value,
+            type: document.querySelector('input[name="tagType"]:checked').value,
+            measurementId: document.getElementById('measurementId').value,
+            VAR_Array: eventArr,
+            user_Array: userArr
+        })
+
+        //input값 초기화
+        var inp = document.getElementsByClassName('form_input')
+        for(i of inp){
+            i.value = null;
+        }
+        
+        //editor 창 닫기
+        ediotr.style.display = 'none';
+        editor_backgroud.style.display = 'none';
+    }
 
     // 트리거 값
     let trigger = [
@@ -136,8 +165,6 @@
             variable: 'ga_event'
         }
     ]
-
-    //데이터 영역변수 값
-    let variable = eventArr.concat(userArr);
+    
 </script>
 </html>
