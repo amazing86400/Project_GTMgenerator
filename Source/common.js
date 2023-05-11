@@ -32,7 +32,7 @@ function addEventInput(){
 // 버튼 사용자 속성 input태그 생성함수
 function addUserInput(){
     inputNo += 1
-    userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_key" class='form_input'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
+    userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_value" class='form_input'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
 }
 
 // input태그 삭제 함수
