@@ -212,7 +212,7 @@ function createVariable(args) {
 }
 
 // 컨테이너 데이터 설정 함수 정의
-function setData(tag, trigger, variable) {
+function setContainer(tag, trigger, variable) {
   const now = new Date().toISOString().replace("T", " ").substr(0, 19); // 내보내기 시간 추출
 
   // GTM 컨테이너 설정
@@ -267,7 +267,7 @@ function setData(tag, trigger, variable) {
 // json 파일 다운로드 함수 정의
 function json(tag, trigger, variable) {
   // JSON 파일로 저장
-  const jsonString = JSON.stringify(setData(tag, trigger, variable));
+  const jsonString = JSON.stringify(setContainer(tag, trigger, variable));
   const blob = new Blob([jsonString], { type: "application/json" });
   const url = URL.createObjectURL(blob);
 
