@@ -1,6 +1,5 @@
 // variableId 초기값 설정
 let variableId = 0;
-
 // 태그 생성 함수 정의
 function createTag(args) {
   let fingerprint = Date.now(); // fingerprint 초기값 설정: 현재 시간 밀리초
@@ -15,7 +14,7 @@ function createTag(args) {
       type: arg.type, // 구성태그: gaawc, 이벤트태그: gaawe
       parameter: setParameter(arg),
       fingerprint: String(fingerprint),
-      firingTriggerId: ["2147479553"],
+      firingTriggerId: (arg.triggerType == 'pageview') ? ["2147479553"]: [String(arg.triggerId)],
       tagFiringOption: "ONCE_PER_EVENT",
       monitoringMetadata: {
         type: "MAP",
@@ -143,11 +142,10 @@ function createTrigger(args) {
   let fingerprint = Date.now(); // fingerprint 초기값 설정: 현재 시간 밀리초
   const array = args.map((arg) => {
     fingerprint += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
-    variableId += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
     return {
       accountId: "6064990558",
       containerId: "115156524",
-      triggerId: String(variableId),
+      triggerId: String(arg.triggerId),
       name: arg.name, // 트리거 이름
       type: "CUSTOM_EVENT",
       customEventFilter: [
@@ -170,7 +168,6 @@ function createTrigger(args) {
       fingerprint: String(fingerprint),
     };
   });
-
   return array;
 }
 
