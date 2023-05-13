@@ -185,7 +185,7 @@
     function setDataList(setTag){
         let tagName = setTag.tagName;
         let tagType = (setTag.type == 'gaawc') ? 'Google 애널리틱스: GA4 구성' : 'Google 애널리틱스: GA4 이벤트';
-        let tagTri = (setTag.type == 'gaawc') ? 'ALL Pages' : '이벤트명';
+        let tagTri = (setTag.triggerType == 'pageview') ? 'ALL Pages' : document.getElementById('trigger_name').value;
         let div_empty_table = document.getElementById('empty_table');
         if(div_empty_table){
             div_empty_table.remove();
