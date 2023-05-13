@@ -210,6 +210,7 @@
 
     const select_tagType = document.querySelectorAll('.tagType');
     const select_triggerType = document.querySelectorAll('.triggerType');
+    // 태그 유형 checkbox 변경 시 레이어 변경하는 함수
     select_tagType.forEach((e) =>{
         e.addEventListener('click',function(){
             const checkValue = document.querySelector('input[name="tagType"]:checked').value;
@@ -241,7 +242,7 @@
             }
         })
     })
-    
+     // 트리거 유형 checkbox 변경 시 레이어 변경하는 함수
     select_triggerType.forEach((e)=>{
         e.addEventListener('click',function(){
             const checkValue = document.querySelector('input[name="triggerType"]:checked').value;
