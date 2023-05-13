@@ -21,7 +21,6 @@
     <div class="export_data">
         <button class="export_button" onclick="json(tag,trigger,variable)">데이터 내보내기</button>
     </div>
-    <!-- Json 테스트할 경우 form태그 주석처리 -->
     <div class="editor_background"></div>
     <div class="editor">
         <div class="editor_title">
@@ -39,12 +38,16 @@
                     </div>
                     <div>
                         <div>태그 유형</div>
-                        <input class="radio" type="radio" name="tagType" value="gaawc" checked="checked"><label for="configuration">구성</label>
-                        <input class="radio" type="radio" name="tagType" value="gaawe"><label for="event">이벤트</label>
+                        <input class="tagType" type="radio" name="tagType" value="gaawc" checked="checked"><label>구성</label>
+                        <input class="tagType" type="radio" name="tagType" value="gaawe"><label>이벤트</label>
                     </div>
-                    <div>
-                        <div>측정 ID</div>
-                        <input type="text" class="form_input" id="measurementId">
+                    <div id="form_mid">
+                        <div id="change_tagType">
+                            <div>
+                                <div>측정 ID</div>
+                                <input type="text" class="form_input" id="measurementId">
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <div>설정할 필드</div>
@@ -76,10 +79,20 @@
                     </div>
                 </div>
                 <div class="set_trigger">
-                    <h3>트리거</h3>
-                    <div>
-                        <input type="radio" name="triggerType" value="All Pages" checked="checked"><label for="All Pages">All Pages</label>
-                        <input type="radio" name="triggerType" value="맞춤 이벤트"><label for="맞춤 이벤트">맞춤 이벤트</label>
+                    <div class="conf_title">
+                        <div>트리거</div>
+                    </div>
+                    <div>트리거 유형</div>
+                    <input class="triggerType" type="radio" name="triggerType" value="pageview" checked="checked"><label>페이지뷰</label>
+                    <input class="triggerType" type="radio" name="triggerType" value="event"><label>맞춤 이벤트</label>
+                    <div>트리거 실행</div>
+                    <div id="form_trigger">
+                        <div id="change_trigger">
+                            <div>
+                                <div>All Pages</div>
+                                <div>페이지뷰</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,9 +103,11 @@
 <script src="./common.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
-    var tag = []
-    var variable = [];
-    
+    const tag = []
+    const variable = [];
+    const trigger = [];
+    var triggerId = 70;
+
     //input값 가져와서 데이터 설정해주는 함수
     function setData(){
         var ep_key = document.getElementsByName('ep_key');
@@ -105,16 +120,16 @@
         //이벤트 매개변수 값 설정
         for(var i=0; i < ep_key.length; i++){
             eventArr.push({
-                name:ep_key[i].value,
-                variable:ep_value[i].value
+                name: ep_key[i].value,
+                variable: ep_value[i].value
             })
         }
 
         //사용자 속성 매개변수 설정
         for(var i=0; i < up_key.length; i++){
             userArr.push({
-                name:up_key[i].value,
-                variable:up_value[i].value
+                name: up_key[i].value,
+                variable: up_value[i].value
             })
         }
         
@@ -131,10 +146,26 @@
             tagName:document.getElementById('tag_name').value,
             type: document.querySelector('input[name="tagType"]:checked').value,
             measurementId: document.getElementById('measurementId').value,
+            triggerType: document.querySelector('input[name="triggerType"]:checked').value,
+            triggerId: triggerId,
             VAR_Array: eventArr,
             user_Array: userArr
         }
         tag.push(setTag);
+
+        //트리거 설정
+        const triggerType = document.querySelector('input[name="triggerType"]:checked').value;
+        if(triggerType == 'event'){
+            let setTrigger = {
+                name: document.getElementById('trigger_name').value,
+                variable: document.getElementById('trigger_value').value,
+                triggerId: setTag.triggerId
+            }
+            ++triggerId
+            //중복 체크 해야함.
+            trigger.push(setTrigger);
+        }
+        
 
         //input값 초기화
         var inp = document.getElementsByClassName('form_input')
@@ -177,13 +208,70 @@
         tbody.insertAdjacentHTML('beforeend',`<tr><td>${tagName}</td><td>${tagType}</td><td>${tagTri}</td></tr>`)
     }
 
-    // 트리거 값
-    let trigger = [
-        {
-            name: 'TRI_event',
-            variable: 'ga_event'
-        }
-    ]
+    const select_tagType = document.querySelectorAll('.tagType');
+    const select_triggerType = document.querySelectorAll('.triggerType');
+    select_tagType.forEach((e) =>{
+        e.addEventListener('click',function(){
+            const checkValue = document.querySelector('input[name="tagType"]:checked').value;
+            const divChange = document.getElementById('change_tagType')
+            divChange.remove();
+            if(checkValue == 'gaawc'){
+                const configEle = document.createElement('div')
+                configEle.innerHTML = 
+                    `<div id="change_tagType">
+                        <div>
+                            <div>측정 ID</div>
+                            <input type="text" class="form_input" id="measurementId">
+                        </div>
+                    </div>`;
+                document.getElementById('form_mid').append(configEle);
+            }else{
+                const eventEle = document.createElement('div')
+                eventEle.innerHTML = 
+                    `<div id="change_tagType">
+                        <label for="lang">구성태그</label>
+                            <select name="aa" id="aa">
+                                <option value="G-1234">G-1234</option>
+                                <option value="G-5678">G-5678</option>
+                        </select>
+                        <div>이벤트 이름</div>
+                        <input type="text">
+                    </div>`;
+                document.getElementById('form_mid').append(eventEle);
+            }
+        })
+    })
     
+    select_triggerType.forEach((e)=>{
+        e.addEventListener('click',function(){
+            const checkValue = document.querySelector('input[name="triggerType"]:checked').value;
+            const divChange = document.getElementById('change_trigger')
+            divChange.remove();
+            if(checkValue == 'pageview'){
+                const configEle = document.createElement('div')
+                configEle.innerHTML = 
+                    `<div id="change_trigger">
+                        <div>
+                            <div>All Pages</div>
+                            <div>페이지뷰</div>
+                        </div>
+                    </div>`;
+                document.getElementById('form_trigger').append(configEle);
+            }else{
+                const eventEle = document.createElement('div')
+                eventEle.innerHTML = 
+                    `<div id="change_trigger">
+                            <div>
+                                <div>맞춤 이벤트</div>
+                            </div>
+                            <div>트리거 이름</div>
+                            <input type="text" id="trigger_name">
+                            <div>이벤트 이름</div>
+                            <input type="text" id="trigger_value">
+                    </div>`;
+                document.getElementById('form_trigger').append(eventEle);
+            }
+        })
+    })
 </script>
 </html>
