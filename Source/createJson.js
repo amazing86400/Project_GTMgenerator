@@ -61,6 +61,61 @@ function setParameter(arg) {
       },
     ];
   } else {
+
+    // if(arg.measurementId){
+    //   const measurementId = [{
+    //     "type": "TEMPLATE",
+    //     "key": "measurementId",
+    //     "value": "none"
+    //   },
+    //   {
+    //     "type": "TEMPLATE",
+    //     "key": "measurementIdOverride",
+    //     "value": arg.measurementId
+    //   }]
+    // }
+
+    // const measurementId = function(){
+    //   if(arg.measurementId){
+    //     return [
+    //       {
+    //         "type": "TEMPLATE",
+    //         "key": "measurementId",
+    //         "value": "none"
+    //       },
+    //       {
+    //         "type": "TEMPLATE",
+    //         "key": "measurementIdOverride",
+    //         "value": arg.measurementId
+    //       }
+    //     ]
+    //   }
+    // }
+
+    const measurementId = setMeasurementId();
+
+    function setMeasurementId(){
+      if(arg.measurementId.includes('G-')){
+        return { 
+          "type": "TEMPLATE",
+          "key": "measurementId",
+          "value": "none"
+        }
+      }else{
+        return {
+          "type": "TAG_REFERENCE",
+          "key": "measurementId",
+          "value": arg.measurementId
+        }
+      }
+    }
+    
+    const measurementIdOverride = {
+      "type": "TEMPLATE",
+      "key": "measurementIdOverride",
+      "value": arg.measurementId
+    };
+
     const ecommerceData = {
       type: "BOOLEAN",
       key: "sendEcommerceData",
@@ -79,19 +134,56 @@ function setParameter(arg) {
       list: setVariable(arg.user_Array),
     };
 
-    const measurementId = {
-      type: "TAG_REFERENCE",
-      key: "measurementId",
-      value: arg.configTag,
-    };
-
     const eventName = {
       type: "TEMPLATE",
       key: "eventName",
-      value: arg.eventName,
+      value: "{{"+arg.eventName+"}}",
     };
 
     // ecommerce가 설정된 경우
+    if(arg.measurementId.includes('G-')){
+      if(arg.isEcommerce){
+        return [
+          ecommerceData,
+          eventParameters,
+          measurementId,
+          measurementIdOverride,
+          eventName,
+          userProperties,
+          { type: "TEMPLATE", key: "getEcommerceDataFrom", value: "dataLayer" }
+        ]
+      }else{
+        return [
+          ecommerceData,
+          eventParameters,
+          measurementId,
+          measurementIdOverride,
+          eventName,
+          userProperties
+        ];
+      }
+    }else{
+      if(arg.isEcommerce){
+        return [
+          ecommerceData,
+          eventParameters,
+          measurementId,
+          eventName,
+          userProperties,
+          { type: "TEMPLATE", key: "getEcommerceDataFrom", value: "dataLayer" }
+        ]
+      }else{
+        return [
+          ecommerceData,
+          eventParameters,
+          measurementId,
+          eventName,
+          userProperties
+        ]
+      }
+      
+    }
+    
     if (arg.isEcommerce) {
       return [
         ecommerceData,
@@ -99,9 +191,10 @@ function setParameter(arg) {
         measurementId,
         eventName,
         userProperties,
-        { type: "TEMPLATE", key: "getEcommerceDataFrom", value: "dataLayer" },
+        { type: "TEMPLATE", key: "getEcommerceDataFrom", value: "dataLayer" }
       ];
     }
+
 
     // ecommerce가 설정되지 않은 경우
     return [
@@ -109,7 +202,7 @@ function setParameter(arg) {
       eventParameters,
       measurementId,
       eventName,
-      userProperties,
+      userProperties
     ];
   }
 }

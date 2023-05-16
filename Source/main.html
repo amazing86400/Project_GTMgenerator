@@ -144,6 +144,7 @@
         }
 
         //태그 설정
+        const tagType = document.querySelector('input[name="tagType"]:checked').value;
         let setTag = {
             tagName:document.getElementById('tag_name').value,
             type: document.querySelector('input[name="tagType"]:checked').value,
@@ -153,7 +154,17 @@
             VAR_Array: eventArr,
             user_Array: userArr
         }
+        if(tagType == 'gaawe'){
+            const eventName = document.getElementById('event_name').value;
+            setTag.eventName = eventName;
+            for(i in variable){
+            if(variable.indexOf(eventName) == -1){
+                variable.push(eventName);
+            }
+            }
+        }
         tag.push(setTag);
+        
 
         //트리거 설정
         const triggerType = document.querySelector('input[name="triggerType"]:checked').value;
@@ -232,18 +243,50 @@
                 const eventEle = document.createElement('div')
                 eventEle.innerHTML = 
                     `<div id="change_tagType">
-                        <label for="lang">구성태그</label>
+                        <label for="aa">구성태그</label>
                             <select name="aa" id="aa">
-                                <option value="G-1234">G-1234</option>
-                                <option value="G-5678">G-5678</option>
+                                <option value="undefined">구성 태그 선택...</option>
+                                <option value="none">없음-직접 ID 설정</option>
                         </select>
+                        <div id="div_mid">
+                        </div>
                         <div>이벤트 이름</div>
-                        <input type="text">
+                        <input type="text" id="event_name">
                     </div>`;
                 document.getElementById('form_mid').append(eventEle);
+                const selectTag = document.getElementById('aa');
+                if(tag){
+                    for(i of tag){
+                        if(i.type == 'gaawc'){
+                            selectTag.insertAdjacentHTML('beforeend',`<option value="${i.tagName}">${i.tagName}</option>`)
+                        }
+                    }
+                }
+                // 직접 입력 선택 시 측정ID입력할 수 있는 input태그 생성해주는 함수
+                selectTag.addEventListener('change',(e)=>{
+                    const selectUndefined = selectTag.options[selectTag.selectedIndex].value;
+                    const formMid = document.getElementById('div_mid');
+                    if(selectUndefined == 'none'){
+                        formMid.remove();
+                        selectTag.insertAdjacentHTML('afterend',`
+                            <div id="div_mid">
+                                <div class="caption">측정 ID</div>
+                                <input type="text" class="form_input" id="measurementId">
+                            </div>`
+                        )
+                    }else{
+                        formMid.remove();
+                        selectTag.insertAdjacentHTML('afterend',`
+                            <div id="div_mid">
+                                <input type="hidden" class="form_input" id="measurementId" value="${selectUndefined}">
+                            </div>`
+                        )
+                    }
+                });
             }
         })
     })
+
      // 트리거 유형 checkbox 변경 시 레이어 변경하는 함수
     select_triggerType.forEach((e)=>{
         e.addEventListener('click',function(){
