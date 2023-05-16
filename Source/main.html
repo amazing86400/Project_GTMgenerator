@@ -36,15 +36,17 @@
                     <div class="conf_title">
                         <div>태그 구성</div>
                     </div>
-                    <div>
-                        <div>태그 유형</div>
-                        <input class="tagType" type="radio" name="tagType" value="gaawc" checked="checked"><label>구성</label>
-                        <input class="tagType" type="radio" name="tagType" value="gaawe"><label>이벤트</label>
+                    <div class="form_tagType">
+                        <div class="caption">태그 유형</div>
+                        <div class="radio">
+                            <input class="tagType" type="radio" name="tagType" value="gaawc" checked="checked"><label>구성</label>
+                            <input class="tagType" type="radio" name="tagType" value="gaawe"><label>이벤트</label>
+                        </div>
                     </div>
                     <div id="form_mid">
                         <div id="change_tagType">
                             <div>
-                                <div>측정 ID</div>
+                                <div class="caption">측정 ID</div>
                                 <input type="text" class="form_input" id="measurementId">
                             </div>
                         </div>
@@ -221,7 +223,7 @@
                 configEle.innerHTML = 
                     `<div id="change_tagType">
                         <div>
-                            <div>측정 ID</div>
+                            <div class="caption">측정 ID</div>
                             <input type="text" class="form_input" id="measurementId">
                         </div>
                     </div>`;

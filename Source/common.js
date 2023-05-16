@@ -47,11 +47,13 @@ const editor_backgroud = document.querySelector('.editor_background');  // edito
 function editorOpen() {
     ediotr.style.display = 'block';
     editor_backgroud.style.display = 'block';
+    document.body.style.overflow = "hidden";
 }
 // editor창 닫기
 function editorClose() {
     ediotr.style.display = 'none';
     editor_backgroud.style.display = 'none';
+    document.body.style.overflow = "unset";
 }
 // editor창 밖 영역(editor_background) 클릭 시 닫기
 document.addEventListener('click', (e) => {
