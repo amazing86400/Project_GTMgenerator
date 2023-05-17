@@ -286,7 +286,7 @@ tr>td:first-child {
     outline: solid 2px #1a73e8;
 }
 
-#div_mid {
+#measurementId {
     margin-bottom: 9px;
 }
 
@@ -299,7 +299,7 @@ tr>td:first-child {
     height: 40px;
     line-height: 38px;
     width: 256px;
-    margin: 5px 16px 6px 0px;
+    margin: 5px 16px 15px 0px;
     appearance: none;
     background-image: url(https://www.gstatic.com/images/icons/material/system/2x/arrow_drop_down_grey600_24dp.png);
     background-position: right 6px center;
