@@ -8,7 +8,7 @@ function addEvent() {
     const rows = data.split('\n');
     for (i of rows){
         inputNo += 1
-        eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input' value='${i}'><input type='text' class='form_input' value='${i}'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
+        eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input' value='${i}'><input type='text' class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
     }
     document.getElementById('event_excelData').value = '';
 }
@@ -19,20 +19,20 @@ function addUser() {
     const rows = data.split('\n');
     for (i of rows){
         inputNo += 1
-        userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input' value='${i}'><input type='text' class='form_input' value='${i}'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
+        userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input' value='${i}'><input type='text' class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
     }
     document.getElementById('user_excelData').value = '';
 }
 // 버튼 이벤트 매개변수 input태그 생성함수
 function addEventInput(){
     inputNo += 1
-    eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input'><input type='text' name="ep_value" class='form_input'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
+    eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input'><input type='text' name="ep_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
 }
 
 // 버튼 사용자 속성 input태그 생성함수
 function addUserInput(){
     inputNo += 1
-    userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_value" class='form_input'><button type='button' onclick='deleteInput(${inputNo})'>-</button></div>`)
+    userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
 }
 
 // input태그 삭제 함수

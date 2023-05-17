@@ -52,13 +52,16 @@
                         </div>
                     </div>
                     <div>
-                        <div>설정할 필드</div>
+                        <div class="field_title">설정할 필드</div>
                         <div class="input_area">
                             <div>
                                 <div id="event_parameter">
-                                    <div id="test1"><input type="text" name="ep_key" class="form_input" value="page_title"><input type="text" name="ep_value" class="form_input" value="title"><button type='button' onclick='deleteInput(1)'>-</button></div>
+                                    <div class="input_title">
+                                        <div class="field_name">필드 이름</div><div class="field_name">값</div>
+                                    </div>
+                                    <div id="test1"><input type="text" name="ep_key" class="form_input" value="page_title"><input type="text" name="ep_value" class="form_input" value="title"><i class="remove_button" onclick='deleteInput(1)'></i></div>
                                 </div>
-                                <input type="button" value="추가" onclick="addEventInput();">
+                                <button class="add_input" onclick="addEventInput();">행 추가</button>
                             </div>
                             <div class="textarea">
                                 <textarea id="event_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="addEvent()">추가</button>
@@ -66,13 +69,16 @@
                         </div>
                     </div>
                     <div>
-                        <div>사용자 속성</div>
+                        <div class="field_title">사용자 속성</div>
                         <div class="input_area">
                             <div>
                                 <div id="user_property">
-                                    <div id="test2"><input type="text" name="up_key" class="form_input" value="up_cid"><input type="text" name="up_value" class="form_input" value="up_cid"><button type='button' onclick='deleteInput(2)'>-</button></div>
+                                    <div class="input_title">
+                                        <div class="field_name">속성 이름</div><div class="field_name">값</div>
+                                    </div>
+                                    <div id="test2"><input type="text" name="up_key" class="form_input" value="up_cid"><input type="text" name="up_value" class="form_input" value="up_cid"><i class="remove_button" onclick='deleteInput(2)'></i></div>
                                 </div>
-                                <input type="button" value="추가" onclick="addUserInput();">
+                                <button class="add_input" onclick="addUserInput();">행 추가</button>
                             </div>
                             <div class="textarea">
                                 <textarea id="user_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="addUser()">추가</button>
@@ -239,21 +245,25 @@
                         </div>
                     </div>`;
                 document.getElementById('form_mid').append(configEle);
+                document.getElementsByClassName('field_title')[0].innerHTML = '설정할 필드'
+                document.getElementsByClassName('field_name')[0].innerHTML = '필드 이름'
             }else{
                 const eventEle = document.createElement('div')
                 eventEle.innerHTML = 
                     `<div id="change_tagType">
-                        <label for="aa">구성태그</label>
-                            <select name="aa" id="aa">
-                                <option value="undefined">구성 태그 선택...</option>
-                                <option value="none">없음-직접 ID 설정</option>
+                        <label class="caption" for="aa">구성태그</label><br>
+                        <select class="select_box" name="aa" id="aa">
+                            <option value="undefined">구성 태그 선택...</option>
+                            <option value="none">없음-직접 ID 설정</option>
                         </select>
                         <div id="div_mid">
                         </div>
-                        <div>이벤트 이름</div>
-                        <input type="text" id="event_name">
+                        <div class="caption">이벤트 이름</div>
+                        <input type="text" class="form_input" id="event_name">
                     </div>`;
                 document.getElementById('form_mid').append(eventEle);
+                document.getElementsByClassName('field_title')[0].innerHTML = '이벤트 매개변수'
+                document.getElementsByClassName('field_name')[0].innerHTML = '매개변수 이름'
                 const selectTag = document.getElementById('aa');
                 if(tag){
                     for(i of tag){
