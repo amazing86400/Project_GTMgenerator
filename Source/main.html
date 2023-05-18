@@ -39,8 +39,8 @@
                     <div class="form_tagType">
                         <div class="caption">태그 유형</div>
                         <div class="radio">
-                            <input class="tagType" type="radio" name="tagType" value="gaawc" checked="checked"><label>구성</label>
-                            <input class="tagType" type="radio" name="tagType" value="gaawe"><label>이벤트</label>
+                            <input class="tagType" type="radio" name="tagType" value="gaawc" checked="checked"><label class="radio_label">구성</label>
+                            <input class="tagType" type="radio" name="tagType" value="gaawe"><label class="radio_label">이벤트</label>
                         </div>
                     </div>
                     <div id="form_mid">
@@ -90,15 +90,22 @@
                     <div class="conf_title">
                         <div>트리거</div>
                     </div>
-                    <div>트리거 유형</div>
-                    <input class="triggerType" type="radio" name="triggerType" value="pageview" checked="checked"><label>페이지뷰</label>
-                    <input class="triggerType" type="radio" name="triggerType" value="event"><label>맞춤 이벤트</label>
-                    <div>트리거 실행</div>
+                    <div class="form_tagType">
+                        <div class="caption">트리거 유형</div>
+                        <div class="radio">
+                            <input class="triggerType" type="radio" name="triggerType" value="pageview" checked="checked"><label class="radio_label">페이지뷰</label>
+                            <input class="triggerType" type="radio" name="triggerType" value="event"><label class="radio_label">맞춤 이벤트</label>
+                        </div>
+                    </div>
+                    <div class="caption">트리거 실행</div>
                     <div id="form_trigger">
                         <div id="change_trigger">
-                            <div>
-                                <div>All Pages</div>
-                                <div>페이지뷰</div>
+                            <div class="trigger_card">
+                                <i class="pageview_icon"></i>
+                                <div class="trigger_icon_caption">
+                                    <div>All Pages</div>
+                                    <div>페이지뷰</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -307,9 +314,12 @@
                 const configEle = document.createElement('div')
                 configEle.innerHTML = 
                     `<div id="change_trigger">
-                        <div>
-                            <div>All Pages</div>
-                            <div>페이지뷰</div>
+                        <div class="trigger_card">
+                            <i class="pageview_icon"></i>
+                            <div class="trigger_icon_caption">
+                                <div>All Pages</div>
+                                <div>페이지뷰</div>
+                            </div>
                         </div>
                     </div>`;
                 document.getElementById('form_trigger').append(configEle);
@@ -317,13 +327,16 @@
                 const eventEle = document.createElement('div')
                 eventEle.innerHTML = 
                     `<div id="change_trigger">
-                            <div>
+                        <div class="trigger_card">
+                            <i class="event_icon"></i>
+                            <div class="trigger_icon_caption">
+                                <div><input type="text" id="trigger_name" placeholder="트리거 이름을 입력하세요"></div>
                                 <div>맞춤 이벤트</div>
                             </div>
-                            <div>트리거 이름</div>
-                            <input type="text" id="trigger_name">
-                            <div>이벤트 이름</div>
-                            <input type="text" id="trigger_value">
+                        </div>
+                        <div class="caption">이벤트 이름</div>
+                        <input type="text" id="trigger_value" class="form_input">
+                        <div class="last_div"></div>
                     </div>`;
                 document.getElementById('form_trigger').append(eventEle);
             }
