@@ -64,7 +64,7 @@
                                 <button class="add_input" onclick="addEventInput();">행 추가</button>
                             </div>
                             <div class="textarea">
-                                <textarea id="event_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="addEvent()">추가</button>
+                                <textarea class="textarea_box id="event_excelData"></textarea><br><button class="add_input" type="button" onclick="addEvent()">입력</button>
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                                 <button class="add_input" onclick="addUserInput();">행 추가</button>
                             </div>
                             <div class="textarea">
-                                <textarea id="user_excelData" style="width:250px;height:150px;"></textarea><button type="button" onclick="addUser()">추가</button>
+                                <textarea class="textarea_box" id="user_excelData"></textarea><br><button class="add_input" type="button" onclick="addUser()">입력</button>
                             </div>
                         </div>
                     </div>
@@ -211,7 +211,8 @@
     function setDataList(setTag){
         let tagName = setTag.tagName;
         let tagType = (setTag.type == 'gaawc') ? 'Google 애널리틱스: GA4 구성' : 'Google 애널리틱스: GA4 이벤트';
-        let tagTri = (setTag.triggerType == 'pageview') ? 'ALL Pages' : document.getElementById('trigger_name').value;
+        let tagTri = (setTag.triggerType == 'pageview') ? 'All Pages' : document.getElementById('trigger_name').value;
+        let iconClass = (setTag.triggerType == 'pageview') ? 'list_icon pageview' : 'list_icon event';
         let div_empty_table = document.getElementById('empty_table');
         if(div_empty_table){
             div_empty_table.remove();
@@ -231,7 +232,13 @@
             document.querySelector('.table').append(tableEle);
         }
         let tbody = document.getElementById('tbody');
-        tbody.insertAdjacentHTML('beforeend',`<tr><td>${tagName}</td><td>${tagType}</td><td>${tagTri}</td></tr>`)
+        tbody.insertAdjacentHTML('beforeend',`
+            <tr>
+                <td>${tagName}</td>
+                <td>${tagType}</td>
+                <td>
+                    <div class="list_trigger"><i class="${iconClass}"></i>${tagTri}</div></td>
+            </tr>`)
     }
 
     const select_tagType = document.querySelectorAll('.tagType');

@@ -60,6 +60,14 @@ thead>tr {
     height: 39px;
 }
 
+tbody>tr {
+    cursor: pointer;
+}
+
+tbody>tr:hover {
+    background: #f1f3f4;
+}
+
 tr>th {
     padding: 0px 16px;
 }
@@ -87,7 +95,66 @@ tr:last-child>td {
 
 tr>td:first-child {
     color: #1565cf;
-    /* padding: 0px 16px; */
+}
+
+.list_trigger {
+    max-width: 100%;
+    font-size: 12px;
+    letter-spacing: .3px;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 12px;
+    box-shadow: 0 0 0 1px #dadce0;
+    color: #3c4043;
+    display: inline-block;
+    font-weight: 600;
+    line-height: 16px;
+    margin: 3px 4px 4px 0;
+    padding: 5px 12px 5px 31px;
+    position: relative;
+    cursor: pointer;
+}
+
+.list_trigger:hover {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2),0 4px 5px 0 rgba(0, 0, 0, 0.14),0 2px 10px -1px rgba(0, 0, 0, 0.12);
+    background-color: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.87);
+    text-decoration: none
+}
+
+.list_icon {
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    width: 24px;
+    margin-left: 1px;
+    left: 0;
+    margin-top: -12px;
+    position: absolute;
+    top: 50%;
+    font-family: "Material Icons Extended";
+    font-style: normal;
+    letter-spacing: normal;
+    font-size: 16px;
+    height: 24px;
+    line-height: 24px;
+    font-weight: normal;
+}
+
+.list_icon.pageview {
+    background-color: #4285f4;
+}
+
+.list_icon.pageview::before, .pageview_icon::before {
+    content: "remove_red_eye";
+}
+
+.list_icon.event {
+    background-color: #e8710a;
+}
+
+.list_icon.event::before, .event_icon::before {
+    content: "code";
 }
 
 .export_data {
@@ -187,6 +254,10 @@ tr>td:first-child {
     min-width: 5em
 }
 
+.input_tag_name:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #fff inset;
+ }
+
 .editor {
     display: none;
     width: 1300px;
@@ -249,6 +320,10 @@ tr>td:first-child {
     outline: none;
 }
 
+#trigger_name:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #f8f9fa inset;
+ }
+
 .pageview_icon {
     display: block;
     left: 24px;
@@ -262,10 +337,6 @@ tr>td:first-child {
     width: 24px;
     font-family: "Material Icons Extended";
     font-style: normal;
-}
-
-.pageview_icon::before {
-    content: "remove_red_eye";
 }
 
 .event_icon {
@@ -282,10 +353,6 @@ tr>td:first-child {
     height: 24px;
     line-height: 24px;
     width: 24px;
-}
-
-.event_icon::before {
-    content: "code";
 }
 
 .trigger_icon_caption {
@@ -491,6 +558,21 @@ tr>td:first-child {
 }
 
 .textarea {
-    display: flex;
-    align-items: flex-end;
+    margin: 10px 0 0 20px
+}
+
+.textarea_box {
+    width: 250px;
+    border: solid 1px #dadce0;
+    border-radius: 4px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin: 5px 16px 6px 0px;
+    font-size: 14px;
+    height: 150px;
+    resize: none;
+}
+
+.textarea_box:focus {
+    outline: solid 2px #1a73e8;
 }
