@@ -184,26 +184,26 @@ function setParameter(arg) {
       
     }
     
-    if (arg.isEcommerce) {
-      return [
-        ecommerceData,
-        eventParameters,
-        measurementId,
-        eventName,
-        userProperties,
-        { type: "TEMPLATE", key: "getEcommerceDataFrom", value: "dataLayer" }
-      ];
-    }
+    // if (arg.isEcommerce) {
+    //   return [
+    //     ecommerceData,
+    //     eventParameters,
+    //     measurementId,
+    //     eventName,
+    //     userProperties,
+    //     { type: "TEMPLATE", key: "getEcommerceDataFrom", value: "dataLayer" }
+    //   ];
+    // }
 
 
-    // ecommerce가 설정되지 않은 경우
-    return [
-      ecommerceData,
-      eventParameters,
-      measurementId,
-      eventName,
-      userProperties
-    ];
+    // // ecommerce가 설정되지 않은 경우
+    // return [
+    //   ecommerceData,
+    //   eventParameters,
+    //   measurementId,
+    //   eventName,
+    //   userProperties
+    // ];
   }
 }
 

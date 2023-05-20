@@ -82,7 +82,7 @@
                                 <button class="add_input" onclick="addEventInput();">행 추가</button>
                             </div>
                             <div class="textarea">
-                                <textarea class="textarea_box id="event_excelData"></textarea><br><button class="add_input" type="button" onclick="addEvent()">입력</button>
+                                <textarea class="textarea_box" id="event_excelData"></textarea><br><button class="add_input" type="button" onclick="addEvent()">입력</button>
                             </div>
                         </div>
                     </div>
@@ -256,7 +256,8 @@
                 <td>${tagType}</td>
                 <td>
                     <div class="list_trigger"><i class="${iconClass}"></i>${tagTri}</div></td>
-            </tr>`)
+            </tr>`
+        )
     }
 
     const select_tagType = document.querySelectorAll('.tagType');

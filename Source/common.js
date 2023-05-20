@@ -8,7 +8,7 @@ function addEvent() {
     const rows = data.split('\n');
     for (i of rows){
         inputNo += 1
-        eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input' value='${i}'><input type='text' class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+        eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name='ep_key' class='form_input' value='${i}'><input type='text' name="ep_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
     }
     document.getElementById('event_excelData').value = '';
 }
@@ -19,7 +19,7 @@ function addUser() {
     const rows = data.split('\n');
     for (i of rows){
         inputNo += 1
-        userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' class='form_input' value='${i}'><input type='text' class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+        userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value='${i}'><input type='text' name="up_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
     }
     document.getElementById('user_excelData').value = '';
 }
