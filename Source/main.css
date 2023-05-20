@@ -440,15 +440,7 @@ tr>td:first-child {
 
 .radio {
     margin-top: 8px;
-}
-
-.radio_label {
-    display: inline-block;
-    font-size: 14px;
-    margin-top: -1px;
-    min-height: 24px;
-    padding: 3px 0px 2px 8px;
-    vertical-align: top;
+    display: flex;
 }
 
 .form_input {
@@ -575,4 +567,67 @@ tr>td:first-child {
 
 .textarea_box:focus {
     outline: solid 2px #1a73e8;
+}
+
+.tagType {
+    display: none;
+}
+
+.tagType+label {
+    transition: box-shadow .15s;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px #dadce0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+.tagType:checked+label {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2),0 4px 5px 0 rgba(0, 0, 0, 0.14),0 2px 10px -1px rgba(0, 0, 0, 0.12);
+    background-color: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.87);
+    text-decoration: none
+}
+
+.tagType+label:hover {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2),0 4px 5px 0 rgba(0, 0, 0, 0.14),0 2px 10px -1px rgba(0, 0, 0, 0.12);
+    background-color: rgba(0, 0, 0, 0.06);
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.radio_label.conf {
+    margin-right: 18px;
+}
+
+.radio_img {
+    flex: 0 0 72px;
+    font-size: 0;
+    padding: 0 8px 0 0;
+    text-align: center;
+    line-height: 56px;
+}
+
+.conf_img {
+    width: 24px;
+    vertical-align: middle;
+}
+
+.radio_caption > div:first-child {
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    letter-spacing: .2px;
+    line-height: 20px;
+    padding-bottom: 1px;
+    padding-top: 9px;
+}
+
+.radio_caption > div:nth-child(2) {
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+    color: rgba(0,0,0,.54);
+    font-size: 12px;
+    letter-spacing: .3px;
+    line-height: 16px;
+    margin-top: -2px;
+    padding-bottom: 11px;
 }

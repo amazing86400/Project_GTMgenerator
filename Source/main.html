@@ -39,8 +39,26 @@
                     <div class="form_tagType">
                         <div class="caption">태그 유형</div>
                         <div class="radio">
-                            <input class="tagType" type="radio" name="tagType" value="gaawc" checked="checked"><label class="radio_label">구성</label>
-                            <input class="tagType" type="radio" name="tagType" value="gaawe"><label class="radio_label">이벤트</label>
+                            <input class="tagType" id="conf" type="radio" name="tagType" value="gaawc" checked="checked">
+                            <label for="conf" class="radio_label conf">
+                                    <div class="radio_img">
+                                        <img class="conf_img" src="eventImg.svg">
+                                    </div>
+                                    <div class="radio_caption">
+                                        <div>Google 애널리틱스: GA4 구성</div>
+                                        <div>Google Marketing Platform</div>
+                                    </div>
+                            </label>
+                            <input class="tagType" id="event" type="radio" name="tagType" value="gaawe">
+                            <label for="event" class="radio_label">
+                                <div class="radio_img">
+                                    <img class="conf_img" src="eventImg.svg">
+                                </div>
+                                <div class="radio_caption">
+                                    <div>Google 애널리틱스: GA4 이벤트</div>
+                                    <div>Google Marketing Platform</div>
+                                </div>
+                            </label>
                         </div>
                     </div>
                     <div id="form_mid">
@@ -349,5 +367,16 @@
             }
         })
     })
+
+    const radio_input = document.querySelectorAll('.radio_card');
+    radio_input.forEach((e, index)=> {
+        e.addEventListener('click',function(){
+            console.log('a')
+            // radio_input.classList
+            // e.className += ' checked'
+            console.log(radio_input.classList);
+        })
+    })
+
 </script>
 </html>
