@@ -459,6 +459,10 @@ tr>td:first-child {
     outline: solid 2px #1a73e8;
 }
 
+.form_input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+ }
+
 #measurementId {
     margin-bottom: 9px;
 }
