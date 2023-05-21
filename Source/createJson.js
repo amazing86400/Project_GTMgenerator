@@ -61,39 +61,7 @@ function setParameter(arg) {
       },
     ];
   } else {
-
-    // if(arg.measurementId){
-    //   const measurementId = [{
-    //     "type": "TEMPLATE",
-    //     "key": "measurementId",
-    //     "value": "none"
-    //   },
-    //   {
-    //     "type": "TEMPLATE",
-    //     "key": "measurementIdOverride",
-    //     "value": arg.measurementId
-    //   }]
-    // }
-
-    // const measurementId = function(){
-    //   if(arg.measurementId){
-    //     return [
-    //       {
-    //         "type": "TEMPLATE",
-    //         "key": "measurementId",
-    //         "value": "none"
-    //       },
-    //       {
-    //         "type": "TEMPLATE",
-    //         "key": "measurementIdOverride",
-    //         "value": arg.measurementId
-    //       }
-    //     ]
-    //   }
-    // }
-
     const measurementId = setMeasurementId();
-
     function setMeasurementId(){
       if(arg.measurementId.includes('G-')){
         return { 
@@ -183,27 +151,6 @@ function setParameter(arg) {
       }
       
     }
-    
-    // if (arg.isEcommerce) {
-    //   return [
-    //     ecommerceData,
-    //     eventParameters,
-    //     measurementId,
-    //     eventName,
-    //     userProperties,
-    //     { type: "TEMPLATE", key: "getEcommerceDataFrom", value: "dataLayer" }
-    //   ];
-    // }
-
-
-    // // ecommerce가 설정되지 않은 경우
-    // return [
-    //   ecommerceData,
-    //   eventParameters,
-    //   measurementId,
-    //   eventName,
-    //   userProperties
-    // ];
   }
 }
 
