@@ -453,6 +453,7 @@ tr>td:first-child {
     width: 230px;
     margin: 5px 16px 6px 0px;
     font-size: 14px;
+    font-family: Roboto,Helvetica Neue,sans-serif;
 }
 
 .form_input:focus {
@@ -567,6 +568,7 @@ tr>td:first-child {
     font-size: 14px;
     height: 150px;
     resize: none;
+    font-family: Roboto,Helvetica Neue,sans-serif;
 }
 
 .textarea_box:focus {
