@@ -1,16 +1,67 @@
 var inputNo = 2;  //input태그 번호
-const eventParameter = document.getElementById('event_parameter')   //이벤트 매개변수 태그
-const userParameter = document.getElementById('user_property')      //사용자 속성 태그
-const ediotr = document.querySelector('.editor');    //editor
-const editor_backgroud = document.querySelector('.editor_background');  // editor_background
-const select_tagType = document.querySelectorAll('.tagType');       //태그 타입 input태그
-const select_triggerType = document.querySelectorAll('.triggerType');   //트리거 타입 input태그
+// const eventParameter = document.getElementById('event_parameter')   //이벤트 매개변수 태그
+// const userParameter = document.getElementById('user_property')      //사용자 속성 태그
+// const editor = document.querySelector('.editor');    //editor
+// const editor_backgroud = document.querySelector('.editor_background');  // editor_background
 const tag = [];         //태그 배열 선언
 const variable = [];    //변수 배열 선언
 const trigger = [];     //트리거 배열 선언
 var triggerId = 70;     //트리거Id 초기 값
 
+const globalVal =  (function(){
+    const eventParameter = document.getElementById('event_parameter')   //이벤트 매개변수 태그
+    const userParameter = document.getElementById('user_property')      //사용자 속성 태그
+    const editor = document.querySelector('.editor');    //editor
+    const editor_backgroud = document.querySelector('.editor_background');  // editor_background
+    var inputNo = 2;  //input태그 번호
+    // const tag = [];         //태그 배열 선언
+    // const variable = [];    //변수 배열 선언
+    // const trigger = [];     //트리거 배열 선언
+
+    const arrays = {
+        tag: [],
+        variable: [],
+        trigger: []
+    }
+
+    function push(arrayName, value){
+        arrays[arrayName].push(value);
+    }
+
+    function getArray(arrayName){
+        return arrays[arrayName];
+    }
+    function plus(value){
+        value++
+    }
+
+    return {
+        getEventParameter: function(){
+            return eventParameter;
+        },
+        getUserParameter: function(){
+            return userParameter;
+        },
+        getEditor: function(){
+            return editor;
+        },
+        getEditor_backgroud: function(){
+            return editor_backgroud;
+        }, 
+        plus: function(){
+            inputNo++;
+        },
+        plus:plus,
+        getArray: getArray,
+        push: push
+    };
+
+})();
+
 document.addEventListener('DOMContentLoaded',function(){
+    const select_tagType = document.querySelectorAll('.tagType');           //태그 타입 input태그
+    const select_triggerType = document.querySelectorAll('.triggerType');   //트리거 타입 input태그
+    
     //생성 버튼 클릭 시 editorOpen함수 호출
     document.querySelector('.create_button').addEventListener('click', editorOpen);
     
@@ -30,7 +81,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 //editor창 밖 영역(editor_background) 클릭 시 editorClose함수 호출
 document.addEventListener('click', (e) => {
-    e.target === editor_backgroud ? editorClose() : false;
+    e.target === globalVal.getEditor_backgroud() ? editorClose() : false;
 });
 
 //excelData값으로 이벤트 매개변수 input태그 생성함수
@@ -39,7 +90,7 @@ function addEvent() {
     const rows = data.split('\n');
     for (i of rows){
         inputNo += 1
-        eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name='ep_key' class='form_input' value='${i}'><input type='text' name="ep_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+        globalVal.getEventParameter().insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name='ep_key' class='form_input' value='${i}'><input type='text' name="ep_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
     }
     document.getElementById('event_excelData').value = '';
 }
@@ -50,7 +101,7 @@ function addUser() {
     const rows = data.split('\n');
     for (i of rows){
         inputNo += 1
-        userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value='${i}'><input type='text' name="up_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+        globalVal.getUserParameter().insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value='${i}'><input type='text' name="up_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
     }
     document.getElementById('user_excelData').value = '';
 }
@@ -58,13 +109,13 @@ function addUser() {
 //행 추가 버튼 클릭 시 이벤트 매개변수 input태그 생성함수
 function addEventInput(){
     inputNo += 1
-    eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input'><input type='text' name="ep_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+    globalVal.getEventParameter().insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input'><input type='text' name="ep_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
 }
 
 //행 추가 버튼 클릭 시 사용자 속성 input태그 생성함수
 function addUserInput(){
     inputNo += 1
-    userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+    globalVal.getUserParameter().insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
 }
 
 //-버튼 클릭 시 해당 input태그 삭제 해주는 함수
@@ -74,15 +125,15 @@ function deleteInput(num){
 
 // editor창 여는 함수
 function editorOpen() {
-    ediotr.style.display = 'block';
-    editor_backgroud.style.display = 'block';
+    globalVal.getEditor().style.display = 'block';
+    globalVal.getEditor_backgroud().style.display = 'block';
     document.body.style.overflow = "hidden";
 }
 
 //editor창 닫는 함수
 function editorClose() {
-    ediotr.style.display = 'none';
-    editor_backgroud.style.display = 'none';
+    globalVal.getEditor().style.display = 'none';
+    globalVal.getEditor_backgroud().style.display = 'none';
     document.body.style.overflow = "unset";
 }
 
@@ -261,8 +312,8 @@ function setData(){
     }
 
     //editor 창 닫기
-    ediotr.style.display = 'none';
-    editor_backgroud.style.display = 'none';
+    globalVal.getEditor().style.display = 'none';
+    globalVal.getEditor_backgroud().style.display = 'none';
     document.querySelector('.export_data').style.display = 'block';
     
     //설정 완료 되면 setDataList함수 호출
@@ -339,4 +390,12 @@ function resetEditor(){
     //구성태그, pageview 트리거로 레이아웃 변경되도록 changeTagType, changeTriType함수 호출
     changeTagType();
     changeTriType();
+}
+
+function validation(){
+
+}
+
+function openDialog(){
+    document.getElementById('dialog').showModal();
 }
