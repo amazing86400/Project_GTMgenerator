@@ -407,7 +407,7 @@ function validation(){
     return true;
 }
 
-//dialog 열고 닫는 함수
+//dialog 열때 파라미터 값으로 dialog title, content값 변경 or 열려 있을 때 닫는 함수
 function openDialog(errorType, value){
     var errorMsg = {};
     switch(errorType){
@@ -418,10 +418,16 @@ function openDialog(errorType, value){
             };
             break;
         case 'noValue':
-        errorMsg = {
-            title: '입력되지 않은 값이 있음',
-            content: '이 태그에 ' + value + '값이 없습니다. 해당 값을 입력하지 않으면 태그를 저장할 수 없습니다.'
-        };
+            errorMsg = {
+                title: '입력되지 않은 값이 있음',
+                content: '이 태그에 ' + value + ' 값이 없습니다. 해당 값을 입력하지 않으면 태그를 저장할 수 없습니다.'
+            };
+        break;
+        case 'dupValue':
+            errorMsg = {
+                title: '중복된 값이 있음',
+                content: '컨테이너에 같은 이름의 ' + value + ' 값이 이미 있습니다. 다른 ' + value + '값을 입력하세요.'
+            };
         break;
     }
     document.getElementById('dialog_header').innerHTML = errorMsg.title;
