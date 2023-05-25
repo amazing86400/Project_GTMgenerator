@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded',function(){
     document.querySelector('.create_button').addEventListener('click', editorOpen);
     
     //저장 버튼 클릭 시 editorClose함수 호출
-    document.querySelector('.editor_close').addEventListener('click', editorClose);   
+    document.querySelector('.editor_close').addEventListener('click', function(){openDialog("noSave")});   
     
     //태그 유형 checkbox 변경 시 changeTagType함수 호출
     select_tagType.forEach((e)=>{
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 //editor창 밖 영역(editor_background) 클릭 시 editorClose함수 호출
 document.addEventListener('click', (e) => {
-    e.target === globalVal.getEditor_backgroud() ? editorClose() : false;
+    e.target === globalVal.getEditor_backgroud() ? openDialog("noSave") : false;
 });
 
 //excelData값으로 이벤트 매개변수 input태그 생성함수
@@ -398,19 +398,42 @@ function resetEditor(){
 //예외처리
 function validation(){
     if(!document.getElementById('tag_name').value){
-        openDialog("태그 이름 없습니다.")
+        openDialog("noValue", "태그 이름");
+        return false;
+    }else if('조건2' == true){
+        openDialog("noValue", "태그 이름");
         return false;
     }
     return true;
 }
 
-//dialog오픈함수
-function openDialog(txt){
-    document.getElementById('dialogText').innerHTML = txt
-    document.getElementById('dialog').showModal();
+//dialog 열고 닫는 함수
+function openDialog(errorType, value){
+    var errorMsg = {};
+    switch(errorType){
+        case 'noSave':
+            errorMsg = {
+                title: '저장되지 않은 변경사항',
+                content: '이 페이지를 닫으시겠습니까? 변경사항을 저장하지 않았습니다. 페이지를 닫으면 변경사항이 손실됩니다.'
+            };
+            break;
+        case 'noValue':
+        errorMsg = {
+            title: '입력되지 않은 값이 있음',
+            content: '이 태그에 ' + value + '값이 없습니다. 해당 값을 입력하지 않으면 태그를 저장할 수 없습니다.'
+        };
+        break;
+    }
+    document.getElementById('dialog_header').innerHTML = errorMsg.title;
+    document.getElementById('p').innerHTML = errorMsg.content;
+    document.getElementById('dialog_wrapper').classList.toggle('opening');
+    document.getElementById('dialog_background').classList.toggle('opening');
 }
 
-//dialog 닫는 함수
-function closeDialog(){
-    document.getElementById('dialog').close();
+// dialog창에서 변경사항 삭제 클릭 시 editor창 초기화 해주는 함수
+function reset(){
+    document.getElementById('dialog_wrapper').classList.toggle('opening');
+    document.getElementById('dialog_background').classList.toggle('opening');
+    resetEditor();
+    editorClose();
 }

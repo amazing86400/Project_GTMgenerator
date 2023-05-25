@@ -637,3 +637,131 @@ tr>td:first-child {
     margin-top: -2px;
     padding-bottom: 11px;
 }
+
+.dialog_background {
+    opacity: 0;
+    transition: opacity 218ms;
+    background: white;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    visibility: hidden;
+    z-index: 79;
+}
+
+.dialog_background.opening {
+    visibility: visible;
+    background: #000;
+    opacity: .6;
+}
+
+.dialog_wrapper {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 218ms;
+    bottom: 24px;
+    left: 48px;
+    position: fixed;
+    right: 48px;
+    text-align: center;
+    top: 128px;
+    visibility: hidden;
+    z-index: 80;
+}
+
+.dialog_wrapper.opening {
+    visibility: visible;
+    opacity: 1;
+}
+
+.dialog_form {
+    height: 150px;
+    max-height: 100%;
+    min-height: 136px;
+    min-width: 400px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    z-index: 80;
+}
+
+.dialog_template {
+    padding-top: 64px;
+    padding-bottom: 48px;
+    /* height: 100%; */
+    position: relative;
+    z-index: 80;
+}
+
+.dialog_header{
+    border-bottom: 1px solid transparent;
+    font-family: "Google Sans",Roboto,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    letter-spacing: .1px;
+    height: auto;
+    min-height: 64px;
+    padding: 24px 24px 16px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.dialog_content {
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    min-height: 24px;
+    padding-bottom: 2px;
+    padding-top: 1px;
+    border-bottom: 1px solid transparent;
+    color: rgba(0, 0, 0, 0.87);
+    height: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.dialog_content > p {
+    margin-top: 0px;
+}
+
+.dialog_footer {
+    height: 48px;
+    padding: 2px 16px 0;
+}
+
+.dialog_btn {
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    /* transition: all .3s; */
+    font-size: 14px;
+    height: 36px;
+    letter-spacing: .25px;
+    line-height: 34px;
+    min-height: 24px;
+    min-width: 72px;
+    background-color: transparent;
+    border-color: transparent;
+    color: #1a73e8;
+    padding-left: 8px;
+    padding-right: 8px;
+    float: right;
+    margin: 0 0 0 8px;
+}
+
+.dialog_btn:hover {
+    background-color: rgba(26, 115, 232, 0.06);
+    border-color: transparent
+}
+
+.dialog_btn:focus {
+    background-color: rgba(26, 115, 232, 0.12);
+    border-color: transparent;
+    box-shadow: none
+}
