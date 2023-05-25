@@ -243,81 +243,84 @@ function changeTriType(){
 
 //저장 버튼 클릭 시 데이터 설정해주는 함수
 function setData(){
-    const ep_key = document.getElementsByName('ep_key');
-    const ep_value = document.getElementsByName('ep_value');
-    const up_key = document.getElementsByName('up_key');
-    const up_value = document.getElementsByName('up_value');
-    const eventArr = [];
-    const userArr = [];
-
-    //이벤트 매개변수 값 설정
-    for(var i=0; i < ep_key.length; i++){
-        eventArr.push({
-            name: ep_key[i].value,
-            variable: ep_value[i].value
-        });
-    }
-
-    //사용자 속성 매개변수 설정
-    for(var i=0; i < up_key.length; i++){
-        userArr.push({
-            name: up_key[i].value,
-            variable: up_value[i].value
-        });
-    }
+    if(validation()){
+        const ep_key = document.getElementsByName('ep_key');
+        const ep_value = document.getElementsByName('ep_value');
+        const up_key = document.getElementsByName('up_key');
+        const up_value = document.getElementsByName('up_value');
+        const eventArr = [];
+        const userArr = [];
     
-    //데이터 영역변수 설정
-    const testInputs = eventArr.concat(userArr)
-    for(i in testInputs){
-        if(variable.indexOf(testInputs[i].variable) == -1){
-            variable.push(testInputs[i].variable);
+        //이벤트 매개변수 값 설정
+        for(var i=0; i < ep_key.length; i++){
+            eventArr.push({
+                name: ep_key[i].value,
+                variable: ep_value[i].value
+            });
         }
-    }
-
-    //태그 설정
-    const tagType = document.querySelector('input[name="tagType"]:checked').value;
-    let setTag = {
-        tagName:document.getElementById('tag_name').value,
-        type: document.querySelector('input[name="tagType"]:checked').value,
-        measurementId: document.getElementById('measurementId').value,
-        triggerType: document.querySelector('input[name="triggerType"]:checked').value,
-        triggerId: triggerId,
-        VAR_Array: eventArr,
-        user_Array: userArr
-    };
-
-    //이벤트 태그 일 경우
-    if(tagType == 'gaawe'){
-        const eventName = document.getElementById('event_name').value;
-        setTag.eventName = eventName;
-        for(i in variable){
-            if(variable.indexOf(eventName) == -1){
-                variable.push(eventName);
+    
+        //사용자 속성 매개변수 설정
+        for(var i=0; i < up_key.length; i++){
+            userArr.push({
+                name: up_key[i].value,
+                variable: up_value[i].value
+            });
+        }
+        
+        //데이터 영역변수 설정
+        const testInputs = eventArr.concat(userArr)
+        for(i in testInputs){
+            if(variable.indexOf(testInputs[i].variable) == -1){
+                variable.push(testInputs[i].variable);
             }
         }
-    };
-    tag.push(setTag);
     
-    //트리거 설정
-    const triggerType = document.querySelector('input[name="triggerType"]:checked').value;
-    if(triggerType == 'event'){
-        let setTrigger = {
-            name: document.getElementById('trigger_name').value,
-            variable: document.getElementById('trigger_value').value,
-            triggerId: setTag.triggerId
+        //태그 설정
+        const tagType = document.querySelector('input[name="tagType"]:checked').value;
+        let setTag = {
+            tagName:document.getElementById('tag_name').value,
+            type: document.querySelector('input[name="tagType"]:checked').value,
+            measurementId: document.getElementById('measurementId').value,
+            triggerType: document.querySelector('input[name="triggerType"]:checked').value,
+            triggerId: triggerId,
+            VAR_Array: eventArr,
+            user_Array: userArr
+        };
+    
+        //이벤트 태그 일 경우
+        if(tagType == 'gaawe'){
+            const eventName = document.getElementById('event_name').value;
+            setTag.eventName = eventName;
+            for(i in variable){
+                if(variable.indexOf(eventName) == -1){
+                    variable.push(eventName);
+                }
+            }
+        };
+        tag.push(setTag);
+        
+        //트리거 설정
+        const triggerType = document.querySelector('input[name="triggerType"]:checked').value;
+        if(triggerType == 'event'){
+            let setTrigger = {
+                name: document.getElementById('trigger_name').value,
+                variable: document.getElementById('trigger_value').value,
+                triggerId: setTag.triggerId
+            }
+            trigger.push(setTrigger);
+            ++triggerId
+            //중복 체크 해야함.
         }
-        trigger.push(setTrigger);
-        ++triggerId
-        //중복 체크 해야함.
-    }
-
-    //editor 창 닫기
-    globalVal.getEditor().style.display = 'none';
-    globalVal.getEditor_backgroud().style.display = 'none';
-    document.querySelector('.export_data').style.display = 'block';
     
-    //설정 완료 되면 setDataList함수 호출
-    setDataList(setTag);
+        //editor 창 닫기
+        globalVal.getEditor().style.display = 'none';
+        globalVal.getEditor_backgroud().style.display = 'none';
+        document.querySelector('.export_data').style.display = 'block';
+        
+        //설정 완료 되면 setDataList함수 호출
+        setDataList(setTag);
+    }
+    
 }
 
 //태그 생성하면 메인 화면에 리스트로 출력해주는 함수
@@ -392,10 +395,22 @@ function resetEditor(){
     changeTriType();
 }
 
+//예외처리
 function validation(){
-
+    if(!document.getElementById('tag_name').value){
+        openDialog("태그 이름 없습니다.")
+        return false;
+    }
+    return true;
 }
 
-function openDialog(){
+//dialog오픈함수
+function openDialog(txt){
+    document.getElementById('dialogText').innerHTML = txt
     document.getElementById('dialog').showModal();
+}
+
+//dialog 닫는 함수
+function closeDialog(){
+    document.getElementById('dialog').close();
 }
