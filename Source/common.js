@@ -125,15 +125,129 @@ function deleteInput(num){
 
 // editor창 여는 함수
 function editorOpen() {
-    globalVal.getEditor().style.display = 'block';
-    globalVal.getEditor_backgroud().style.display = 'block';
+    document.querySelector('.editor').insertAdjacentHTML('beforeend',
+    `<div class="editor_wrapper">
+        <div class="editor_title">
+            <i class="editor_close"></i>
+            <div class="tag_name">
+                <input class="input_tag_name" id="tag_name" type="text" placeholder="태그이름을 입력하세요">
+            </div>
+            <button class="create_button" onclick="setData()">저장</button>
+        </div>
+        <div class="form_card">
+            <div class="content">
+                <div class="tag_conf">
+                    <div class="conf_title">
+                        <div>태그 구성</div>
+                    </div>
+                    <div class="form_tagType">
+                        <div class="caption">태그 유형</div>
+                        <div class="radio">
+                            <input class="tagType" id="conf" type="radio" name="tagType" value="gaawc" checked="checked">
+                            <label for="conf" class="radio_label conf">
+                                    <div class="radio_img">
+                                        <img class="conf_img" src="gaImg.svg">
+                                    </div>
+                                    <div class="radio_caption">
+                                        <div>Google 애널리틱스: GA4 구성</div>
+                                        <div>Google Marketing Platform</div>
+                                    </div>
+                            </label>
+                            <input class="tagType" id="event" type="radio" name="tagType" value="gaawe">
+                            <label for="event" class="radio_label">
+                                <div class="radio_img">
+                                    <img class="conf_img" src="gaImg.svg">
+                                </div>
+                                <div class="radio_caption">
+                                    <div>Google 애널리틱스: GA4 이벤트</div>
+                                    <div>Google Marketing Platform</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="form_mid">
+                        <div id="change_tagType">
+                            <div>
+                                <div class="caption">측정 ID</div>
+                                <input type="text" class="form_input" id="measurementId">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="field_title">설정할 필드</div>
+                        <div class="input_area">
+                            <div>
+                                <div id="event_parameter">
+                                    <div class="input_title">
+                                        <div class="field_name">필드 이름</div><div class="field_name">값</div>
+                                    </div>
+                                    <div id="test1"><input type="text" name="ep_key" class="form_input" value="page_title"><input type="text" name="ep_value" class="form_input" value="title"><i class="remove_button" onclick='deleteInput(1)'></i></div>
+                                </div>
+                                <button class="add_input" onclick="addEventInput();">행 추가</button>
+                            </div>
+                            <div class="textarea">
+                                <textarea class="textarea_box" id="event_excelData"></textarea><br><button class="add_input" type="button" onclick="addEvent()">입력</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="field_title">사용자 속성</div>
+                        <div class="input_area">
+                            <div>
+                                <div id="user_property">
+                                    <div class="input_title">
+                                        <div class="field_name">속성 이름</div><div class="field_name">값</div>
+                                    </div>
+                                    <div id="test2"><input type="text" name="up_key" class="form_input" value="up_cid"><input type="text" name="up_value" class="form_input" value="up_cid"><i class="remove_button" onclick='deleteInput(2)'></i></div>
+                                </div>
+                                <button class="add_input" onclick="addUserInput();">행 추가</button>
+                            </div>
+                            <div class="textarea">
+                                <textarea class="textarea_box" id="user_excelData"></textarea><br><button class="add_input" type="button" onclick="addUser()">입력</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="set_trigger">
+                    <div class="conf_title">
+                        <div>트리거</div>
+                    </div>
+                    <div class="form_tagType">
+                        <div class="caption">트리거 유형</div>
+                        <div class="radio">
+                            <input class="triggerType" id="pageview" type="radio" name="triggerType" value="pageview" checked="checked"><label class="radio_label">페이지뷰</label>
+                            <input class="triggerType" type="radio" name="triggerType" value="event"><label class="radio_label">맞춤 이벤트</label>
+                        </div>
+                    </div>
+                    <div class="caption">트리거 실행</div>
+                    <div id="form_trigger">
+                        <div id="change_trigger">
+                            <div class="trigger_card">
+                                <i class="pageview_icon"></i>
+                                <div class="trigger_icon_caption">
+                                    <div>All Pages</div>
+                                    <div>페이지뷰</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`
+    )
+    globalVal.getEditor().classList.toggle('open');
+    globalVal.getEditor_backgroud().classList.toggle('open');
     document.body.style.overflow = "hidden";
 }
 
 //editor창 닫는 함수
 function editorClose() {
-    globalVal.getEditor().style.display = 'none';
-    globalVal.getEditor_backgroud().style.display = 'none';
+    globalVal.getEditor().classList.toggle('open');
+    globalVal.getEditor_backgroud().classList.toggle('open');
+    // setTimeout(function(){
+        document.querySelector('.editor_wrapper').remove();  
+    // },350)
     document.body.style.overflow = "unset";
 }
 
