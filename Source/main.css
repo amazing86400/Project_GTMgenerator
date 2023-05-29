@@ -504,8 +504,12 @@ tr>td:first-child {
     -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
  }
 
-#measurementId {
-    margin-bottom: 9px;
+#measurementId, #event_name, #aa  {
+    margin-bottom: 0px;
+}
+
+#form_aa, #form_measurementId, #form_eventName {
+    margin-bottom: 15px;
 }
 
 .select_box {
@@ -804,4 +808,28 @@ tr>td:first-child {
     background-color: rgba(26, 115, 232, 0.12);
     border-color: transparent;
     box-shadow: none
+}
+
+.errorLabel {
+    box-sizing: border-box;
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    letter-spacing: .2px;
+    line-height: 20px;
+    min-height: 24px;
+    padding-bottom: 2px;
+    padding-top: 1px;
+    border-bottom: 1px solid transparent;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 12px;
+    letter-spacing: .3px;
+    /* padding-bottom: 1px; */
+    /* padding-top: 2px; */
+    border-bottom: none;
+    color: #ea4335;
+    line-height: 24px;
+    min-height: auto;
+    padding-bottom: 0;
+    padding-top: 0;
 }

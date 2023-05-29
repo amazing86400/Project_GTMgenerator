@@ -9,7 +9,7 @@ const trigger = [];     //트리거 배열 선언
 var triggerId = 70;     //트리거Id 초기 값
 
 const globalVal =  (function(){
-    const eventParameter = document.getElementById('event_parameter')   //이벤트 매개변수 태그
+    const eventParameter = document.getElementById('event_parameter');   //이벤트 매개변수 태그
     const userParameter = document.getElementById('user_property')      //사용자 속성 태그
     const editor = document.querySelector('.editor');    //editor
     const editor_backgroud = document.querySelector('.editor_background');  // editor_background
@@ -58,26 +58,6 @@ const globalVal =  (function(){
 
 })();
 
-document.addEventListener('DOMContentLoaded',function(){
-    const select_tagType = document.querySelectorAll('.tagType');           //태그 타입 input태그
-    const select_triggerType = document.querySelectorAll('.triggerType');   //트리거 타입 input태그
-    
-    //생성 버튼 클릭 시 editorOpen함수 호출
-    document.querySelector('.create_button').addEventListener('click', editorOpen);
-    
-    //저장 버튼 클릭 시 editorClose함수 호출
-    document.querySelector('.editor_close').addEventListener('click', function(){openDialog("noSave")});   
-    
-    //태그 유형 checkbox 변경 시 changeTagType함수 호출
-    select_tagType.forEach((e)=>{
-        e.addEventListener('click',changeTagType)
-    })
-
-    //트리거 유형 checkbox 변경 시 changeTriType함수 호출
-    select_triggerType.forEach((e)=>{
-        e.addEventListener('click',changeTriType)
-    })
-});
 
 //editor창 밖 영역(editor_background) 클릭 시 editorClose함수 호출
 document.addEventListener('click', (e) => {
@@ -86,36 +66,40 @@ document.addEventListener('click', (e) => {
 
 //excelData값으로 이벤트 매개변수 input태그 생성함수
 function addEvent() {
+    const eventParameter = document.getElementById('event_parameter');
     const data = document.getElementById('event_excelData').value;
     const rows = data.split('\n');
     for (i of rows){
         inputNo += 1
-        globalVal.getEventParameter().insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name='ep_key' class='form_input' value='${i}'><input type='text' name="ep_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+        eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name='ep_key' class='form_input' value='${i}'><input type='text' name="ep_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
     }
     document.getElementById('event_excelData').value = '';
 }
 
 //excelData값으로 사용자 속성 input태그 생성함수
 function addUser() {
+    const userParameter = document.getElementById('user_property')
     const data = document.getElementById('user_excelData').value;
     const rows = data.split('\n');
     for (i of rows){
         inputNo += 1
-        globalVal.getUserParameter().insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value='${i}'><input type='text' name="up_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+        userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value='${i}'><input type='text' name="up_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
     }
     document.getElementById('user_excelData').value = '';
 }
 
 //행 추가 버튼 클릭 시 이벤트 매개변수 input태그 생성함수
 function addEventInput(){
+    const eventParameter = document.getElementById('event_parameter');
     inputNo += 1
-    globalVal.getEventParameter().insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input'><input type='text' name="ep_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+    eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input'><input type='text' name="ep_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
 }
 
 //행 추가 버튼 클릭 시 사용자 속성 input태그 생성함수
 function addUserInput(){
+    const userParameter = document.getElementById('user_property')
     inputNo += 1
-    globalVal.getUserParameter().insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+    userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
 }
 
 //-버튼 클릭 시 해당 input태그 삭제 해주는 함수
@@ -128,7 +112,7 @@ function editorOpen() {
     document.querySelector('.editor').insertAdjacentHTML('beforeend',
     `<div class="editor_wrapper">
         <div class="editor_title">
-            <i class="editor_close"></i>
+            <i class="editor_close" onclick="openDialog('noSave')"></i>
             <div class="tag_name">
                 <input class="input_tag_name" id="tag_name" type="text" placeholder="태그이름을 입력하세요">
             </div>
@@ -143,7 +127,7 @@ function editorOpen() {
                     <div class="form_tagType">
                         <div class="caption">태그 유형</div>
                         <div class="radio">
-                            <input class="tagType" id="conf" type="radio" name="tagType" value="gaawc" checked="checked">
+                            <input class="tagType" id="conf" type="radio" name="tagType" onclick="changeTagType()" value="gaawc" checked="checked">
                             <label for="conf" class="radio_label conf">
                                     <div class="radio_img">
                                         <img class="conf_img" src="gaImg.svg">
@@ -153,7 +137,7 @@ function editorOpen() {
                                         <div>Google Marketing Platform</div>
                                     </div>
                             </label>
-                            <input class="tagType" id="event" type="radio" name="tagType" value="gaawe">
+                            <input class="tagType" id="event" type="radio" name="tagType" onclick="changeTagType()" value="gaawe">
                             <label for="event" class="radio_label">
                                 <div class="radio_img">
                                     <img class="conf_img" src="gaImg.svg">
@@ -167,7 +151,7 @@ function editorOpen() {
                     </div>
                     <div id="form_mid">
                         <div id="change_tagType">
-                            <div>
+                            <div id="form_measurementId">
                                 <div class="caption">측정 ID</div>
                                 <input type="text" class="form_input" id="measurementId">
                             </div>
@@ -215,8 +199,8 @@ function editorOpen() {
                     <div class="form_tagType">
                         <div class="caption">트리거 유형</div>
                         <div class="radio">
-                            <input class="triggerType" id="pageview" type="radio" name="triggerType" value="pageview" checked="checked"><label class="radio_label">페이지뷰</label>
-                            <input class="triggerType" type="radio" name="triggerType" value="event"><label class="radio_label">맞춤 이벤트</label>
+                            <input class="triggerType" id="pageview" type="radio" name="triggerType" value="pageview" onclick="changeTriType()" checked="checked"><label class="radio_label">페이지뷰</label>
+                            <input class="triggerType" type="radio" name="triggerType" value="event" onclick="changeTriType()"><label class="radio_label">맞춤 이벤트</label>
                         </div>
                     </div>
                     <div class="caption">트리거 실행</div>
@@ -261,7 +245,7 @@ function changeTagType(){
         const configEle = document.createElement('div')
         configEle.innerHTML = 
             `<div id="change_tagType">
-                <div>
+                <div id="form_measurementId">
                     <div class="caption">측정 ID</div>
                     <input type="text" class="form_input" id="measurementId">
                 </div>
@@ -274,14 +258,18 @@ function changeTagType(){
         const eventEle = document.createElement('div')
         eventEle.innerHTML = 
             `<div id="change_tagType">
-                <label class="caption" for="aa">구성태그</label><br>
-                <select class="select_box" name="aa" id="aa">
-                    <option value="undefined">구성 태그 선택...</option>
-                    <option value="none">없음-직접 ID 설정</option>
-                </select>
-                <div id="div_mid"></div>
-                <div class="caption">이벤트 이름</div>
-                <input type="text" class="form_input" id="event_name">
+                <div id="form_aa">
+                    <label class="caption" for="aa">구성태그</label><br>
+                    <select class="select_box" name="aa" id="aa">
+                        <option value="undefined">구성 태그 선택...</option>
+                        <option value="none">없음-직접 ID 설정</option>
+                    </select>
+                </div>
+                <div id="form_measurementId"></div>
+                <div id="form_eventName">
+                    <div class="caption">이벤트 이름</div>
+                    <input type="text" class="form_input" id="event_name">
+                </div>
             </div>`;
         document.getElementById('form_mid').append(eventEle);
         document.getElementsByClassName('field_title')[0].innerHTML = '이벤트 매개변수'
@@ -297,27 +285,17 @@ function changeTagType(){
         //직접 입력 선택 시 측정ID입력할 수 있는 input태그 생성해주는 함수
         selectTag.addEventListener('change',(e)=>{
             const selectUndefined = selectTag.options[selectTag.selectedIndex].value;
-            const formMid = document.getElementById('div_mid');
+            const formMid = document.getElementById('form_measurementId');
             if(selectUndefined == 'none'){
-                formMid.remove();
-                selectTag.insertAdjacentHTML('afterend',`
-                    <div id="div_mid">
-                        <div class="caption">측정 ID</div>
-                        <input type="text" class="form_input" id="measurementId">
-                    </div>`
-                )
+                formMid.replaceChildren()
+                formMid.insertAdjacentHTML('beforeend',`<div class="caption">측정 ID</div><input type="text" class="form_input" id="measurementId">`)
             }else{
-                formMid.remove();
-                selectTag.insertAdjacentHTML('afterend',`
-                    <div id="div_mid">
-                        <input type="hidden" class="form_input" id="measurementId" value="${selectUndefined}">
-                    </div>`
-                )
+                formMid.replaceChildren()
+                formMid.insertAdjacentHTML('beforeend',`<input type="hidden" class="form_input" id="measurementId" value="${selectUndefined}">`)
             }
         });
     }
 }
-
 //트리거 유형 checkbox 변경 시 화면 래이아웃 변경해주는 함수
 function changeTriType(){
     const checkValue = document.querySelector('input[name="triggerType"]:checked').value;
@@ -514,10 +492,29 @@ function validation(){
     if(!document.getElementById('tag_name').value){
         openDialog("noValue", "태그 이름");
         return false;
-    }else if('조건2' == true){
-        openDialog("noValue", "태그 이름");
+    }
+    if(document.getElementById('aa')){
+        if(document.getElementById('aa').value == 'undefined'){
+            errorLabel();
+            return false;
+        }
+    }
+    if(!document.getElementById('measurementId').value){
+        errorLabel();
         return false;
     }
+    document.querySelectorAll('[name^=ep]').forEach((e)=>{
+        if(!e.value){
+            openDialog("noValue2", "필드");
+            return false;
+        }
+    })
+    document.querySelectorAll('[name^=up]').forEach((e)=>{
+        if(!e.value){
+            openDialog("noValue2", "사용자 속성");
+            return false;
+        }
+    })
     return true;
 }
 
@@ -537,6 +534,12 @@ function openDialog(errorType, value){
                 content: '이 태그에 ' + value + ' 값이 없습니다. 해당 값을 입력하지 않으면 태그를 저장할 수 없습니다.'
             };
         break;
+        case 'noValue2':
+            errorMsg = {
+                title: '입력되지 않은 값이 있음',
+                content: '이 태그에 입력되지 않은' + value + ' 값이 있습니다. 해당 값을 입력하지 않으면 태그를 저장할 수 없습니다.'
+            };
+        break;
         case 'dupValue':
             errorMsg = {
                 title: '중복된 값이 있음',
@@ -548,6 +551,13 @@ function openDialog(errorType, value){
     document.getElementById('p').innerHTML = errorMsg.content;
     document.getElementById('dialog_wrapper').classList.toggle('opening');
     document.getElementById('dialog_background').classList.toggle('opening');
+}
+
+function errorLabel(){
+    const tagType = document.getElementById('form_measurementId')
+    if(tagType.lastChild.className != 'errorLabel'){
+        tagType.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
+    }
 }
 
 // dialog창에서 변경사항 삭제 클릭 시 editor창 초기화 해주는 함수
