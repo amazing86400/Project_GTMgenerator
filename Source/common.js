@@ -554,7 +554,7 @@ function openDialog(errorType, value){
 }
 
 function errorLabel(){
-    const tagType = document.getElementById('form_measurementId')
+    const tagType = document.getElementById('form_aa')
     if(tagType.lastChild.className != 'errorLabel'){
         tagType.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
     }
