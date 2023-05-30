@@ -405,8 +405,10 @@ function setData(){
         }
     
         //editor 창 닫기
-        globalVal.getEditor().style.display = 'none';
-        globalVal.getEditor_backgroud().style.display = 'none';
+        // globalVal.getEditor().style.display = 'none';
+        // globalVal.getEditor_backgroud().style.display = 'none';
+        // globalVal.getEditor().classList.toggle('open');
+        // globalVal.getEditor_backgroud().classList.toggle('open');
         document.querySelector('.export_data').style.display = 'block';
         
         //설정 완료 되면 setDataList함수 호출
@@ -451,7 +453,11 @@ function setDataList(setTag){
     )
 
     //리스트로 저장 되면 resetEditor함수 호출
-    resetEditor();
+
+    //만약 모달폼을 지웠다 다시 불러오는 거면 editorClose함수 사용
+    //첫 구현방식이면resetEditor함수 사용
+    editorClose()
+    // resetEditor();
 }
 
 //editor초기화 함수
@@ -555,9 +561,16 @@ function openDialog(errorType, value){
 
 function errorLabel(){
     const tagType = document.getElementById('form_aa')
-    if(tagType.lastChild.className != 'errorLabel'){
-        tagType.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
+    const measurementId = document.getElementById('form_measurementId')
+    if(!measurementId.value){
+        measurementId.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
     }
+    if(tagType){
+        if(tagType.lastChild.className != 'errorLabel'){
+            tagType.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
+        }
+    }
+
 }
 
 // dialog창에서 변경사항 삭제 클릭 시 editor창 초기화 해주는 함수
