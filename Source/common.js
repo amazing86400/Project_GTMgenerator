@@ -1,68 +1,18 @@
 var inputNo = 2;  //input태그 번호
-// const eventParameter = document.getElementById('event_parameter')   //이벤트 매개변수 태그
-// const userParameter = document.getElementById('user_property')      //사용자 속성 태그
-// const editor = document.querySelector('.editor');    //editor
-// const editor_backgroud = document.querySelector('.editor_background');  // editor_background
+var triggerId = 70;     //트리거Id 초기 값
+const editor = document.getElementById('editor');    //editor
+const editor_backgroud = document.querySelector('.editor_background');  // editor_background
 const tag = [];         //태그 배열 선언
 const variable = [];    //변수 배열 선언
 const trigger = [];     //트리거 배열 선언
-var triggerId = 70;     //트리거Id 초기 값
-
-const globalVal =  (function(){
-    const eventParameter = document.getElementById('event_parameter');   //이벤트 매개변수 태그
-    const userParameter = document.getElementById('user_property')      //사용자 속성 태그
-    const editor = document.querySelector('.editor');    //editor
-    const editor_backgroud = document.querySelector('.editor_background');  // editor_background
-    var inputNo = 2;  //input태그 번호
-    // const tag = [];         //태그 배열 선언
-    // const variable = [];    //변수 배열 선언
-    // const trigger = [];     //트리거 배열 선언
-
-    const arrays = {
-        tag: [],
-        variable: [],
-        trigger: []
-    }
-
-    function push(arrayName, value){
-        arrays[arrayName].push(value);
-    }
-
-    function getArray(arrayName){
-        return arrays[arrayName];
-    }
-    function plus(value){
-        value++
-    }
-
-    return {
-        getEventParameter: function(){
-            return eventParameter;
-        },
-        getUserParameter: function(){
-            return userParameter;
-        },
-        getEditor: function(){
-            return editor;
-        },
-        getEditor_backgroud: function(){
-            return editor_backgroud;
-        }, 
-        plus: function(){
-            inputNo++;
-        },
-        plus:plus,
-        getArray: getArray,
-        push: push
-    };
-
-})();
-
 
 //editor창 밖 영역(editor_background) 클릭 시 editorClose함수 호출
 document.addEventListener('click', (e) => {
-    e.target === globalVal.getEditor_backgroud() ? openDialog("noSave") : false;
+    e.target === editor_backgroud ? openDialog("noSave") : false;
 });
+
+//input 태그 값 변경시 deleteErrLabel함수 호출
+editor.addEventListener('input',deleteErrLabel)
 
 //excelData값으로 이벤트 매개변수 input태그 생성함수
 function addEvent() {
@@ -220,15 +170,15 @@ function editorOpen() {
         </div>
     </div>`
     )
-    globalVal.getEditor().classList.toggle('open');
-    globalVal.getEditor_backgroud().classList.toggle('open');
+    editor.classList.toggle('open');
+    editor_backgroud.classList.toggle('open');
     document.body.style.overflow = "hidden";
 }
 
 //editor창 닫는 함수
 function editorClose() {
-    globalVal.getEditor().classList.toggle('open');
-    globalVal.getEditor_backgroud().classList.toggle('open');
+    editor.classList.toggle('open');
+    editor_backgroud.classList.toggle('open');
     // setTimeout(function(){
         document.querySelector('.editor_wrapper').remove();  
     // },350)
@@ -283,7 +233,7 @@ function changeTagType(){
             }
         }
         //직접 입력 선택 시 측정ID입력할 수 있는 input태그 생성해주는 함수
-        selectTag.addEventListener('change',(e)=>{
+        selectTag.addEventListener('change',()=>{
             const selectUndefined = selectTag.options[selectTag.selectedIndex].value;
             const formMid = document.getElementById('form_measurementId');
             if(selectUndefined == 'none'){
@@ -325,8 +275,10 @@ function changeTriType(){
                         <div>맞춤 이벤트</div>
                     </div>
                 </div>
-                <div class="caption">이벤트 이름</div>
-                <input type="text" id="trigger_value" class="form_input">
+                <div>
+                    <div class="caption">이벤트 이름</div>
+                    <input type="text" id="trigger_value" class="form_input">
+                </div>
                 <div class="last_div"></div>
             </div>`;
         document.getElementById('form_trigger').append(eventEle);
@@ -404,13 +356,7 @@ function setData(){
             //중복 체크 해야함.
         }
     
-        //editor 창 닫기
-        // globalVal.getEditor().style.display = 'none';
-        // globalVal.getEditor_backgroud().style.display = 'none';
-        // globalVal.getEditor().classList.toggle('open');
-        // globalVal.getEditor_backgroud().classList.toggle('open');
         document.querySelector('.export_data').style.display = 'block';
-        
         //설정 완료 되면 setDataList함수 호출
         setDataList(setTag);
     }
@@ -461,70 +407,114 @@ function setDataList(setTag){
 }
 
 //editor초기화 함수
-function resetEditor(){
-    const inp = document.getElementsByClassName('form_input');
-    const testInputs = document.querySelectorAll('[id^=test]');
-    const trigger_name = document.getElementById('trigger_name');
+// function resetEditor(){
+//     const inp = document.getElementsByClassName('form_input');
+//     const testInputs = document.querySelectorAll('[id^=test]');
+//     const trigger_name = document.getElementById('trigger_name');
 
-    //input태그 빈 값으로 초기화
-    for(i of inp){
-        i.value = null;
-    }
+//     //input태그 빈 값으로 초기화
+//     for(i of inp){
+//         i.value = null;
+//     }
 
-    //트리거 이름 빈 값으로 초기화
-    if(trigger_name){
-        trigger_name.value = null;
-    }
+//     //트리거 이름 빈 값으로 초기화
+//     if(trigger_name){
+//         trigger_name.value = null;
+//     }
 
-    //input태그 하나 남기고 삭제
-    for(i of testInputs){
-        if(i.getAttribute('id') != 'test1' && i.getAttribute('id') != 'test2'){
-            i.remove();
-        }
-    }
+//     //input태그 하나 남기고 삭제
+//     for(i of testInputs){
+//         if(i.getAttribute('id') != 'test1' && i.getAttribute('id') != 'test2'){
+//             i.remove();
+//         }
+//     }
 
-    //태그 이름 빈 값으로 초기화, 구성 태그로 선택, 트리거 pageview로 설정(초기값으로)
-    document.getElementById('tag_name').value = null;
-    document.getElementById('conf').checked = true;
-    document.getElementById('pageview').checked = true;
+//     //태그 이름 빈 값으로 초기화, 구성 태그로 선택, 트리거 pageview로 설정(초기값으로)
+//     document.getElementById('tag_name').value = null;
+//     document.getElementById('conf').checked = true;
+//     document.getElementById('pageview').checked = true;
 
-    //구성태그, pageview 트리거로 레이아웃 변경되도록 changeTagType, changeTriType함수 호출
-    changeTagType();
-    changeTriType();
-}
+//     //구성태그, pageview 트리거로 레이아웃 변경되도록 changeTagType, changeTriType함수 호출
+//     changeTagType();
+//     changeTriType();
+// }
 
-//예외처리
+//예외처리해주는 함수
 function validation(){
+    var returnVal = true;
+
+    //태그 이름이 없는 경우
     if(!document.getElementById('tag_name').value){
         openDialog("noValue", "태그 이름");
         return false;
     }
+ 
+    if(document.getElementById('trigger_name')){
+        //맞춤 트리거 이름이 없는 경우
+        if(!document.getElementById('trigger_name').value){
+            openDialog("noValue", "트리거 이름");
+            return false;
+        }
+        //맞춤 트리거 중복인 경우
+        for(i of trigger){
+            if(i.name == document.getElementById('trigger_name').value){
+                openDialog("dupValue", "트리거");
+                returnVal = false;
+            }
+        }
+    }
+    //태그 이름이 중복인 경우
+    for(i of tag){
+        console.log(i);
+        if(i.tagName == document.getElementById('tag_name').value){
+            openDialog("dupValue", "태그");
+            return false;
+        }
+    }
+    //이벤트 태그에서 구성태그 선택안한 경우
     if(document.getElementById('aa')){
         if(document.getElementById('aa').value == 'undefined'){
             errorLabel();
             return false;
         }
     }
-    if(!document.getElementById('measurementId').value){
-        errorLabel();
-        return false;
+    //측정ID 입력하지 않은 경우
+    if(document.getElementById('measurementId')){
+        if(!document.getElementById('measurementId').value){
+            errorLabel();
+            return false;
+        }
+        if(document.getElementById('measurementId').value != /^G-\d{4,}$/){
+            errorLabel();
+            return false;
+        }
     }
+    //맞춤 매개변수 입력하지 않은 경우
     document.querySelectorAll('[name^=ep]').forEach((e)=>{
         if(!e.value){
-            openDialog("noValue2", "필드");
-            return false;
+            errorLabel();
+            returnVal = false;
         }
     })
+    //사용자 속성 입력하지 않은 경우
     document.querySelectorAll('[name^=up]').forEach((e)=>{
         if(!e.value){
-            openDialog("noValue2", "사용자 속성");
-            return false;
+            errorLabel();
+            returnVal = false;
         }
     })
-    return true;
+    //맞춤 이벤트 이름 입력하지 않은 경우
+    if(document.getElementById('trigger_value')){
+        if(!document.getElementById('trigger_value').value){
+            errorLabel();
+            return false;
+        }
+    }
+
+    return returnVal;
 }
 
-//dialog 열때 파라미터 값으로 dialog title, content값 변경 or 열려 있을 때 닫는 함수
+//예외처리 함수에서 dialog 여는 함수(파라미터 값으로 dialog title, content값 변경)
 function openDialog(errorType, value){
     var errorMsg = {};
     switch(errorType){
@@ -540,16 +530,10 @@ function openDialog(errorType, value){
                 content: '이 태그에 ' + value + ' 값이 없습니다. 해당 값을 입력하지 않으면 태그를 저장할 수 없습니다.'
             };
         break;
-        case 'noValue2':
-            errorMsg = {
-                title: '입력되지 않은 값이 있음',
-                content: '이 태그에 입력되지 않은' + value + ' 값이 있습니다. 해당 값을 입력하지 않으면 태그를 저장할 수 없습니다.'
-            };
-        break;
         case 'dupValue':
             errorMsg = {
                 title: '중복된 값이 있음',
-                content: '컨테이너에 같은 이름의 ' + value + ' 값이 이미 있습니다. 다른 ' + value + '값을 입력하세요.'
+                content: '컨테이너에 같은 이름의 ' + value + '가 이미 있습니다. 다른 ' + value + ' 이름을 선택하세요.'
             };
         break;
     }
@@ -559,34 +543,48 @@ function openDialog(errorType, value){
     document.getElementById('dialog_background').classList.toggle('opening');
 }
 
+//예외처리 함수에서 에러문구 생성해주는 함수
+//파라미터 받아서 switch함수로 수정
 function errorLabel(){
-    const tagType = document.getElementById('form_aa')
-    const measurementId = document.getElementById('form_measurementId')
-    if(document.getElementById('measurementId')){
-        if(!document.getElementById('measurementId').value){
-            if(measurementId.lastChild.className != 'errorLabel'){
-                measurementId.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
+    const tagType = document.getElementById('form_aa');
+    //
+    document.querySelectorAll('.form_input').forEach((e)=>{
+        if(!e.value){
+            if(e.parentElement.lastChild.className != 'errorLabel'){
+                e.parentElement.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
+            }
+        }
+    })
+    
+    if(tagType){
+        if(document.getElementById('aa').value == 'undefined'){
+            if(tagType.lastChild.className != 'errorLabel'){
+                tagType.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
             }
         }
     }
-    
-    if(tagType){
-        if(tagType.lastChild.className != 'errorLabel'){
-            tagType.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
+
+    if(document.getElementById('measurementId')){
+        if(document.getElementById('measurementId').value != /^G-\d{4,}$/){
+            document.getElementById('form_measurementId').insertAdjacentHTML('beforeend',`<div class="errorLabel">올바른 측정 ID를 입력하세요(예: G-1234)</div>`)
         }
     }
 
 }
 
-document.querySelectorAll('.form_input').forEach((e)=>{
-    e.addEventListener('change',function(){
-        console.log('aa')
-    })
-})
+//input태그 값 변경시 에러문구 있을 때 에러문구 삭제해주는 함수
+function deleteErrLabel(e){
+    if(e.target.tagName == 'INPUT' || e.target.tagName == 'SELECT'){
+        if(e.target.parentElement.lastChild.className == 'errorLabel'){
+            e.target.parentElement.lastChild.remove()
+        }
+    }
+}
+
 // dialog창에서 변경사항 삭제 클릭 시 editor창 초기화 해주는 함수
 function reset(){
     document.getElementById('dialog_wrapper').classList.toggle('opening');
     document.getElementById('dialog_background').classList.toggle('opening');
-    resetEditor();
+    // resetEditor();
     editorClose();
 }
