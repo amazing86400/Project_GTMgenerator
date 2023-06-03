@@ -562,9 +562,14 @@ function openDialog(errorType, value){
 function errorLabel(){
     const tagType = document.getElementById('form_aa')
     const measurementId = document.getElementById('form_measurementId')
-    if(!measurementId.value){
-        measurementId.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
+    if(document.getElementById('measurementId')){
+        if(!document.getElementById('measurementId').value){
+            if(measurementId.lastChild.className != 'errorLabel'){
+                measurementId.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
+            }
+        }
     }
+    
     if(tagType){
         if(tagType.lastChild.className != 'errorLabel'){
             tagType.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
@@ -573,6 +578,11 @@ function errorLabel(){
 
 }
 
+document.querySelectorAll('.form_input').forEach((e)=>{
+    e.addEventListener('change',function(){
+        console.log('aa')
+    })
+})
 // dialog창에서 변경사항 삭제 클릭 시 editor창 초기화 해주는 함수
 function reset(){
     document.getElementById('dialog_wrapper').classList.toggle('opening');
