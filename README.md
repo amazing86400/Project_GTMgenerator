@@ -40,9 +40,9 @@
 </details>
 <br>
 
-<details><summary> <b>버그 수정</b> </summary>
+<details><summary> <b>기타</b> </summary>
  
- *changeTagType, changeTriType함수 레이아웃 변경 코드 수정
+* changeTagType, changeTriType함수 레이아웃 변경 코드 수정
   
 </details>
 <br>
