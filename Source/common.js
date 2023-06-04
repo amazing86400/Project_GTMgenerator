@@ -179,9 +179,7 @@ function editorOpen() {
 function editorClose() {
     editor.classList.toggle('open');
     editor_backgroud.classList.toggle('open');
-    // setTimeout(function(){
-        document.querySelector('.editor_wrapper').remove();  
-    // },350)
+    document.querySelector('.editor_wrapper').remove();  
     document.body.style.overflow = "unset";
 }
 
@@ -353,7 +351,6 @@ function setData(){
             }
             trigger.push(setTrigger);
             ++triggerId
-            //중복 체크 해야함.
         }
     
         document.querySelector('.export_data').style.display = 'block';
@@ -401,7 +398,7 @@ function setDataList(setTag){
     //리스트로 저장 되면 resetEditor함수 호출
 
     //만약 모달폼을 지웠다 다시 불러오는 거면 editorClose함수 사용
-    //첫 구현방식이면resetEditor함수 사용
+    //첫 구현방식이면(editor display=none)resetEditor함수 사용
     editorClose()
     // resetEditor();
 }
@@ -444,69 +441,52 @@ function validation(){
     var returnVal = true;
 
     //태그 이름이 없는 경우
-    if(!document.getElementById('tag_name').value){
+    const tagName = document.getElementById('tag_name');
+    if(!tagName.value){
         openDialog("noValue", "태그 이름");
         return false;
     }
- 
-    if(document.getElementById('trigger_name')){
+    //태그 이름이 중복인 경우
+    for(i of tag){
+        if(i.tagName == tagName.value){
+            openDialog("dupValue", "태그");
+            return false;
+        }
+    }
+    const triggerName = document.getElementById('trigger_name')
+    if(triggerName){
         //맞춤 트리거 이름이 없는 경우
-        if(!document.getElementById('trigger_name').value){
+        if(!triggerName.value){
             openDialog("noValue", "트리거 이름");
             return false;
         }
         //맞춤 트리거 중복인 경우
         for(i of trigger){
-            if(i.name == document.getElementById('trigger_name').value){
+            if(i.name == triggerName.value){
                 openDialog("dupValue", "트리거");
-                returnVal = false;
+                return false;
             }
         }
     }
-    //태그 이름이 중복인 경우
-    for(i of tag){
-        console.log(i);
-        if(i.tagName == document.getElementById('tag_name').value){
-            openDialog("dupValue", "태그");
-            return false;
+    //input태그에 값 없는 경우
+    document.querySelectorAll('.form_input').forEach((e)=>{
+        if(!e.value){
+            errorLabel('noInput',e);
+            returnVal = false;
         }
-    }
+    })
     //이벤트 태그에서 구성태그 선택안한 경우
-    if(document.getElementById('aa')){
-        if(document.getElementById('aa').value == 'undefined'){
-            errorLabel();
-            return false;
-        }
+    const aaEle = document.getElementById('aa');
+    if (aaEle && aaEle.value === 'undefined') {
+      errorLabel('noSelectTag');
+      return false;
     }
-    //측정ID 입력하지 않은 경우
-    if(document.getElementById('measurementId')){
-        if(!document.getElementById('measurementId').value){
-            errorLabel();
-            return false;
-        }
-        if(document.getElementById('measurementId').value != /^G-\d{4,}$/){
-            errorLabel();
-            return false;
-        }
-    }
-    //맞춤 매개변수 입력하지 않은 경우
-    document.querySelectorAll('[name^=ep]').forEach((e)=>{
-        if(!e.value){
-            errorLabel();
-            returnVal = false;
-        }
-    })
-    //사용자 속성 입력하지 않은 경우
-    document.querySelectorAll('[name^=up]').forEach((e)=>{
-        if(!e.value){
-            errorLabel();
-            returnVal = false;
-        }
-    })
-    //맞춤 이벤트 이름 입력하지 않은 경우
-    if(document.getElementById('trigger_value')){
-        if(!document.getElementById('trigger_value').value){
-            errorLabel();
+    //측정ID 유효성 검사 일치하지 않는 경우
+    const measurementId = document.getElementById('measurementId');
+    if (measurementId && (!aaEle || aaEle.value === 'none')) {
+        const regex = /^G-\d{4,}$/;
+        if (!regex.test(measurementId.value)) {
+            errorLabel('noRegex');
             return false;
         }
     }
@@ -544,32 +524,26 @@ function openDialog(errorType, value){
 }
 
 //예외처리 함수에서 에러문구 생성해주는 함수
-//파라미터 받아서 switch함수로 수정
-function errorLabel(){
-    const tagType = document.getElementById('form_aa');
-    //
-    document.querySelectorAll('.form_input').forEach((e)=>{
-        if(!e.value){
+function errorLabel(type,e){
+    switch(type){
+        case 'noInput':
             if(e.parentElement.lastChild.className != 'errorLabel'){
                 e.parentElement.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
             }
-        }
-    })
-    
-    if(tagType){
-        if(document.getElementById('aa').value == 'undefined'){
-            if(tagType.lastChild.className != 'errorLabel'){
+        break;
+        case 'noSelectTag':
+            const tagType = document.getElementById('form_aa');
+            if(tagType && tagType.lastChild.className != 'errorLabel'){
                 tagType.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
-            }
-        }
+            };
+        break;
+        case 'noRegex':
+            const measurementId = document.getElementById('measurementId')
+            if(measurementId && measurementId.parentElement.lastChild.className != 'errorLabel'){
+                document.getElementById('form_measurementId').insertAdjacentHTML('beforeend',`<div class="errorLabel">올바른 측정 ID를 입력하세요(예: G-1234)</div>`)
+            };
+        break;
     }
-
-    if(document.getElementById('measurementId')){
-        if(document.getElementById('measurementId').value != /^G-\d{4,}$/){
-            document.getElementById('form_measurementId').insertAdjacentHTML('beforeend',`<div class="errorLabel">올바른 측정 ID를 입력하세요(예: G-1234)</div>`)
-        }
-    }
-
 }
 
 //input태그 값 변경시 에러문구 있을 때 에러문구 삭제해주는 함수
@@ -581,10 +555,16 @@ function deleteErrLabel(e){
     }
 }
 
-// dialog창에서 변경사항 삭제 클릭 시 editor창 초기화 해주는 함수
+//dialog창에서 변경사항 삭제 클릭 시 editor창 초기화 해주는 함수
 function reset(){
     document.getElementById('dialog_wrapper').classList.toggle('opening');
     document.getElementById('dialog_background').classList.toggle('opening');
-    // resetEditor();
     editorClose();
 }
+
+//페이지 새로고침시 alert창 출력해주는 함수
+window.onbeforeunload = function(e) {
+    var dialogText = 'Dialog text here';
+    e.returnValue = dialogText;
+    return dialogText;
+};
