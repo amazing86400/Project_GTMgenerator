@@ -484,7 +484,7 @@ function validation(){
     //측정ID 유효성 검사 일치하지 않는 경우
     const measurementId = document.getElementById('measurementId');
     if (measurementId && (!aaEle || aaEle.value === 'none')) {
-        const regex = /^G-\d{4,}$/;
+        const regex = /^G-[A-Za-z0-9]{4,}$/;
         if (!regex.test(measurementId.value)) {
             errorLabel('noRegex');
             return false;
