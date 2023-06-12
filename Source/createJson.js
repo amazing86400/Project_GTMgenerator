@@ -158,21 +158,39 @@ function setParameter(arg) {
 // 태그 내 변수 설정 함수 정의
 function setVariable(arrs) {
   const list = arrs.map((arr) => {
-    return {
-      type: "MAP",
-      map: [
-        {
-          type: "TEMPLATE",
-          key: "name",
-          value: arr.name, // 변수 이름
-        },
-        {
-          type: "TEMPLATE",
-          key: "value",
-          value: "{{" + arr.variable + "}}", // 변수 값
-        },
-      ],
-    };
+    if (arr.variable.includes('##')) {
+      return {
+        type: 'MAP',
+        map: [
+          {
+            type: 'TEMPLATE',
+            key: 'name',
+            value: arr.name, // 변수 이름
+          },
+          {
+            type: 'TEMPLATE',
+            key: 'value',
+            value: '{{' + arr.variable.split('##')[1] + '}}', // 변수 값
+          },
+        ],
+      };
+    } else {
+      return {
+        type: 'MAP',
+        map: [
+          {
+            type: 'TEMPLATE',
+            key: 'name',
+            value: arr.name, // 변수 이름
+          },
+          {
+            type: 'TEMPLATE',
+            key: 'value',
+            value: '{{' + arr.variable + '}}', // 변수 값
+          },
+        ],
+      };
+    }
   });
 
   return list;
@@ -218,35 +236,77 @@ function createVariable(args) {
   const array = args.map((arg) => {
     variableId += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
     fingerprint += 1; // 변수마다 고유값을 가지기 위해 변수 추가 시 1씩 증가하도록 함
-    return {
-      accountId: "6006787882",
-      containerId: "115641829",
-      variableId: String(variableId),
-      name: arg, // 변수 이름
-      type: "v",
-      parameter: [
+    if (arg.includes('##')) {
+      return [
         {
-          type: "INTEGER",
-          key: "dataLayerVersion",
-          value: "2",
+          accountId: '6006787882',
+          containerId: '115641829',
+          variableId: String(variableId),
+          name: 'GA_Cookie',
+          type: 'k',
+          parameter: [
+            {
+              type: 'BOOLEAN',
+              key: 'decodeCookie',
+              value: 'false',
+            },
+            {
+              type: 'TEMPLATE',
+              key: 'name',
+              value: '_ga',
+            },
+          ],
+          fingerprint: String(fingerprint),
+          formatValue: {},
         },
         {
-          type: "BOOLEAN",
-          key: "setDefaultValue",
-          value: "false",
+          accountId: '6006787882',
+          containerId: '115641829',
+          variableId: String(++variableId),
+          name: arg.split('##')[1],
+          type: 'jsm',
+          parameter: [
+            {
+              type: 'TEMPLATE',
+              key: 'javascript',
+              value: 'function() {\n  return {{GA_Cookie}}.substring(6);\n}',
+            },
+          ],
+          fingerprint: String(fingerprint),
+          formatValue: {},
         },
-        {
-          type: "TEMPLATE",
-          key: "name",
-          value: arg, // 변수 값
-        },
-      ],
-      fingerprint: String(fingerprint),
-      formatValue: {},
-    };
+      ];
+    } else {
+      return {
+        accountId: '6006787882',
+        containerId: '115641829',
+        variableId: String(variableId),
+        name: arg, // 변수 이름
+        type: 'v',
+        parameter: [
+          {
+            type: 'INTEGER',
+            key: 'dataLayerVersion',
+            value: '2',
+          },
+          {
+            type: 'BOOLEAN',
+            key: 'setDefaultValue',
+            value: 'false',
+          },
+          {
+            type: 'TEMPLATE',
+            key: 'name',
+            value: arg, // 변수 값
+          },
+        ],
+        fingerprint: String(fingerprint),
+        formatValue: {},
+      };
+    }
   });
 
-  return array;
+  return array.flat();
 }
 
 // 컨테이너 데이터 설정 함수 정의

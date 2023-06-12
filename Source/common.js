@@ -481,7 +481,7 @@ function validation(){
             errorLabel('noInput',e);
             returnVal = false;
         }
-        if(checkValue == 'gaawc' && e.value.startsWith('##')){
+        if(checkValue == 'gaawc' && e.value == '##ecommerce'){
             errorLabel('noEco',e);
             returnVal = false;
         }
