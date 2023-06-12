@@ -87,7 +87,8 @@ function setParameter(arg) {
     const ecommerceData = {
       type: "BOOLEAN",
       key: "sendEcommerceData",
-      value: arg.isEcommerce ? "true" : "false",
+      value: arg.isEcommerce
+      // value: arg.isEcommerce ? "true" : "false",
     };
 
     const eventParameters = {

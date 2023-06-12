@@ -292,13 +292,18 @@ function setData(){
         const up_value = document.getElementsByName('up_value');
         const eventArr = [];
         const userArr = [];
+        isEcommerce = false;
     
         //이벤트 매개변수 값 설정
         for(var i=0; i < ep_key.length; i++){
-            eventArr.push({
-                name: ep_key[i].value,
-                variable: ep_value[i].value
-            });
+            if(!ep_key[i].value.startsWith('##')){
+                eventArr.push({
+                    name: ep_key[i].value,
+                    variable: ep_value[i].value
+                });
+            }else{
+                isEcommerce = true;
+            }
         }
     
         //사용자 속성 매개변수 설정
@@ -326,9 +331,10 @@ function setData(){
             triggerType: document.querySelector('input[name="triggerType"]:checked').value,
             triggerId: triggerId,
             VAR_Array: eventArr,
-            user_Array: userArr
+            user_Array: userArr,
+            isEcommerce: isEcommerce
         };
-    
+
         //이벤트 태그 일 경우
         if(tagType == 'gaawe'){
             const eventName = document.getElementById('event_name').value;
@@ -470,8 +476,13 @@ function validation(){
     }
     //input태그에 값 없는 경우
     document.querySelectorAll('.form_input').forEach((e)=>{
+        const checkValue = document.querySelector('input[name="tagType"]:checked').value;
         if(!e.value){
             errorLabel('noInput',e);
+            returnVal = false;
+        }
+        if(checkValue == 'gaawc' && e.value.startsWith('##')){
+            errorLabel('noEco',e);
             returnVal = false;
         }
     })
@@ -542,6 +553,11 @@ function errorLabel(type,e){
             if(measurementId && measurementId.parentElement.lastChild.className != 'errorLabel'){
                 document.getElementById('form_measurementId').insertAdjacentHTML('beforeend',`<div class="errorLabel">올바른 측정 ID를 입력하세요(예: G-1234)</div>`)
             };
+        break;
+        case 'noEco':
+            if(e.parentElement.lastChild.className != 'errorLabel'){
+                e.parentElement.insertAdjacentHTML('beforeend',`<div class="errorLabel">구성 태그에는 전자상거래 설정이 불가합니다.</div>`)
+            }
         break;
     }
 }
