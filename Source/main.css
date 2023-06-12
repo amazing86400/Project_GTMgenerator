@@ -93,8 +93,48 @@ tr:last-child>td {
     border: none;
 }
 
-tr>td:first-child {
+tr>td:nth-child(2) {
     color: #1565cf;
+}
+
+tr> th:first-child {
+    width: 42px;
+    padding: 0px 0px 0px 16px;
+}
+
+th > i, td > i {
+    cursor: pointer;
+    opacity: .54;
+    display: inline-block;
+    font-family: "Material Icons Extended";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-height: 40px;
+    text-align: center;
+    width: 40px;
+}
+
+th > i:hover {
+    opacity: .87;
+}
+
+td > i {
+    opacity: .16;
+}
+
+td > i:hover {
+    opacity: .54;
+}
+
+th > i::before, td > i::before {
+    content: "check_box_outline_blank";
+    user-select: none;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    color: #000;
+    cursor: pointer;
 }
 
 .list_trigger {

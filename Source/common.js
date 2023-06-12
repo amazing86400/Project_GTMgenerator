@@ -296,7 +296,7 @@ function setData(){
     
         //이벤트 매개변수 값 설정
         for(var i=0; i < ep_key.length; i++){
-            if(!ep_key[i].value.startsWith('##')){
+            if(!(ep_key[i].value == '##ecommerce' || ep_key[i].value == true)){
                 eventArr.push({
                     name: ep_key[i].value,
                     variable: ep_value[i].value
@@ -380,6 +380,7 @@ function setDataList(setTag){
             `<table>
                 <thead>
                     <tr>
+                        <th><i></i></th>
                         <th>이름</th>
                         <th>유형</th>
                         <th>트리거 실행</th>
@@ -393,6 +394,7 @@ function setDataList(setTag){
     const tbody = document.getElementById('tbody');
     tbody.insertAdjacentHTML('beforeend',
         `<tr>
+            <td><i></i></td>
             <td>${tagName}</td>
             <td>${tagType}</td>
             <td>
