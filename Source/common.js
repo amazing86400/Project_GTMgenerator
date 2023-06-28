@@ -1,5 +1,5 @@
-var inputNo = 2;  //input태그 번호
-var triggerId = 70;     //트리거Id 초기 값
+let inputNo = 2;  //input태그 번호
+let triggerId = 70;     //트리거Id 초기 값
 const editor = document.getElementById('editor');    //editor
 const editor_backgroud = document.querySelector('.editor_background');  // editor_background
 const tag = [];         //태그 배열 선언
@@ -295,7 +295,7 @@ function setData(){
         isEcommerce = false;
     
         //이벤트 매개변수 값 설정
-        for(var i=0; i < ep_key.length; i++){
+        for(let i=0; i < ep_key.length; i++){
             if(!(ep_key[i].value == '##ecommerce' || ep_key[i].value == true)){
                 eventArr.push({
                     name: ep_key[i].value,
@@ -307,7 +307,7 @@ function setData(){
         }
     
         //사용자 속성 매개변수 설정
-        for(var i=0; i < up_key.length; i++){
+        for(let i=0; i < up_key.length; i++){
             userArr.push({
                 name: up_key[i].value,
                 variable: up_value[i].value
@@ -338,19 +338,13 @@ function setData(){
         //이벤트 태그 일 경우
         if(tagType == 'gaawe'){
             const eventName = document.getElementById('event_name').value;
-            for(i in variable){
-                var regex = /{{(.*?)}}/;
-                if(regex.test(eventName) && variable.indexOf(eventName) == -1){
-                    var match = regex.exec(eventName)
-                    console.log(match)
-                    eventName = match[1];
-                    variable.push(eventName);
+            const regex = /{{|}}/g;
+            if(regex.test(eventName) && variable.indexOf(eventName) == -1){
+                const varEventName = eventName.replace(regex, '');
+                variable.push(varEventName);
                 }
-                // if(variable.indexOf(eventName) == -1){
-                // }
-            }
             setTag.eventName = eventName;
-        };
+        }
         tag.push(setTag);
         
         //트리거 설정
@@ -469,7 +463,7 @@ function change(e){
 
 //예외처리해주는 함수
 function validation(){
-    var returnVal = true;
+    let returnVal = true;
 
     //태그 이름이 없는 경우
     const tagName = document.getElementById('tag_name');
@@ -532,7 +526,7 @@ function validation(){
 
 //예외처리 함수에서 dialog 여는 함수(파라미터 값으로 dialog title, content값 변경)
 function openDialog(errorType, value){
-    var errorMsg = {};
+    let errorMsg = {};
     switch(errorType){
         case 'noSave':
             errorMsg = {
@@ -605,7 +599,7 @@ function reset(){
 
 //페이지 새로고침시 alert창 출력해주는 함수
 // window.onbeforeunload = function(e) {
-//     var dialogText = 'Dialog text here';
+//     let dialogText = 'Dialog text here';
 //     e.returnValue = dialogText;
 //     return dialogText;
 // };

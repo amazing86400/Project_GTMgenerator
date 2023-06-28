@@ -106,7 +106,7 @@ function setParameter(arg) {
     const eventName = {
       type: "TEMPLATE",
       key: "eventName",
-      value: "{{"+arg.eventName+"}}",
+      value: arg.eventName,
     };
 
     // ecommerce가 설정된 경우
