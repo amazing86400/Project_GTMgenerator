@@ -338,12 +338,18 @@ function setData(){
         //이벤트 태그 일 경우
         if(tagType == 'gaawe'){
             const eventName = document.getElementById('event_name').value;
-            setTag.eventName = eventName;
             for(i in variable){
-                if(variable.indexOf(eventName) == -1){
+                var regex = /{{(.*?)}}/;
+                if(regex.test(eventName) && variable.indexOf(eventName) == -1){
+                    var match = regex.exec(eventName)
+                    console.log(match)
+                    eventName = match[1];
                     variable.push(eventName);
                 }
+                // if(variable.indexOf(eventName) == -1){
+                // }
             }
+            setTag.eventName = eventName;
         };
         tag.push(setTag);
         
@@ -394,7 +400,12 @@ function setDataList(setTag){
     const tbody = document.getElementById('tbody');
     tbody.insertAdjacentHTML('beforeend',
         `<tr>
-            <td><i></i></td>
+            <td>
+                <input type="checkbox" id="check_box_icon"/>
+                <label for="check_box_icon">
+                    <i class="check_box_icon" onclick="change(event);"></i>
+                </label>
+            </td>
             <td>${tagName}</td>
             <td>${tagType}</td>
             <td>
@@ -410,6 +421,18 @@ function setDataList(setTag){
     editorClose()
     // resetEditor();
 }
+
+function change(e){
+    e.target.classList.toggle('checked');
+    if(document.getElementsByClassName('checked')[0]){
+        document.querySelector('create_button')[0].style.display = 'none';
+        document.querySelector('delete_tag')[0].style.display = 'block';
+    }else{
+        document.querySelector('create_button')[0].style.display = 'block';
+        document.querySelector('delete_tag')[0].style.display = 'none';
+    }
+}
+
 
 //editor초기화 함수
 // function resetEditor(){
@@ -581,8 +604,8 @@ function reset(){
 }
 
 //페이지 새로고침시 alert창 출력해주는 함수
-window.onbeforeunload = function(e) {
-    var dialogText = 'Dialog text here';
-    e.returnValue = dialogText;
-    return dialogText;
-};
+// window.onbeforeunload = function(e) {
+//     var dialogText = 'Dialog text here';
+//     e.returnValue = dialogText;
+//     return dialogText;
+// };
