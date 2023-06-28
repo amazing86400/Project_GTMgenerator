@@ -419,11 +419,11 @@ function setDataList(setTag){
 function change(e){
     e.target.classList.toggle('checked');
     if(document.getElementsByClassName('checked')[0]){
-        document.querySelector('create_button').style.display = 'none';
-        document.querySelector('delete_tag').style.display = 'block';
+        document.querySelector('.create_button').style.display = 'none';
+        document.querySelector('.delete_tag').style.display = 'block';
     }else{
-        document.querySelector('create_button').style.display = 'block';
-        document.querySelector('delete_tag').style.display = 'none';
+        document.querySelector('.create_button').style.display = 'block';
+        document.querySelector('.delete_tag').style.display = 'none';
     }
 }
 
