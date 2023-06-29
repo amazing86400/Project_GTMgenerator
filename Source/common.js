@@ -428,6 +428,7 @@ function selectChkBox(e){
 }
 
 function deleteTag(){
+    //checkbox input 삭제해야함
     var checked = document.getElementsByClassName('checked')
     for(i of checked){
         console.log(i);
