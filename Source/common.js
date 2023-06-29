@@ -397,7 +397,7 @@ function setDataList(setTag){
             <td>
                 <input type="checkbox" id="check_box_icon"/>
                 <label for="check_box_icon">
-                    <i class="check_box_icon" onclick="change(event);"></i>
+                    <i class="check_box_icon" onclick="selectChkBox(event);"></i>
                 </label>
             </td>
             <td>${tagName}</td>
@@ -416,7 +416,7 @@ function setDataList(setTag){
     // resetEditor();
 }
 
-function change(e){
+function selectChkBox(e){
     e.target.classList.toggle('checked');
     if(document.getElementsByClassName('checked')[0]){
         document.querySelector('.create_button').style.display = 'none';
@@ -424,6 +424,13 @@ function change(e){
     }else{
         document.querySelector('.create_button').style.display = 'block';
         document.querySelector('.delete_tag').style.display = 'none';
+    }
+}
+
+function deleteTag(){
+    var checked = document.getElementsByClassName('checked')
+    for(i of checked){
+        console.log(i);
     }
 }
 
