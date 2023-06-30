@@ -2,7 +2,7 @@ let inputNo = 2;  //input태그 번호
 let triggerId = 70;     //트리거Id 초기 값
 const editor = document.getElementById('editor');    //editor
 const editor_backgroud = document.querySelector('.editor_background');  // editor_background
-const tag = [];         //태그 배열 선언
+let tag = [];         //태그 배열 선언
 const variable = [];    //변수 배열 선언
 const trigger = [];     //트리거 배열 선언
 
@@ -373,8 +373,8 @@ function setDataList(setTag){
     const tagTri = (setTag.triggerType == 'pageview') ? 'All Pages' : document.getElementById('trigger_name').value;
     const iconClass = (setTag.triggerType == 'pageview') ? 'list_icon pageview' : 'list_icon event';
     const div_empty_table = document.getElementById('empty_table');
-    if(div_empty_table){
-        div_empty_table.remove();
+    if(window.getComputedStyle(div_empty_table).display == 'block'){
+        div_empty_table.style.display = 'none';
         const tableEle = document.createElement('table');
         tableEle.innerHTML =  
             `<table>
@@ -395,10 +395,7 @@ function setDataList(setTag){
     tbody.insertAdjacentHTML('beforeend',
         `<tr>
             <td>
-                <input type="checkbox" id="check_box_icon"/>
-                <label for="check_box_icon">
                     <i class="check_box_icon" onclick="selectChkBox(event);"></i>
-                </label>
             </td>
             <td>${tagName}</td>
             <td>${tagType}</td>
@@ -428,11 +425,24 @@ function selectChkBox(e){
 }
 
 function deleteTag(){
-    //checkbox input 삭제해야함
-    var checked = document.getElementsByClassName('checked')
-    for(i of checked){
-        console.log(i);
+    var checked = document.getElementsByClassName('checked');
+    Array.from(checked).forEach(function (checkbox) {
+        var tagName = checkbox.parentElement.nextElementSibling.innerText;
+        tag = tag.filter(function(e) {
+            return e.tagName !== tagName;
+        });
+        checkbox.parentElement.parentElement.remove();
+    });
+    if(tag.length == 0){
+        document.getElementById('empty_table').style.display = 'block';
+        document.querySelector(".table").children[0].remove();
+        document.querySelector('.create_button').style.display = 'block';
+        document.querySelector('.delete_tag').style.display = 'none';
     }
+}
+
+function allDeleteTag(){
+
 }
 
 

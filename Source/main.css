@@ -24,6 +24,7 @@ body {
 }
 
 #empty_table {
+    display: block;
     font-size: 15px;
     margin-bottom: 48px;
     margin-top: 50px;
@@ -544,7 +545,7 @@ th > i::before, .check_box_icon::before {
     float: right;
     font-family: "Material Icons Extended";
     font-size: 24px;
-    height: 40px;
+    height: 36px;
     vertical-align: middle;
     white-space: nowrap;
     width: 40px;
