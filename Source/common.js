@@ -380,7 +380,7 @@ function setDataList(setTag){
             `<table>
                 <thead>
                     <tr>
-                        <th><i></i></th>
+                        <th><i onclick="selectChkAll();"></i></th>
                         <th>이름</th>
                         <th>유형</th>
                         <th>트리거 실행</th>
@@ -395,7 +395,7 @@ function setDataList(setTag){
     tbody.insertAdjacentHTML('beforeend',
         `<tr>
             <td>
-                    <i class="check_box_icon" onclick="selectChkBox(event);"></i>
+                <i class="check_box_icon" onclick="selectChkBox(event);"></i>
             </td>
             <td>${tagName}</td>
             <td>${tagType}</td>
@@ -413,22 +413,50 @@ function setDataList(setTag){
     // resetEditor();
 }
 
+function toggleCreateButton(){
+    const createButton = document.querySelector('.create_button');
+    const delete_button = document.querySelector('.delete_button');
+    const selectedChkBoxes =  document.getElementsByClassName('checked')[0];
+    createButton.style.display = selectedChkBoxes ? 'none' : 'block';
+    delete_button.style.display = selectedChkBoxes ? 'block' : 'none';
+}
+
 function selectChkBox(e){
     e.target.classList.toggle('checked');
-    if(document.getElementsByClassName('checked')[0]){
-        document.querySelector('.create_button').style.display = 'none';
-        document.querySelector('.delete_tag').style.display = 'block';
+    toggleCreateButton();
+}
+
+function isSelectChkAll(){
+    const checkBox = document.querySelectorAll('.check_box_icon');
+    for(const e of checkBox){
+        if(!e.classList.contains('checked')){
+            return false;
+        }
+      }
+    return true;
+}
+
+function selectChkAll(){
+    const checkBox = document.querySelectorAll('.check_box_icon');
+    if(isSelectChkAll()){
+        checkBox.forEach((e)=>{
+            e.classList.toggle('checked');
+        })
     }else{
-        document.querySelector('.create_button').style.display = 'block';
-        document.querySelector('.delete_tag').style.display = 'none';
+        checkBox.forEach((e)=>{
+            if(!e.classList.contains('checked')){
+                e.classList.add('checked');
+            }
+        })
     }
+    toggleCreateButton();
 }
 
 function deleteTag(){
     var checked = document.getElementsByClassName('checked');
-    Array.from(checked).forEach(function (checkbox) {
+    Array.from(checked).forEach((checkbox)=> {
         var tagName = checkbox.parentElement.nextElementSibling.innerText;
-        tag = tag.filter(function(e) {
+        tag = tag.filter((e)=> {
             return e.tagName !== tagName;
         });
         checkbox.parentElement.parentElement.remove();
@@ -437,14 +465,9 @@ function deleteTag(){
         document.getElementById('empty_table').style.display = 'block';
         document.querySelector(".table").children[0].remove();
         document.querySelector('.create_button').style.display = 'block';
-        document.querySelector('.delete_tag').style.display = 'none';
+        document.querySelector('.delete_button').style.display = 'none';
     }
 }
-
-function allDeleteTag(){
-
-}
-
 
 //editor초기화 함수
 // function resetEditor(){
