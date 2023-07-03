@@ -380,7 +380,7 @@ function setDataList(setTag){
             `<table>
                 <thead>
                     <tr>
-                        <th><i onclick="selectChkAll();"></i></th>
+                        <th><i class="table_check_box" onclick="selectChkAll();"></i></th>
                         <th>이름</th>
                         <th>유형</th>
                         <th>트리거 실행</th>
@@ -413,45 +413,52 @@ function setDataList(setTag){
     // resetEditor();
 }
 
+//체크박스가 토글 됐을 때 버튼 변경해주는 함수
 function toggleCreateButton(){
     const createButton = document.querySelector('.create_button');
     const delete_button = document.querySelector('.delete_button');
     const selectedChkBoxes =  document.getElementsByClassName('checked')[0];
+    const tableCheckBox = document.querySelector('.table_check_box');
     createButton.style.display = selectedChkBoxes ? 'none' : 'block';
     delete_button.style.display = selectedChkBoxes ? 'block' : 'none';
+    tableCheckBox.classList.toggle('checkedAll', selectedChkBoxes);
 }
 
+//체크 박스 개별 선택 시 토글해주는 함수
 function selectChkBox(e){
     e.target.classList.toggle('checked');
     toggleCreateButton();
 }
 
+//체크 박스 전체 체크 되어있는지 확인해주는 함수
 function isSelectChkAll(){
     const checkBox = document.querySelectorAll('.check_box_icon');
-    for(const e of checkBox){
-        if(!e.classList.contains('checked')){
+    for(i of checkBox){
+        if(!i.classList.contains('checked')){
             return false;
         }
-      }
+    }
     return true;
 }
 
+//체크 박스 전체 체크 해주는 함수
 function selectChkAll(){
     const checkBox = document.querySelectorAll('.check_box_icon');
     if(isSelectChkAll()){
         checkBox.forEach((e)=>{
             e.classList.toggle('checked');
-        })
+        });
     }else{
         checkBox.forEach((e)=>{
             if(!e.classList.contains('checked')){
                 e.classList.add('checked');
             }
-        })
+        });
     }
     toggleCreateButton();
 }
 
+//선택된 태그 삭제해주는 함수
 function deleteTag(){
     var checked = document.getElementsByClassName('checked');
     Array.from(checked).forEach((checkbox)=> {

@@ -157,7 +157,7 @@ th > i::before, .check_box_icon::before {
     display: none;
 }
 
-.checked {
+.checked, .checkedAll {
     opacity: 1;
 }
 
@@ -165,7 +165,7 @@ th > i::before, .check_box_icon::before {
     opacity: .87
 }
 
-.checked::before {
+.checked::before, .checkedAll::before {
     content: "check_box";
     color: #1a73e8;
     cursor: pointer;
