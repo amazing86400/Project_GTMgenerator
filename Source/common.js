@@ -481,21 +481,21 @@ function deleteTag(){
 }
 
 function viewTag(e){
-    for(i of tag){
-        if(e.innerText == i.tagName){
+    for(q of tag){
+        if(e.innerText === q.tagName){
             editorOpen();
             //여기다가 input값 설정
             document.getElementsByClassName('input_title')[0].nextElementSibling.remove()
             document.getElementsByClassName('input_title')[1].nextElementSibling.remove()
             
             //태그 이름 설정
-            document.getElementById('tag_name').value = i.tagName
+            document.getElementById('tag_name').value = q.tagName
             //태그 타입 설정
-            if(i.type == 'gaawc'){
+            if(q.type == 'gaawc'){
                 document.getElementById('conf').checked = true;
                 changeTagType()
                 //측정 ID설정
-                document.getElementById('measurementId').value = i.measurementId;
+                document.getElementById('measurementId').value = q.measurementId;
             }else{
                 document.getElementById('event').checked = true;
                 changeTagType()
@@ -503,13 +503,13 @@ function viewTag(e){
                 document.getElementById('event_name').value = i.eventName;
                 //측정 ID설정
                 const select = document.getElementById('aa');
-                if(i.measurementId.includes('G-')){
+                if(q.measurementId.includes('G-')){
                     select.options[1].selected = true;
                     changeAAInput();
-                    document.getElementById('measurementId').value = i.measurementId;
+                    document.getElementById('measurementId').value = q.measurementId;
                 }else{
                     for(j=0; j<select.options.length; j++){
-                        if(select.options[j].value == i.measurementId){
+                        if(select.options[j].value == q.measurementId){
                             select.options[j].selected = true;
                             changeAAInput();
                         }
