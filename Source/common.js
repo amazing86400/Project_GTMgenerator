@@ -397,7 +397,7 @@ function setDataList(setTag){
             <td>
                 <i class="check_box_icon" onclick="selectChkBox(event);"></i>
             </td>
-            <td>${tagName}</td>
+            <td onclick="viewTag(this)">${tagName}</td>
             <td>${tagType}</td>
             <td>
                 <div class="list_trigger"><i class="${iconClass}"></i>${tagTri}</div>
@@ -474,6 +474,21 @@ function deleteTag(){
         document.querySelector('.create_button').style.display = 'block';
         document.querySelector('.delete_button').style.display = 'none';
     }
+}
+
+function viewTag(e){
+    for(i of tag){
+        if(e.innerText == i.tagName){
+            editorOpen();
+            //여기다가 input값 설정
+            //button class명 추가
+        }
+    }
+}
+
+//버튼 class명 눌렀을 때 업데이트 해주는 함수
+function updateTag(){
+
 }
 
 //editor초기화 함수
