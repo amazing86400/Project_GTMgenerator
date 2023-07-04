@@ -231,19 +231,23 @@ function changeTagType(){
             }
         }
         //직접 입력 선택 시 측정ID입력할 수 있는 input태그 생성해주는 함수
-        selectTag.addEventListener('change',()=>{
-            const selectUndefined = selectTag.options[selectTag.selectedIndex].value;
-            const formMid = document.getElementById('form_measurementId');
-            if(selectUndefined == 'none'){
-                formMid.replaceChildren()
-                formMid.insertAdjacentHTML('beforeend',`<div class="caption">측정 ID</div><input type="text" class="form_input" id="measurementId">`)
-            }else{
-                formMid.replaceChildren()
-                formMid.insertAdjacentHTML('beforeend',`<input type="hidden" class="form_input" id="measurementId" value="${selectUndefined}">`)
-            }
-        });
+        selectTag.addEventListener('change',changeAAInput);
     }
 }
+
+function changeAAInput(){
+    const selectTag = document.getElementById('aa');
+    const selectUndefined = selectTag.options[selectTag.selectedIndex].value;
+    const formMid = document.getElementById('form_measurementId');
+    if(selectUndefined == 'none'){
+        formMid.replaceChildren()
+        formMid.insertAdjacentHTML('beforeend',`<div class="caption">측정 ID</div><input type="text" class="form_input" id="measurementId">`)
+    }else{
+        formMid.replaceChildren()
+        formMid.insertAdjacentHTML('beforeend',`<input type="hidden" class="form_input" id="measurementId" value="${selectUndefined}">`)
+    }
+}
+
 //트리거 유형 checkbox 변경 시 화면 래이아웃 변경해주는 함수
 function changeTriType(){
     const checkValue = document.querySelector('input[name="triggerType"]:checked').value;
@@ -481,6 +485,49 @@ function viewTag(e){
         if(e.innerText == i.tagName){
             editorOpen();
             //여기다가 input값 설정
+            document.getElementsByClassName('input_title')[0].nextElementSibling.remove()
+            document.getElementsByClassName('input_title')[1].nextElementSibling.remove()
+            
+            //태그 이름 설정
+            document.getElementById('tag_name').value = i.tagName
+            //태그 타입 설정
+            if(i.type == 'gaawc'){
+                document.getElementById('conf').checked = true;
+                changeTagType()
+            }else{
+                document.getElementById('event').checked = true;
+                changeTagType()
+                //이벤트 태그일 때 이벤트 이름 설정
+                document.getElementById('event_name').value = i.eventName;
+            }
+
+            //측정 ID설정
+            const select = document.getElementById('aa');
+            if(i.measurementId.includes('G-')){
+                select.options[1].selected = true;
+                changeAAInput();
+                document.getElementById('measurementId').value = i.measurementId;
+            }else{
+                for(j=0; j<select.options.length; j++){
+                    if(select.options[j].value == i.measurementId){
+                        select.options[j].selected = true;
+                        changeAAInput();
+                    }
+                }
+            }
+            //트리거 설정
+
+            //매개변수 설정
+            for(j of i.VAR_Array){
+                const eventParameter = document.getElementById('event_parameter');
+                inputNo += 1
+                eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input' value="${j.name}"><input type='text' name="ep_value" class='form_input' value="${j.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+            }
+            for(z of i.user_Array){
+                const userParameter = document.getElementById('user_property');
+                inputNo += 1
+                userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input' value="${z.name}"><input type='text' name="ep_value" class='form_input' value="${z.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+            }
             //button class명 추가
         }
     }
