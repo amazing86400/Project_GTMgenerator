@@ -494,27 +494,29 @@ function viewTag(e){
             if(i.type == 'gaawc'){
                 document.getElementById('conf').checked = true;
                 changeTagType()
+                //측정 ID설정
+                document.getElementById('measurementId').value = i.measurementId;
             }else{
                 document.getElementById('event').checked = true;
                 changeTagType()
                 //이벤트 태그일 때 이벤트 이름 설정
                 document.getElementById('event_name').value = i.eventName;
-            }
-
-            //측정 ID설정
-            const select = document.getElementById('aa');
-            if(i.measurementId.includes('G-')){
-                select.options[1].selected = true;
-                changeAAInput();
-                document.getElementById('measurementId').value = i.measurementId;
-            }else{
-                for(j=0; j<select.options.length; j++){
-                    if(select.options[j].value == i.measurementId){
-                        select.options[j].selected = true;
-                        changeAAInput();
+                //측정 ID설정
+                const select = document.getElementById('aa');
+                if(i.measurementId.includes('G-')){
+                    select.options[1].selected = true;
+                    changeAAInput();
+                    document.getElementById('measurementId').value = i.measurementId;
+                }else{
+                    for(j=0; j<select.options.length; j++){
+                        if(select.options[j].value == i.measurementId){
+                            select.options[j].selected = true;
+                            changeAAInput();
+                        }
                     }
                 }
             }
+
             //트리거 설정
 
             //매개변수 설정
