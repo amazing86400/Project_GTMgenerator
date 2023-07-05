@@ -66,7 +66,7 @@ function editorOpen() {
             <div class="tag_name">
                 <input class="input_tag_name" id="tag_name" type="text" placeholder="태그이름을 입력하세요">
             </div>
-            <button class="create_button" onclick="setData()">저장</button>
+            <button id="setData" class="create_button" onclick="setData()">저장</button>
         </div>
         <div class="form_card">
             <div class="content">
@@ -150,7 +150,7 @@ function editorOpen() {
                         <div class="caption">트리거 유형</div>
                         <div class="radio">
                             <input class="triggerType" id="pageview" type="radio" name="triggerType" value="pageview" onclick="changeTriType()" checked="checked"><label class="radio_label">페이지뷰</label>
-                            <input class="triggerType" type="radio" name="triggerType" value="event" onclick="changeTriType()"><label class="radio_label">맞춤 이벤트</label>
+                            <input class="triggerType" id="event2" type="radio" name="triggerType" value="event" onclick="changeTriType()"><label class="radio_label">맞춤 이벤트</label>
                         </div>
                     </div>
                     <div class="caption">트리거 실행</div>
@@ -367,7 +367,6 @@ function setData(){
         //설정 완료 되면 setDataList함수 호출
         setDataList(setTag);
     }
-    
 }
 
 //태그 생성하면 메인 화면에 리스트로 출력해주는 함수
@@ -508,12 +507,6 @@ function viewTag(e){
                     changeAAInput();
                     document.getElementById('measurementId').value = q.measurementId;
                 }else{
-                    // for(j=0; j<select.options.length; j++){
-                    //     if(select.options[j].value == q.measurementId){
-                    //         select.options[j].selected = true;
-                    //         changeAAInput();
-                    //     }
-                    // }
                     for(j of select.options){
                         if(j.value == q.measurementId){
                             j.selected = true;
@@ -524,6 +517,17 @@ function viewTag(e){
             }
 
             //트리거 설정
+            if(q.triggerType == 'event'){
+                document.getElementById('event2').checked = true;
+                changeTriType();
+                for(j of trigger){
+                    if(q.triggerId == j.triggerId){
+                        document.getElementById('trigger_name').value = j.name;
+                        document.getElementById('trigger_value').value = j.variable;
+                    }
+                }
+            }
+
             //매개변수 설정
             for(j of q.VAR_Array){
                 const eventParameter = document.getElementById('event_parameter');
@@ -536,6 +540,7 @@ function viewTag(e){
                 userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input' value="${z.name}"><input type='text' name="ep_value" class='form_input' value="${z.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
             }
             //button class명 추가
+            document.getElementById('setData').setAttribute('onclick','updateTag()');
         }
     }
 }
