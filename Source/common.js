@@ -508,6 +508,12 @@ function viewTag(e){
                     changeAAInput();
                     document.getElementById('measurementId').value = q.measurementId;
                 }else{
+                    // for(j=0; j<select.options.length; j++){
+                    //     if(select.options[j].value == q.measurementId){
+                    //         select.options[j].selected = true;
+                    //         changeAAInput();
+                    //     }
+                    // }
                     for(j of select.options){
                         if(j.value == q.measurementId){
                             j.selected = true;
@@ -518,14 +524,13 @@ function viewTag(e){
             }
 
             //트리거 설정
-
             //매개변수 설정
-            for(j of i.VAR_Array){
+            for(j of q.VAR_Array){
                 const eventParameter = document.getElementById('event_parameter');
                 inputNo += 1
                 eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input' value="${j.name}"><input type='text' name="ep_value" class='form_input' value="${j.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
             }
-            for(z of i.user_Array){
+            for(z of q.user_Array){
                 const userParameter = document.getElementById('user_property');
                 inputNo += 1
                 userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input' value="${z.name}"><input type='text' name="ep_value" class='form_input' value="${z.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
