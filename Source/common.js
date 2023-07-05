@@ -508,9 +508,9 @@ function viewTag(e){
                     changeAAInput();
                     document.getElementById('measurementId').value = q.measurementId;
                 }else{
-                    for(j=0; j<select.options.length; j++){
-                        if(select.options[j].value == q.measurementId){
-                            select.options[j].selected = true;
+                    for(j of select.options){
+                        if(j.value == q.measurementId){
+                            j.selected = true;
                             changeAAInput();
                         }
                     }
