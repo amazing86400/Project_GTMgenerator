@@ -537,17 +537,107 @@ function viewTag(e){
             for(z of q.user_Array){
                 const userParameter = document.getElementById('user_property');
                 inputNo += 1
-                userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input' value="${z.name}"><input type='text' name="ep_value" class='form_input' value="${z.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+                userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value="${z.name}"><input type='text' name="up_value" class='form_input' value="${z.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
             }
             //button class명 추가
-            document.getElementById('setData').setAttribute('onclick','updateTag()');
+            document.getElementById('setData').setAttribute('onclick','updateTag(q.tagName)');
         }
     }
 }
 
 //버튼 class명 눌렀을 때 업데이트 해주는 함수
-function updateTag(){
+function updateTag(tName){
+    if(validation('update')){
+        const ep_key = document.getElementsByName('ep_key');
+        const ep_value = document.getElementsByName('ep_value');
+        const up_key = document.getElementsByName('up_key');
+        const up_value = document.getElementsByName('up_value');
+        const eventArr = [];
+        const userArr = [];
+        isEcommerce = false;
+        let setTrigger = new Object;
+    
+        //이벤트 매개변수 값 설정
+        for(let i=0; i < ep_key.length; i++){
+            if(!(ep_key[i].value == '##ecommerce' || ep_key[i].value == true)){
+                eventArr.push({
+                    name: ep_key[i].value,
+                    variable: ep_value[i].value
+                });
+            }else{
+                isEcommerce = true;
+            }
+        }
+    
+        //사용자 속성 매개변수 설정
+        for(let i=0; i < up_key.length; i++){
+            userArr.push({
+                name: up_key[i].value,
+                variable: up_value[i].value
+            });
+        }
+        
+        //데이터 영역변수 설정
+        const testInputs = eventArr.concat(userArr)
+        for(i in testInputs){
+            if(variable.indexOf(testInputs[i].variable) == -1){
+                variable.push(testInputs[i].variable);
+            }
+        }
+    
+        //태그 설정
+        const tagType = document.querySelector('input[name="tagType"]:checked').value;
+        let setTag = {
+            tagName:document.getElementById('tag_name').value,
+            type: document.querySelector('input[name="tagType"]:checked').value,
+            measurementId: document.getElementById('measurementId').value,
+            triggerType: document.querySelector('input[name="triggerType"]:checked').value,
+            triggerId: triggerId,
+            VAR_Array: eventArr,
+            user_Array: userArr,
+            isEcommerce: isEcommerce
+        };
 
+        //이벤트 태그 일 경우
+        if(tagType == 'gaawe'){
+            const eventName = document.getElementById('event_name').value;
+            const regex = /{{|}}/g;
+            if(regex.test(eventName) && variable.indexOf(eventName) == -1){
+                const varEventName = eventName.replace(regex, '');
+                variable.push(varEventName);
+                }
+            setTag.eventName = eventName;
+        }
+        // tag.push(setTag);
+        
+        //트리거 설정
+        const triggerType = document.querySelector('input[name="triggerType"]:checked').value;
+        if(triggerType == 'event'){
+            setTrigger = {
+                name: document.getElementById('trigger_name').value,
+                variable: document.getElementById('trigger_value').value,
+                triggerId: setTag.triggerId
+            }
+            // trigger.push(setTrigger);
+        }
+        ++triggerId
+    
+        for(i in tag){
+            if(tag[i].tagName == tName){
+                tag[i] = setTag;
+            }
+            for(j in trigger){
+                if(tag[i].triggerId == trigger[j].triggerId){
+                    trigger[j] = setTrigger;
+                }
+            }
+        }
+
+
+        document.querySelector('.export_data').style.display = 'block';
+        //설정 완료 되면 setDataList함수 호출
+        setDataList(setTag);
+    }
 }
 
 //editor초기화 함수
@@ -584,7 +674,7 @@ function updateTag(){
 // }
 
 //예외처리해주는 함수
-function validation(){
+function validation(type){
     let returnVal = true;
 
     //태그 이름이 없는 경우
@@ -593,13 +683,15 @@ function validation(){
         openDialog("noValue", "태그 이름");
         return false;
     }
-    //태그 이름이 중복인 경우
-    for(i of tag){
-        if(i.tagName == tagName.value){
-            openDialog("dupValue", "태그");
-            return false;
+    if(type != 'update'){
+        for(i of tag){
+            if(i.tagName == tagName.value){
+                openDialog("dupValue", "태그");
+                return false;
+            }
         }
     }
+    //태그 이름이 중복인 경우
     const triggerName = document.getElementById('trigger_name')
     if(triggerName){
         //맞춤 트리거 이름이 없는 경우
@@ -608,10 +700,12 @@ function validation(){
             return false;
         }
         //맞춤 트리거 중복인 경우
-        for(i of trigger){
-            if(i.name == triggerName.value){
-                openDialog("dupValue", "트리거");
-                return false;
+        if(type != 'update'){
+            for(i of trigger){
+                if(i.name == triggerName.value){
+                    openDialog("dupValue", "트리거");
+                    return false;
+                }
             }
         }
     }
