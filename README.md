@@ -45,6 +45,9 @@
 <details><summary> <b>기타</b> </summary>
  
 * changeTagType, changeTriType함수 레이아웃 변경 코드 수정
+* updateTag함수 오류 수정
+* update할 때 태그명 예외처리
+* cid중복처리
   
 </details>
 <br>

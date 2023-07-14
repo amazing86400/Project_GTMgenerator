@@ -342,11 +342,11 @@ function setData(){
         //이벤트 태그 일 경우
         if(tagType == 'gaawe'){
             const eventName = document.getElementById('event_name').value;
-            const regex = /{{|}}/g;
-            if(regex.test(eventName) && variable.indexOf(eventName) == -1){
-                const varEventName = eventName.replace(regex, '');
-                variable.push(varEventName);
-                }
+            // const regex = /{{|}}/g;
+            // if(regex.test(eventName) && variable.indexOf(eventName) == -1){
+            //     const varEventName = eventName.replace(regex, '');
+            //     variable.push(varEventName);
+            //     }
             setTag.eventName = eventName;
         }
         tags.push(setTag);
@@ -624,11 +624,11 @@ function updateTag(tName){
         //이벤트 태그 일 경우
         if(tagType == 'gaawe'){
             const eventName = document.getElementById('event_name').value;
-            const regex = /{{|}}/g;
-            if(regex.test(eventName) && variable.indexOf(eventName) == -1){
-                const varEventName = eventName.replace(regex, '');
-                variable.push(varEventName);
-                }
+            // const regex = /{{|}}/g;
+            // if(regex.test(eventName) && variable.indexOf(eventName) == -1){
+            //     const varEventName = eventName.replace(regex, '');
+            //     variable.push(varEventName);
+            //     }
             setTag.eventName = eventName;
         }
         // tags.push(setTag);
@@ -674,39 +674,6 @@ function updateTag(tName){
     }
 }
 
-//editor초기화 함수
-// function resetEditor(){
-//     const inp = document.getElementsByClassName('form_input');
-//     const testInputs = document.querySelectorAll('[id^=test]');
-//     const trigger_name = document.getElementById('trigger_name');
-
-//     //input태그 빈 값으로 초기화
-//     for(i of inp){
-//         i.value = null;
-//     }
-
-//     //트리거 이름 빈 값으로 초기화
-//     if(trigger_name){
-//         trigger_name.value = null;
-//     }
-
-//     //input태그 하나 남기고 삭제
-//     for(i of testInputs){
-//         if(i.getAttribute('id') != 'test1' && i.getAttribute('id') != 'test2'){
-//             i.remove();
-//         }
-//     }
-
-//     //태그 이름 빈 값으로 초기화, 구성 태그로 선택, 트리거 pageview로 설정(초기값으로)
-//     document.getElementById('tag_name').value = null;
-//     document.getElementById('conf').checked = true;
-//     document.getElementById('pageview').checked = true;
-
-//     //구성태그, pageview 트리거로 레이아웃 변경되도록 changeTagType, changeTriType함수 호출
-//     changeTagType();
-//     changeTriType();
-// }
-
 //예외처리해주는 함수
 function validation(type){
     let returnVal = true;
@@ -745,7 +712,6 @@ function validation(type){
     }
 
     //cid가 중복인 경우
-
 
     //input태그에 값 없는 경우
     document.querySelectorAll('.form_input').forEach((e)=>{
@@ -851,14 +817,14 @@ function reset(){
     editorClose();
 }
 
-//페이지 새로고침시 alert창 출력해주는 함수
-// window.onbeforeunload = function(e) {
-//     let dialogText = 'Dialog text here';
-//     e.returnValue = dialogText;
-//     return dialogText;
-// };
+// 페이지 새로고침시 alert창 출력해주는 함수
+window.onbeforeunload = function(e) {
+    let dialogText = 'Dialog text here';
+    e.returnValue = dialogText;
+    return dialogText;
+};
 
-
+// 최종적으로 변수 설정해주는 함수
 function setVariables(tags) {
     const regex = /{{|}}/g;
     let set = new Set();
@@ -893,8 +859,7 @@ function setVariables(tags) {
     return trigger;
   }
   
-  const exportButton = document.querySelector('.export_button');
-  
+  //내보내기 클릭했을 때 json파일 함수 호출
   function setJson(){
     let variables = setVariables(tags);
     triggers = setTriggers(triggers);
