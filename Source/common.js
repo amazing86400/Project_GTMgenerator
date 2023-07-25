@@ -645,15 +645,17 @@ function updateTag(tName){
         }
         ++triggerId
     
-        for(i in tags){
-            if(tags[i].tagName == tName){
+
+        //조건 수정
+        for(let z in tags){
+            if(tags[z].tagName == tName){
                 if(triggers.length == 0){
                     if(!Object.keys(setTrigger).length == 0){
                         triggers.push(setTrigger);
                     }
                 }else{
-                    for(j in triggers){
-                        if(tags[i].triggerId == triggers[j].triggerId){
+                    for(let j in triggers){
+                        if(tags[z].triggerId == triggers[j].triggerId){
                             if(!Object.keys(setTrigger).length == 0){
                                 triggers[j] = setTrigger;
                             }else{
@@ -662,11 +664,9 @@ function updateTag(tName){
                         }
                     }
                 }
-                tags[i] = setTag;
+                tags[z] = setTag;
             }
-     
         }
-
 
         document.querySelector('.export_data').style.display = 'block';
         //설정 완료 되면 setDataList함수 호출
