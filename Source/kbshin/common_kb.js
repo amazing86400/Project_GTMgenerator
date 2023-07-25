@@ -275,9 +275,7 @@ function changeAAInput() {
 
 //트리거 유형 checkbox 변경 시 화면 래이아웃 변경해주는 함수
 function changeTriType() {
-  const checkValue = document.querySelector(
-    'input[name="triggerType"]:checked'
-  ).value;
+  const checkValue = document.querySelector('input[name="triggerType"]:checked').value;
   const divChange = document.getElementById("change_trigger");
   divChange.remove();
   if (checkValue == "pageview") {
@@ -545,12 +543,8 @@ function viewTag(e) {
       updateTriggerName = e.parentElement.children[3].innerText; // 현재 선택한 트리거 이름 설정
       editorOpen();
       //여기다가 input값 설정
-      document
-        .getElementsByClassName("input_title")[0]
-        .nextElementSibling.remove();
-      document
-        .getElementsByClassName("input_title")[1]
-        .nextElementSibling.remove();
+      document.getElementsByClassName("input_title")[0].nextElementSibling.remove();
+      document.getElementsByClassName("input_title")[1].nextElementSibling.remove();
 
       //태그 이름 설정
       document.getElementById("tag_name").value = q.tagName;
@@ -613,13 +607,13 @@ function viewTag(e) {
       //button class명 추가
       document
         .getElementById("setData")
-        .setAttribute("onclick", "updateTag(q.tagName)");
+        .setAttribute("onclick", "updateTag()");
     }
   }
 }
 
 //버튼 class명 눌렀을 때 업데이트 해주는 함수
-function updateTag(tName) {
+function updateTag() {
   if (validation("update")) {
     const ep_key = document.getElementsByName("ep_key");
     const ep_value = document.getElementsByName("ep_value");

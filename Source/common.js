@@ -2,9 +2,10 @@ let inputNo = 2;  //input태그 번호
 let triggerId = 70;     //트리거Id 초기 값
 const editor = document.getElementById('editor');    //editor
 const editor_backgroud = document.querySelector('.editor_background');  // editor_background
-let tags = [];         //태그 배열 선언
-// const variable = [];    //변수 배열 선언
-let triggers = [];     //트리거 배열 선언
+let tags = []; //태그 배열 선언
+let triggers = []; //트리거 배열 선언
+let updateTagName = ""; // 업데이트 시 현재 선택한 태그 이름 변수
+let updateTriggerName = ""; // 업데이트 시 현재 선택한 트리거 이름 변수
 
 //editor창 밖 영역(editor_background) 클릭 시 editorClose함수 호출
 document.addEventListener('click', (e) => {
@@ -12,16 +13,16 @@ document.addEventListener('click', (e) => {
 });
 
 //input 태그 값 변경시 deleteErrLabel함수 호출
-editor.addEventListener('input',deleteErrLabel)
+editor.addEventListener('input', deleteErrLabel)
 
 //excelData값으로 이벤트 매개변수 input태그 생성함수
 function addEvent() {
     const eventParameter = document.getElementById('event_parameter');
     const data = document.getElementById('event_excelData').value;
     const rows = data.split('\n');
-    for (i of rows){
+    for (i of rows) {
         inputNo += 1
-        eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name='ep_key' class='form_input' value='${i}'><input type='text' name="ep_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+        eventParameter.insertAdjacentHTML('beforeend', `<div id='test${inputNo}'><input type='text' name='ep_key' class='form_input' value='${i}'><input type='text' name="ep_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
     }
     document.getElementById('event_excelData').value = '';
 }
@@ -31,36 +32,36 @@ function addUser() {
     const userParameter = document.getElementById('user_property')
     const data = document.getElementById('user_excelData').value;
     const rows = data.split('\n');
-    for (i of rows){
+    for (i of rows) {
         inputNo += 1
-        userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value='${i}'><input type='text' name="up_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+        userParameter.insertAdjacentHTML('beforeend', `<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value='${i}'><input type='text' name="up_value" class='form_input' value='${i}'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
     }
     document.getElementById('user_excelData').value = '';
 }
 
 //행 추가 버튼 클릭 시 이벤트 매개변수 input태그 생성함수
-function addEventInput(){
+function addEventInput() {
     const eventParameter = document.getElementById('event_parameter');
     inputNo += 1
-    eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input'><input type='text' name="ep_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+    eventParameter.insertAdjacentHTML('beforeend', `<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input'><input type='text' name="ep_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
 }
 
 //행 추가 버튼 클릭 시 사용자 속성 input태그 생성함수
-function addUserInput(){
+function addUserInput() {
     const userParameter = document.getElementById('user_property')
     inputNo += 1
-    userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+    userParameter.insertAdjacentHTML('beforeend', `<div id='test${inputNo}'><input type='text' name="up_key" class='form_input'><input type='text' name="up_value" class='form_input'><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
 }
 
 //-버튼 클릭 시 해당 input태그 삭제 해주는 함수
-function deleteInput(num){
-    document.getElementById('test'+num).remove();
+function deleteInput(num) {
+    document.getElementById('test' + num).remove();
 }
 
 // editor창 여는 함수
 function editorOpen() {
     document.querySelector('.editor').insertAdjacentHTML('beforeend',
-    `<div class="editor_wrapper">
+        `<div class="editor_wrapper">
         <div class="editor_title">
             <i class="editor_close" onclick="openDialog('noSave')"></i>
             <div class="tag_name">
@@ -179,19 +180,19 @@ function editorOpen() {
 function editorClose() {
     editor.classList.toggle('open');
     editor_backgroud.classList.toggle('open');
-    document.querySelector('.editor_wrapper').remove();  
+    document.querySelector('.editor_wrapper').remove();
     document.body.style.overflow = "unset";
 }
 
 //태그 유형 checkbox 변경 시 화면 래이아웃 변경해주는 함수
-function changeTagType(){
+function changeTagType() {
     const checkValue = document.querySelector('input[name="tagType"]:checked').value;
     const divChange = document.getElementById('change_tagType')
     divChange.remove();
     //구성 태그인 경우
-    if(checkValue == 'gaawc'){
+    if (checkValue == 'gaawc') {
         const configEle = document.createElement('div')
-        configEle.innerHTML = 
+        configEle.innerHTML =
             `<div id="change_tagType">
                 <div id="form_measurementId">
                     <div class="caption">측정 ID</div>
@@ -201,10 +202,10 @@ function changeTagType(){
         document.getElementById('form_mid').append(configEle);
         document.getElementsByClassName('field_title')[0].innerHTML = '설정할 필드'
         document.getElementsByClassName('field_name')[0].innerHTML = '필드 이름'
-    //이벤트 태그인 경우
-    }else{
+        //이벤트 태그인 경우
+    } else {
         const eventEle = document.createElement('div')
-        eventEle.innerHTML = 
+        eventEle.innerHTML =
             `<div id="change_tagType">
                 <div id="form_aa">
                     <label class="caption" for="aa">구성태그</label><br>
@@ -223,39 +224,39 @@ function changeTagType(){
         document.getElementsByClassName('field_title')[0].innerHTML = '이벤트 매개변수'
         document.getElementsByClassName('field_name')[0].innerHTML = '매개변수 이름'
         const selectTag = document.getElementById('aa');
-        if(tags){
-            for(i of tags){
-                if(i.type == 'gaawc'){
-                    selectTag.insertAdjacentHTML('beforeend',`<option value="${i.tagName}">${i.tagName}</option>`)
+        if (tags) {
+            for (i of tags) {
+                if (i.type == 'gaawc') {
+                    selectTag.insertAdjacentHTML('beforeend', `<option value="${i.tagName}">${i.tagName}</option>`)
                 }
             }
         }
         //직접 입력 선택 시 측정ID입력할 수 있는 input태그 생성해주는 함수
-        selectTag.addEventListener('change',changeAAInput);
+        selectTag.addEventListener('change', changeAAInput);
     }
 }
 
-function changeAAInput(){
+function changeAAInput() {
     const selectTag = document.getElementById('aa');
     const selectUndefined = selectTag.options[selectTag.selectedIndex].value;
     const formMid = document.getElementById('form_measurementId');
-    if(selectUndefined == 'none'){
+    if (selectUndefined == 'none') {
         formMid.replaceChildren()
-        formMid.insertAdjacentHTML('beforeend',`<div class="caption">측정 ID</div><input type="text" class="form_input" id="measurementId">`)
-    }else{
+        formMid.insertAdjacentHTML('beforeend', `<div class="caption">측정 ID</div><input type="text" class="form_input" id="measurementId">`)
+    } else {
         formMid.replaceChildren()
-        formMid.insertAdjacentHTML('beforeend',`<input type="hidden" class="form_input" id="measurementId" value="${selectUndefined}">`)
+        formMid.insertAdjacentHTML('beforeend', `<input type="hidden" class="form_input" id="measurementId" value="${selectUndefined}">`)
     }
 }
 
 //트리거 유형 checkbox 변경 시 화면 래이아웃 변경해주는 함수
-function changeTriType(){
+function changeTriType() {
     const checkValue = document.querySelector('input[name="triggerType"]:checked').value;
     const divChange = document.getElementById('change_trigger')
     divChange.remove();
-    if(checkValue == 'pageview'){
+    if (checkValue == 'pageview') {
         const configEle = document.createElement('div')
-        configEle.innerHTML = 
+        configEle.innerHTML =
             `<div id="change_trigger">
                 <div class="trigger_card">
                     <i class="pageview_icon"></i>
@@ -266,9 +267,9 @@ function changeTriType(){
                 </div>
             </div>`;
         document.getElementById('form_trigger').append(configEle);
-    }else{
+    } else {
         const eventEle = document.createElement('div')
-        eventEle.innerHTML = 
+        eventEle.innerHTML =
             `<div id="change_trigger">
                 <div class="trigger_card">
                     <i class="event_icon"></i>
@@ -288,8 +289,8 @@ function changeTriType(){
 }
 
 //저장 버튼 클릭 시 데이터 설정해주는 함수
-function setData(){
-    if(validation()){
+function setData() {
+    if (validation()) {
         const ep_key = document.getElementsByName('ep_key');
         const ep_value = document.getElementsByName('ep_value');
         const up_key = document.getElementsByName('up_key');
@@ -297,27 +298,27 @@ function setData(){
         const eventArr = [];
         const userArr = [];
         isEcommerce = false;
-    
+
         //이벤트 매개변수 값 설정
-        for(let i=0; i < ep_key.length; i++){
-            if(!(ep_key[i].value == '##ecommerce' || ep_key[i].value == true)){
+        for (let i = 0; i < ep_key.length; i++) {
+            if (!(ep_key[i].value == '##ecommerce' || ep_key[i].value == true)) {
                 eventArr.push({
                     name: ep_key[i].value,
                     variable: ep_value[i].value
                 });
-            }else{
+            } else {
                 isEcommerce = true;
             }
         }
-    
+
         //사용자 속성 매개변수 설정
-        for(let i=0; i < up_key.length; i++){
+        for (let i = 0; i < up_key.length; i++) {
             userArr.push({
                 name: up_key[i].value,
                 variable: up_value[i].value
             });
         }
-        
+
         //데이터 영역변수 설정
         // const testInputs = eventArr.concat(userArr)
         // for(i in testInputs){
@@ -325,11 +326,11 @@ function setData(){
         //         variable.push(testInputs[i].variable);
         //     }
         // }
-    
+
         //태그 설정
         const tagType = document.querySelector('input[name="tagType"]:checked').value;
         let setTag = {
-            tagName:document.getElementById('tag_name').value,
+            tagName: document.getElementById('tag_name').value,
             type: document.querySelector('input[name="tagType"]:checked').value,
             measurementId: document.getElementById('measurementId').value,
             triggerType: document.querySelector('input[name="triggerType"]:checked').value,
@@ -340,7 +341,7 @@ function setData(){
         };
 
         //이벤트 태그 일 경우
-        if(tagType == 'gaawe'){
+        if (tagType == 'gaawe') {
             const eventName = document.getElementById('event_name').value;
             // const regex = /{{|}}/g;
             // if(regex.test(eventName) && variable.indexOf(eventName) == -1){
@@ -350,10 +351,10 @@ function setData(){
             setTag.eventName = eventName;
         }
         tags.push(setTag);
-        
+
         //트리거 설정
         const triggerType = document.querySelector('input[name="triggerType"]:checked').value;
-        if(triggerType == 'event'){
+        if (triggerType == 'event') {
             let setTrigger = {
                 name: document.getElementById('trigger_name').value,
                 variable: document.getElementById('trigger_value').value,
@@ -362,7 +363,7 @@ function setData(){
             triggers.push(setTrigger);
             ++triggerId
         }
-    
+
         document.querySelector('.export_data').style.display = 'block';
         //설정 완료 되면 setDataList함수 호출
         setDataList();
@@ -373,9 +374,9 @@ function setData(){
 function setDataList() {
     const div_empty_table = document.getElementById("empty_table");
     if (window.getComputedStyle(div_empty_table).display == "block") {
-      div_empty_table.style.display = "none";
-      const tableEle = document.createElement("table");
-      tableEle.innerHTML = `<table>
+        div_empty_table.style.display = "none";
+        const tableEle = document.createElement("table");
+        tableEle.innerHTML = `<table>
                   <thead>
                       <tr>
                           <th><i class="table_check_box" onclick="selectChkAll();"></i></th>
@@ -387,25 +388,24 @@ function setDataList() {
                   <tbody id='tbody'>
                   </tbody>
               </table>`;
-      document.querySelector(".table").append(tableEle);
+        document.querySelector(".table").append(tableEle);
     }
-  
+
     // tbody 영역 제거
     const tbodyElement = document.getElementById("tbody");
     const trElement = document.getElementById("tr");
     if (trElement) {
-    //   tbodyElement.removeChild(trElement);
-      tbodyElement.replaceChildren();
+        tbodyElement.replaceChildren();
     }
-  
+
     // 태그 생성
-    tags.forEach((e)=> {
+    tags.forEach((e) => {
         const tagName = e.tagName;
         const tagType = e.type == "gaawc" ? "Google 애널리틱스: GA4 구성" : "Google 애널리틱스: GA4 이벤트";
         const tagTri = e.triggerType == "pageview" ? "All Pages" : ttt();
-        function ttt(){
-            for(i in triggers){
-                if(e.triggerId == triggers[i].triggerId){
+        function ttt() {
+            for (i in triggers) {
+                if (e.triggerId == triggers[i].triggerId) {
                     return triggers[i].name;
                 }
             }
@@ -425,20 +425,16 @@ function setDataList() {
             </tr>`
         );
     });
-  
+
     //리스트로 저장 되면 resetEditor함수 호출
-  
-    //만약 모달폼을 지웠다 다시 불러오는 거면 editorClose함수 사용
-    //첫 구현방식이면(editor display=none)resetEditor함수 사용
     editorClose();
-    // resetEditor();
-  }
+}
 
 //체크박스가 토글 됐을 때 버튼 변경해주는 함수
-function toggleCreateButton(){
+function toggleCreateButton() {
     const createButton = document.querySelector('.create_button');
     const delete_button = document.querySelector('.delete_button');
-    const selectedChkBoxes =  document.getElementsByClassName('checked')[0];
+    const selectedChkBoxes = document.getElementsByClassName('checked')[0];
     const tableCheckBox = document.querySelector('.table_check_box');
     createButton.style.display = selectedChkBoxes ? 'none' : 'block';
     delete_button.style.display = selectedChkBoxes ? 'block' : 'none';
@@ -446,16 +442,16 @@ function toggleCreateButton(){
 }
 
 //체크 박스 개별 선택 시 토글해주는 함수
-function selectChkBox(e){
+function selectChkBox(e) {
     e.target.classList.toggle('checked');
     toggleCreateButton();
 }
 
 //체크 박스 전체 체크 되어있는지 확인해주는 함수
-function isSelectChkAll(){
+function isSelectChkAll() {
     const checkBox = document.querySelectorAll('.check_box_icon');
-    for(i of checkBox){
-        if(!i.classList.contains('checked')){
+    for (i of checkBox) {
+        if (!i.classList.contains('checked')) {
             return false;
         }
     }
@@ -463,15 +459,15 @@ function isSelectChkAll(){
 }
 
 //체크 박스 전체 체크 해주는 함수
-function selectChkAll(){
+function selectChkAll() {
     const checkBox = document.querySelectorAll('.check_box_icon');
-    if(isSelectChkAll()){
-        checkBox.forEach((e)=>{
+    if (isSelectChkAll()) {
+        checkBox.forEach((e) => {
             e.classList.toggle('checked');
         });
-    }else{
-        checkBox.forEach((e)=>{
-            if(!e.classList.contains('checked')){
+    } else {
+        checkBox.forEach((e) => {
+            if (!e.classList.contains('checked')) {
                 e.classList.add('checked');
             }
         });
@@ -480,21 +476,21 @@ function selectChkAll(){
 }
 
 //선택된 태그 삭제해주는 함수
-function deleteTag(){
+function deleteTag() {
     var checked = document.getElementsByClassName('checked');
-    Array.from(checked).forEach((checkbox)=> {
+    Array.from(checked).forEach((checkbox) => {
         var tagName = checkbox.parentElement.nextElementSibling.innerText;
         var triggerName = checkbox.parentElement.parentElement.lastElementChild.innerText;
 
-        tags = tags.filter((e)=> {
+        tags = tags.filter((e) => {
             return e.tagName !== tagName;
         });
-        triggers = triggers.filter((e)=> {
+        triggers = triggers.filter((e) => {
             return e.name !== triggerName;
         })
         checkbox.parentElement.parentElement.remove();
     });
-    if(tags.length == 0){
+    if (tags.length == 0) {
         document.getElementById('empty_table').style.display = 'block';
         document.querySelector(".table").children[0].remove();
         document.querySelector('.create_button').style.display = 'block';
@@ -502,36 +498,38 @@ function deleteTag(){
     }
 }
 
-function viewTag(e){
-    for(q of tags){
-        if(e.innerText === q.tagName){
+function viewTag(e) {
+    for (q of tags) {
+        if (e.innerText === q.tagName) {
+            updateTagName = e.innerText; // 현재 선택한 태그 이름 설정
+            updateTriggerName = e.parentElement.children[3].innerText; // 현재 선택한 트리거 이름 설정
             editorOpen();
             //여기다가 input값 설정
-            document.getElementsByClassName('input_title')[0].nextElementSibling.remove()
-            document.getElementsByClassName('input_title')[1].nextElementSibling.remove()
-            
+            document.getElementsByClassName("input_title")[0].nextElementSibling.remove();
+            document.getElementsByClassName("input_title")[1].nextElementSibling.remove();
+
             //태그 이름 설정
-            document.getElementById('tag_name').value = q.tagName
+            document.getElementById("tag_name").value = q.tagName;
             //태그 타입 설정
-            if(q.type == 'gaawc'){
-                document.getElementById('conf').checked = true;
-                changeTagType()
+            if (q.type == "gaawc") {
+                document.getElementById("conf").checked = true;
+                changeTagType();
                 //측정 ID설정
-                document.getElementById('measurementId').value = q.measurementId;
-            }else{
-                document.getElementById('event').checked = true;
-                changeTagType()
+                document.getElementById("measurementId").value = q.measurementId;
+            } else {
+                document.getElementById("event").checked = true;
+                changeTagType();
                 //이벤트 태그일 때 이벤트 이름 설정
-                document.getElementById('event_name').value = i.eventName;
+                document.getElementById("event_name").value = i.eventName;
                 //측정 ID설정
-                const select = document.getElementById('aa');
-                if(q.measurementId.includes('G-')){
+                const select = document.getElementById("aa");
+                if (q.measurementId.includes("G-")) {
                     select.options[1].selected = true;
                     changeAAInput();
-                    document.getElementById('measurementId').value = q.measurementId;
-                }else{
-                    for(j of select.options){
-                        if(j.value == q.measurementId){
+                    document.getElementById("measurementId").value = q.measurementId;
+                } else {
+                    for (j of select.options) {
+                        if (j.value == q.measurementId) {
                             j.selected = true;
                             changeAAInput();
                         }
@@ -540,37 +538,37 @@ function viewTag(e){
             }
 
             //트리거 설정
-            if(q.triggerType == 'event'){
-                document.getElementById('event2').checked = true;
+            if (q.triggerType == "event") {
+                document.getElementById("event2").checked = true;
                 changeTriType();
-                for(j of triggers){
-                    if(q.triggerId == j.triggerId){
-                        document.getElementById('trigger_name').value = j.name;
-                        document.getElementById('trigger_value').value = j.variable;
+                for (j of triggers) {
+                    if (q.triggerId == j.triggerId) {
+                        document.getElementById("trigger_name").value = j.name;
+                        document.getElementById("trigger_value").value = j.variable;
                     }
                 }
             }
 
             //매개변수 설정
-            for(j of q.VAR_Array){
-                const eventParameter = document.getElementById('event_parameter');
-                inputNo += 1
-                eventParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input' value="${j.name}"><input type='text' name="ep_value" class='form_input' value="${j.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+            for (j of q.VAR_Array) {
+                const eventParameter = document.getElementById("event_parameter");
+                inputNo += 1;
+                eventParameter.insertAdjacentHTML("beforeend", `<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input' value="${j.name}"><input type='text' name="ep_value" class='form_input' value="${j.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`);
             }
-            for(z of q.user_Array){
-                const userParameter = document.getElementById('user_property');
-                inputNo += 1
-                userParameter.insertAdjacentHTML('beforeend',`<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value="${z.name}"><input type='text' name="up_value" class='form_input' value="${z.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`)
+            for (z of q.user_Array) {
+                const userParameter = document.getElementById("user_property");
+                inputNo += 1;
+                userParameter.insertAdjacentHTML("beforeend", `<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value="${z.name}"><input type='text' name="up_value" class='form_input' value="${z.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`);
             }
             //button class명 추가
-            document.getElementById('setData').setAttribute('onclick','updateTag(q.tagName)');
+            document.getElementById("setData").setAttribute("onclick", "updateTag()");
         }
     }
 }
 
 //버튼 class명 눌렀을 때 업데이트 해주는 함수
-function updateTag(tName){
-    if(validation('update')){
+function updateTag(tName) {
+    if (validation('update')) {
         const ep_key = document.getElementsByName('ep_key');
         const ep_value = document.getElementsByName('ep_value');
         const up_key = document.getElementsByName('up_key');
@@ -578,40 +576,33 @@ function updateTag(tName){
         const eventArr = [];
         const userArr = [];
         isEcommerce = false;
-        let setTrigger = new Object;
-    
+        let setTrigger = new Object();
+
         //이벤트 매개변수 값 설정
-        for(let i=0; i < ep_key.length; i++){
-            if(!(ep_key[i].value == '##ecommerce' || ep_key[i].value == true)){
+        for (let i = 0; i < ep_key.length; i++) {
+            if (!(ep_key[i].value == '##ecommerce' || ep_key[i].value == true)) {
                 eventArr.push({
                     name: ep_key[i].value,
                     variable: ep_value[i].value
                 });
-            }else{
+            } else {
                 isEcommerce = true;
             }
         }
-    
+
         //사용자 속성 매개변수 설정
-        for(let i=0; i < up_key.length; i++){
+        for (let i = 0; i < up_key.length; i++) {
             userArr.push({
                 name: up_key[i].value,
                 variable: up_value[i].value
             });
         }
-        
-        //데이터 영역변수 설정
-        // const testInputs = eventArr.concat(userArr)
-        // for(i in testInputs){
-        //     if(variable.indexOf(testInputs[i].variable) == -1){
-        //         variable.push(testInputs[i].variable);
-        //     }
-        // }
-    
+
         //태그 설정
         const tagType = document.querySelector('input[name="tagType"]:checked').value;
+
         let setTag = {
-            tagName:document.getElementById('tag_name').value,
+            tagName: document.getElementById('tag_name').value,
             type: document.querySelector('input[name="tagType"]:checked').value,
             measurementId: document.getElementById('measurementId').value,
             triggerType: document.querySelector('input[name="triggerType"]:checked').value,
@@ -622,49 +613,41 @@ function updateTag(tName){
         };
 
         //이벤트 태그 일 경우
-        if(tagType == 'gaawe'){
+        if (tagType == 'gaawe') {
             const eventName = document.getElementById('event_name').value;
-            // const regex = /{{|}}/g;
-            // if(regex.test(eventName) && variable.indexOf(eventName) == -1){
-            //     const varEventName = eventName.replace(regex, '');
-            //     variable.push(varEventName);
-            //     }
             setTag.eventName = eventName;
         }
-        // tags.push(setTag);
-        
+
         //트리거 설정
         const triggerType = document.querySelector('input[name="triggerType"]:checked').value;
-        if(triggerType == 'event'){
+        if (triggerType == 'event') {
             setTrigger = {
                 name: document.getElementById('trigger_name').value,
                 variable: document.getElementById('trigger_value').value,
                 triggerId: setTag.triggerId
             }
-            // triggers.push(setTrigger);
         }
         ++triggerId
-    
 
-        //조건 수정
-        for(let z in tags){
-            if(tags[z].tagName == tName){
-                if(triggers.length == 0){
-                    if(!Object.keys(setTrigger).length == 0){
+        for (i in tags) {
+            // 태그 업데이트 시 태그 및 트리거 이상하게 수정되는 부분 수정
+            if (tags[i].tagName == updateTagName) {
+                if (triggers.length == 0) {
+                    if (!Object.keys(setTrigger).length == 0) {
                         triggers.push(setTrigger);
                     }
-                }else{
-                    for(let j in triggers){
-                        if(tags[z].triggerId == triggers[j].triggerId){
-                            if(!Object.keys(setTrigger).length == 0){
+                } else {
+                    for (j in triggers) {
+                        if (tags[i].triggerId == triggers[j].triggerId && tags[i].triggerType != "pageview") {
+                            if (!Object.keys(setTrigger).length == 0) {
                                 triggers[j] = setTrigger;
-                            }else{
-                                triggers.splice(j,1);
+                            } else {
+                                triggers.splice(j, 1);
                             }
                         }
                     }
                 }
-                tags[z] = setTag;
+                tags[i] = setTag;
             }
         }
 
@@ -675,37 +658,55 @@ function updateTag(tName){
 }
 
 //예외처리해주는 함수
-function validation(type){
+function validation(type) {
     let returnVal = true;
 
     //태그 이름이 없는 경우
     const tagName = document.getElementById('tag_name');
-    if(!tagName.value){
+    if (!tagName.value) {
         openDialog("noValue", "태그 이름");
         return false;
     }
-    if(type != 'update'){
-        for(i of tags){
-            if(i.tagName == tagName.value){
+    if (type != 'update') {
+        for (i of tags) {
+            if (i.tagName == tagName.value) {
                 openDialog("dupValue", "태그");
                 return false;
+            }
+        }
+    } else {
+        if (updateTagName != tagName.value) {
+            for (i of tags) {
+                if (i.tagName == tagName.value) {
+                    openDialog("dupValue", "태그");
+                    return false;
+                }
             }
         }
     }
     //태그 이름이 중복인 경우
     const triggerName = document.getElementById('trigger_name')
-    if(triggerName){
+    if (triggerName) {
         //맞춤 트리거 이름이 없는 경우
-        if(!triggerName.value){
+        if (!triggerName.value) {
             openDialog("noValue", "트리거 이름");
             return false;
         }
         //맞춤 트리거 중복인 경우
-        if(type != 'update'){
-            for(i of triggers){
-                if(i.name == triggerName.value){
+        if (type != 'update') {
+            for (i of triggers) {
+                if (i.name == triggerName.value) {
                     openDialog("dupValue", "트리거");
                     return false;
+                }
+            }
+        } else {
+            if (updateTriggerName != triggerName.value && updateTriggerName != "All Pages") {
+                for (i of triggers) {
+                    if (i.name == triggerName.value) {
+                        openDialog("dupValue", "트리거");
+                        return false;
+                    }
                 }
             }
         }
@@ -714,22 +715,22 @@ function validation(type){
     //cid가 중복인 경우
 
     //input태그에 값 없는 경우
-    document.querySelectorAll('.form_input').forEach((e)=>{
+    document.querySelectorAll('.form_input').forEach((e) => {
         const checkValue = document.querySelector('input[name="tagType"]:checked').value;
-        if(!e.value){
-            errorLabel('noInput',e);
+        if (!e.value) {
+            errorLabel('noInput', e);
             returnVal = false;
         }
-        if(checkValue == 'gaawc' && e.value == '##ecommerce'){
-            errorLabel('noEco',e);
+        if (checkValue == 'gaawc' && e.value == '##ecommerce') {
+            errorLabel('noEco', e);
             returnVal = false;
         }
     })
     //이벤트 태그에서 구성태그 선택안한 경우
     const aaEle = document.getElementById('aa');
     if (aaEle && aaEle.value === 'undefined') {
-      errorLabel('noSelectTag');
-      return false;
+        errorLabel('noSelectTag');
+        return false;
     }
     //측정ID 유효성 검사 일치하지 않는 경우
     const measurementId = document.getElementById('measurementId');
@@ -745,9 +746,9 @@ function validation(type){
 }
 
 //예외처리 함수에서 dialog 여는 함수(파라미터 값으로 dialog title, content값 변경)
-function openDialog(errorType, value){
+function openDialog(errorType, value) {
     let errorMsg = {};
-    switch(errorType){
+    switch (errorType) {
         case 'noSave':
             errorMsg = {
                 title: '저장되지 않은 변경사항',
@@ -759,13 +760,13 @@ function openDialog(errorType, value){
                 title: '입력되지 않은 값이 있음',
                 content: '이 태그에 ' + value + ' 값이 없습니다. 해당 값을 입력하지 않으면 태그를 저장할 수 없습니다.'
             };
-        break;
+            break;
         case 'dupValue':
             errorMsg = {
                 title: '중복된 값이 있음',
                 content: '컨테이너에 같은 이름의 ' + value + '가 이미 있습니다. 다른 ' + value + ' 이름을 선택하세요.'
             };
-        break;
+            break;
     }
     document.getElementById('dialog_header').innerHTML = errorMsg.title;
     document.getElementById('p').innerHTML = errorMsg.content;
@@ -774,51 +775,51 @@ function openDialog(errorType, value){
 }
 
 //예외처리 함수에서 에러문구 생성해주는 함수
-function errorLabel(type,e){
-    switch(type){
+function errorLabel(type, e) {
+    switch (type) {
         case 'noInput':
-            if(e.parentElement.lastChild.className != 'errorLabel'){
-                e.parentElement.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
+            if (e.parentElement.lastChild.className != 'errorLabel') {
+                e.parentElement.insertAdjacentHTML('beforeend', `<div class="errorLabel">값을 입력해야 합니다.</div>`)
             }
-        break;
+            break;
         case 'noSelectTag':
             const tagType = document.getElementById('form_aa');
-            if(tagType && tagType.lastChild.className != 'errorLabel'){
-                tagType.insertAdjacentHTML('beforeend',`<div class="errorLabel">값을 입력해야 합니다.</div>`)
+            if (tagType && tagType.lastChild.className != 'errorLabel') {
+                tagType.insertAdjacentHTML('beforeend', `<div class="errorLabel">값을 입력해야 합니다.</div>`)
             };
-        break;
+            break;
         case 'noRegex':
             const measurementId = document.getElementById('measurementId')
-            if(measurementId && measurementId.parentElement.lastChild.className != 'errorLabel'){
-                document.getElementById('form_measurementId').insertAdjacentHTML('beforeend',`<div class="errorLabel">올바른 측정 ID를 입력하세요(예: G-1234)</div>`)
+            if (measurementId && measurementId.parentElement.lastChild.className != 'errorLabel') {
+                document.getElementById('form_measurementId').insertAdjacentHTML('beforeend', `<div class="errorLabel">올바른 측정 ID를 입력하세요(예: G-1234)</div>`)
             };
-        break;
+            break;
         case 'noEco':
-            if(e.parentElement.lastChild.className != 'errorLabel'){
-                e.parentElement.insertAdjacentHTML('beforeend',`<div class="errorLabel">구성 태그에는 전자상거래 설정이 불가합니다.</div>`)
+            if (e.parentElement.lastChild.className != 'errorLabel') {
+                e.parentElement.insertAdjacentHTML('beforeend', `<div class="errorLabel">구성 태그에는 전자상거래 설정이 불가합니다.</div>`)
             }
-        break;
+            break;
     }
 }
 
 //input태그 값 변경시 에러문구 있을 때 에러문구 삭제해주는 함수
-function deleteErrLabel(e){
-    if(e.target.tagName == 'INPUT' || e.target.tagName == 'SELECT'){
-        if(e.target.parentElement.lastChild.className == 'errorLabel'){
+function deleteErrLabel(e) {
+    if (e.target.tagName == 'INPUT' || e.target.tagName == 'SELECT') {
+        if (e.target.parentElement.lastChild.className == 'errorLabel') {
             e.target.parentElement.lastChild.remove()
         }
     }
 }
 
 //dialog창에서 변경사항 삭제 클릭 시 editor창 초기화 해주는 함수
-function reset(){
+function reset() {
     document.getElementById('dialog_wrapper').classList.toggle('opening');
     document.getElementById('dialog_background').classList.toggle('opening');
     editorClose();
 }
 
 // 페이지 새로고침시 alert창 출력해주는 함수
-window.onbeforeunload = function(e) {
+window.onbeforeunload = function (e) {
     let dialogText = 'Dialog text here';
     e.returnValue = dialogText;
     return dialogText;
@@ -828,41 +829,41 @@ window.onbeforeunload = function(e) {
 function setVariables(tags) {
     const regex = /{{|}}/g;
     let set = new Set();
-  
-    tags.forEach(function (obj) {
-      if (obj.VAR_Array) {
-        obj.VAR_Array.forEach(function (ele) {
-          set.add(ele.variable);
-        });
-      }
-  
-      if (obj.user_Array) {
-        obj.user_Array.forEach(function (ele) {
-          set.add(ele.variable);
-        });
-      }
-  
-      if (regex.test(obj.eventName)) {
-        let replaceEle = obj.eventName.replace(regex, '');
-        set.add(replaceEle);
-      }
+
+    tags.forEach((obj) => {
+        if (obj.VAR_Array) {
+            obj.VAR_Array.forEach((ele) => {
+                set.add(ele.variable);
+            });
+        }
+
+        if (obj.user_Array) {
+            obj.user_Array.forEach((ele) => {
+                set.add(ele.variable);
+            });
+        }
+
+        if (regex.test(obj.eventName)) {
+            let replaceEle = obj.eventName.replace(regex, '');
+            set.add(replaceEle);
+        }
     });
     let variables = [...set];
-  
+
     return variables;
-  }
-  
-  function setTriggers(triggers) {
+}
+
+function setTriggers(triggers) {
     const set = new Set(triggers);
     const trigger = [...set];
-  
+
     return trigger;
-  }
-  
-  //내보내기 클릭했을 때 json파일 함수 호출
-  function setJson(){
+}
+
+//내보내기 클릭했을 때 json파일 함수 호출
+function setJson() {
     let variables = setVariables(tags);
     triggers = setTriggers(triggers);
     json(tags, triggers, variables);
-  }
+}
 
