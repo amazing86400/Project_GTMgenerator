@@ -48,6 +48,7 @@
 * updateTag함수 오류 수정
 * update할 때 태그명 예외처리
 * cid중복처리
+* 트리거 all pages에서 맞춤이벤트로 변경할 때 트리거 생성안됨
   
 </details>
 <br>
