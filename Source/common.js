@@ -567,7 +567,7 @@ function viewTag(e) {
 }
 
 //버튼 class명 눌렀을 때 업데이트 해주는 함수
-function updateTag(tName) {
+function updateTag() {
     if (validation('update')) {
         const ep_key = document.getElementsByName('ep_key');
         const ep_value = document.getElementsByName('ep_value');
