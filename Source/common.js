@@ -303,8 +303,8 @@ function setData() {
         for (let i = 0; i < ep_key.length; i++) {
             if (!(ep_key[i].value == '##ecommerce' || ep_key[i].value == true)) {
                 eventArr.push({
-                    name: ep_key[i].value,
-                    variable: ep_value[i].value
+                    name: ep_key[i].value.trim(),
+                    variable: ep_value[i].value.trim()
                 });
             } else {
                 isEcommerce = true;
@@ -314,8 +314,8 @@ function setData() {
         //사용자 속성 매개변수 설정
         for (let i = 0; i < up_key.length; i++) {
             userArr.push({
-                name: up_key[i].value,
-                variable: up_value[i].value
+                name: up_key[i].value.trim(),
+                variable: up_value[i].value.trim()
             });
         }
 
@@ -561,13 +561,13 @@ function viewTag(e) {
                 userParameter.insertAdjacentHTML("beforeend", `<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value="${z.name}"><input type='text' name="up_value" class='form_input' value="${z.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`);
             }
             //button class명 추가
-            document.getElementById("setData").setAttribute("onclick", "updateTag()");
+            document.getElementById("setData").setAttribute("onclick", "updateTag('"+ e.innerText +"')");
         }
     }
 }
 
 //버튼 class명 눌렀을 때 업데이트 해주는 함수
-function updateTag() {
+function updateTag(tagName) {
     if (validation('update')) {
         const ep_key = document.getElementsByName('ep_key');
         const ep_value = document.getElementsByName('ep_value');
@@ -582,8 +582,8 @@ function updateTag() {
         for (let i = 0; i < ep_key.length; i++) {
             if (!(ep_key[i].value == '##ecommerce' || ep_key[i].value == true)) {
                 eventArr.push({
-                    name: ep_key[i].value,
-                    variable: ep_value[i].value
+                    name: ep_key[i].value.trim(),
+                    variable: ep_value[i].value.trim()
                 });
             } else {
                 isEcommerce = true;
@@ -593,8 +593,8 @@ function updateTag() {
         //사용자 속성 매개변수 설정
         for (let i = 0; i < up_key.length; i++) {
             userArr.push({
-                name: up_key[i].value,
-                variable: up_value[i].value
+                name: up_key[i].value.trim(),
+                variable: up_value[i].value.trim()
             });
         }
 
@@ -629,28 +629,32 @@ function updateTag() {
         }
         ++triggerId
 
+        //트리거 적용
         for (i in tags) {
-            // 태그 업데이트 시 태그 및 트리거 이상하게 수정되는 부분 수정
-            if (tags[i].tagName == updateTagName) {
-                if (triggers.length == 0) {
-                    if (!Object.keys(setTrigger).length == 0) {
-                        triggers.push(setTrigger);
+            if(tags[i].tagName == tagName){
+                // 기존 트리거가 pageview일때
+                if(tags[i].triggerType == 'pageview'){
+                    // Pageview >> 맞춤 트리거
+                    if(!Object.keys(setTrigger).length == 0){
+                        triggers.push(setTrigger)
                     }
-                } else {
-                    for (j in triggers) {
-                        if (tags[i].triggerId == triggers[j].triggerId && tags[i].triggerType != "pageview") {
-                            if (!Object.keys(setTrigger).length == 0) {
-                                triggers[j] = setTrigger;
-                            } else {
-                                triggers.splice(j, 1);
+                // 트리거가 맞춤 트리거 일때
+                }else{
+                    for(j in triggers){
+                        // 맞춤 트리거 >> 맞춤 트리거
+                        if(!Object.keys(setTrigger).length == 0){
+                            if(tags[i].triggerId == triggers[j].triggerId){
+                                triggers[j] = setTrigger
                             }
+                        // 맞춤 트리거 >> pageview
+                        }else{
+                            triggers.splice(j,1)
                         }
                     }
                 }
                 tags[i] = setTag;
             }
         }
-
         document.querySelector('.export_data').style.display = 'block';
         //설정 완료 되면 setDataList함수 호출
         setDataList();
