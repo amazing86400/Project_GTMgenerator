@@ -81,11 +81,11 @@ function editorOpen() {
                             <input class="tagType" id="conf" type="radio" name="tagType" onclick="changeTagType()" value="gaawc" checked="checked">
                             <label for="conf" class="radio_label conf">
                                     <div class="radio_img">
-                                        <img class="conf_img" src="gaImg.svg">
+                                        <img class="conf_img" src="gaImg2.svg">
                                     </div>
                                     <div class="radio_caption">
-                                        <div>Google 애널리틱스: GA4 구성</div>
-                                        <div>Google Marketing Platform</div>
+                                        <div>Google 태그</div>
+                                        <div>Google</div>
                                     </div>
                             </label>
                             <input class="tagType" id="event" type="radio" name="tagType" onclick="changeTagType()" value="gaawe">
@@ -631,23 +631,23 @@ function updateTag(tagName) {
 
         //트리거 적용
         for (i in tags) {
-            if(tags[i].tagName == tagName){
+            if (tags[i].tagName == tagName) {
                 // 기존 트리거가 pageview일때
-                if(tags[i].triggerType == 'pageview'){
+                if (tags[i].triggerType == 'pageview') {
                     // Pageview >> 맞춤 트리거
-                    if(!Object.keys(setTrigger).length == 0){
+                    if (!Object.keys(setTrigger).length == 0) {
                         triggers.push(setTrigger)
                     }
                 // 트리거가 맞춤 트리거 일때
-                }else{
-                    for(j in triggers){
+                } else {
+                    for (j in triggers) {
                         // 맞춤 트리거 >> 맞춤 트리거
-                        if(!Object.keys(setTrigger).length == 0){
-                            if(tags[i].triggerId == triggers[j].triggerId){
+                        if (!Object.keys(setTrigger).length == 0) {
+                            if (tags[i].triggerId == triggers[j].triggerId) {
                                 triggers[j] = setTrigger
                             }
                         // 맞춤 트리거 >> pageview
-                        }else{
+                        } else {
                             triggers.splice(j,1)
                         }
                     }
