@@ -823,11 +823,11 @@ function reset() {
 }
 
 // 페이지 새로고침시 alert창 출력해주는 함수
-window.onbeforeunload = function (e) {
-    let dialogText = 'Dialog text here';
-    e.returnValue = dialogText;
-    return dialogText;
-};
+// window.onbeforeunload = function (e) {
+//     let dialogText = 'Dialog text here';
+//     e.returnValue = dialogText;
+//     return dialogText;
+// };
 
 // 최종적으로 변수 설정해주는 함수
 function setVariables(tags) {

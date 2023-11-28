@@ -5,24 +5,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/faviLogo.png"/>
+    <link rel="apple-touch-icon" href="assets/faviLogo.png"/>
     <link rel="stylesheet" href="./main.css">
-    <title>Document</title>
+    <title>GTM Generator</title>
 </head>
 
 <body>
+    <div class="header">
+        <img class="logoImg" src="assets/logo.png">
+        <div class="contact">Contact Us</div>
+    </div>
     <div class="container">
-        <div class="card">
-            <h2 class="title">GTM 태그 생성기</h2>
-            <button class="create_button" onclick="editorOpen()">새로 만들기</button>
-            <button class="delete_button" onclick="deleteTag()"></button>
+        <div class="containerHeader">
+            <a href="../../Project_DataInspector/source/main.html">
+            <div class="firebase">
+                <img class="firebaseImg" src="assets/firebaseLogo.png">Firebase (GA4)
+            </div>
+            </a>
+            <a href="main.html">
+            <div class="gtm">
+                <img class="gtmImg" src="assets/gtmLogo.png">Google Tag Manager</div>
+            </a>
+            <div class="line"></div>
         </div>
-        <div id="empty_table">'새로 만들기' 버튼을 클릭하여 태그를 만드세요.</div>
-        <div class="table">
+        <div class="contentContainer">
+            <div class="content2">
+                <div class="card">
+                    <h2 class="title">GTM 태그 생성기</h2>
+                    <button class="create_button" onclick="editorOpen()">새로 만들기</button>
+                    <button class="delete_button" onclick="deleteTag()"></button>
+                </div>
+                <div id="empty_table">'새로 만들기' 버튼을 클릭하여 태그를 만드세요.</div>
+                <div class="table">
+                </div>
+            </div>
         </div>
     </div>
     <div class="export_data">
         <button class="export_button" onclick="setJson()">데이터 내보내기</button>
     </div>
+
     <div class="editor_background"></div>
     <div class="editor" id="editor">
     </div>

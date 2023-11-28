@@ -5,23 +5,133 @@
     src: url(https://fonts.gstatic.com/s/materialiconsextended/v149/kJEjBvgX7BgnkSrUwT8UnLVc38YydejYY-oE_LvJ.woff2) format('woff2');
 }
 
+@font-face {
+    font-family: 'Noto';
+    src: url(assets/NotoSansKR-VariableFont_wght.ttf);
+}
+
+html {
+    height: 94.9%;
+  }
+
 body {
-    margin: 0px;
+    height: 92.4%;
+    margin: 8px 0px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0px;
+    background-color: rgb(33, 41, 54);
+    padding: 10px 0px 4px 5px;
+}
+
+.logoImg {
+    width: 190px;
+}
+
+.contact {
+    font-family: 'Noto';
+    margin-right: 70px;
+    color: #fff;
+}
+
+.containerHeader {
+    display: flex;
+    /* border-bottom: 2px solid rgb(238,240,243); */
 }
 
 .container {
+    margin: 0px 8px;
+    height: 100%;
+}
+
+.line {
+    width: 100%;
+    border-bottom: 1px solid rgb(210,213,218);
+/* margin-right: 1px; */
+}
+
+.firebase, .gtm {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    border: 1px solid rgb(210,213,218);
+    border-radius: 5px 5px 0px 0px;
+    justify-content: center;
+}
+
+a {
+    text-decoration-line: none;
+}
+
+.firebase {
+    width: 160px;
+    font-family: 'Noto';
+    font-size: 15px;
+    font-weight: 400;
+    padding-right: 9px;
+    color: rgb(59,68,81);
+    /* border-bottom: none; */
+}
+
+.firebaseImg {
+    width: 24px;
+    margin: 0px 5px;
+}
+
+.gtmImg {
+    width: 30px;
+    margin: 0px 5px;
+}
+
+.gtm {
+    width: 190px;
+    color: rgb(86,90,232);
+    font-family: 'Noto';
+    font-size: 15px;
+    font-weight: 500;
+    padding-right: 9px;
+    background-color: rgb(242,245,249);
+    border-bottom: 1px solid rgb(242,245,249);
+}
+
+.contentContainer {
+    height: 100%;
+    border: 1px solid rgb(210,213,218);
+    border-top: none;
+}
+
+.contentContainer {
+    background-color: rgb(242,245,249);
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+
+.content2 {
+    margin: 0 auto;
+    margin-top: 40px;
+    width: 1000px;
+    background: #fff;
+    box-shadow: 0 0 0 1px #dadce0;
+    border-radius: 8px;
+}
+
+.content {
     margin-top: 70px;
     background: #fff;
     border: none;
     border-radius: 8px;
     box-shadow: 0 0 0 1px #dadce0;
     display: block;
-    width: 900px;
-    /* width: 100%; */
+    width: 1000px;
+    margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
     display: flow-root;
-    /* min-height: 182px; */
 }
 
 #empty_table {
@@ -392,12 +502,6 @@ th > i::before, .check_box_icon::before {
     padding: 24px 24px 16px;
     background-color: #F1F3F4;
 }
-
-.content {
-    margin: 0 auto;
-    width: 1000px;
-}
-
 
 .tag_conf, .set_trigger {
     background: #fff;
