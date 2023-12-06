@@ -153,16 +153,16 @@ function setVariable(arrs) {
           { type: 'BOOLEAN', key: 'decodeCookie', value: 'false' },
           { type: 'TEMPLATE', key: 'name', value: '_ga' },
         ]),
-        createGoogleVariable(arg.name.split('##')[1], 'jsm', [{ type: 'TEMPLATE', key: 'javascript', value: 'function() { return {{GA_Cookie}}.substring(6); }' }]),
+        createGoogleVariable(arg.split('##')[1], 'jsm', [{ type: 'TEMPLATE', key: 'javascript', value: 'function() { return {{GA_Cookie}}.substring(6); }' }]),
       ];
     }
     // 데이터 영역 변수
     else {
       return [
-        createGoogleVariable(arg.name, 'v', [
+        createGoogleVariable(arg, 'v', [
           { type: 'INTEGER', key: 'dataLayerVersion', value: '2' },
           { type: 'BOOLEAN', key: 'setDefaultValue', value: 'false' },
-          { type: 'TEMPLATE', key: 'name', value: arg.variable },
+          { type: 'TEMPLATE', key: 'name', value: arg },
         ]),
       ];
     }
