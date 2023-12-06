@@ -79,7 +79,7 @@ function editorOpen() {
                     <div class="form_tagType">
                         <div class="caption">태그 유형</div>
                         <div class="radio">
-                            <input class="tagType" id="conf" type="radio" name="tagType" onclick="changeTagType()" value="gaawc" checked="checked">
+                            <input class="tagType" id="conf" type="radio" name="tagType" onclick="changeTagType()" value="googtag" checked="checked">
                             <label for="conf" class="radio_label conf">
                                     <div class="radio_img">
                                         <img class="conf_img" src="assets/gaImg2.svg">
@@ -182,9 +182,11 @@ function editorOpen() {
     editor_backgroud.classList.toggle('open');
     document.body.style.overflow = "hidden";
 
+    // 이벤트 변수 변경 시 UI변경
     const eventVariable = document.getElementById('eventVariable');
     eventVariable.addEventListener('change', changeEventVariable);
 
+    // 이벤트 변수가 이전에 설정 되어있을 때 select option에 설정된 이벤트 변수 출력
     const uniqueEventVariableNames = new Set();
     if (tags) {
         for (i of tags) {
@@ -211,7 +213,7 @@ function changeTagType() {
     const divChange = document.getElementById('change_tagType')
     divChange.remove();
     //구성 태그인 경우
-    if (checkValue == 'gaawc') {
+    if (checkValue == 'googtag') {
         const configEle = document.createElement('div')
         configEle.innerHTML =
             `<div id="change_tagType">
@@ -247,7 +249,7 @@ function changeTagType() {
         const selectTag = document.getElementById('aa');
         if (tags) {
             for (i of tags) {
-                if (i.type == 'gaawc') {
+                if (i.type == 'googtag') {
                     selectTag.insertAdjacentHTML('beforeend', `<option value="${i.measurementId}">${i.tagName}</option>`)
                 }
             }
@@ -257,6 +259,7 @@ function changeTagType() {
     }
 }
 
+// 구글 태그가 있을 경우 해당 태그를 select option에 출력
 function changeAAInput() {
     const selectTag = document.getElementById('aa');
     const selectUndefined = selectTag.options[selectTag.selectedIndex].value;
@@ -270,6 +273,7 @@ function changeAAInput() {
     }
 }
 
+// 이벤트 변수를 새 변수로 설정 했을 때 UI 변경해주는 함수
 function changeEventVariable() {
     const eventVariable = document.getElementById('eventVariable');
     const selectEventVaiable = eventVariable.options[eventVariable.selectedIndex].value;
@@ -365,6 +369,7 @@ function setData() {
 
         //이벤트 변수 설정
         let eventVariable;
+        // 새로 만들 경우
         if (document.getElementById('eventVariable').value == 'new') {
             eventVariable = {
                 eventVariableName: document.getElementById('variableName').value,
@@ -372,6 +377,7 @@ function setData() {
                 userSetting: userArr
             }
             eventVariables.push(eventVariable);
+        // 기존 이벤트 변수를 사용할 경우
         } else {
             if (document.getElementById('eventVariable').value) {
                 for (i of eventVariables) {
@@ -457,7 +463,7 @@ function setDataList() {
     // 태그 생성
     tags.forEach((e) => {
         const tagName = e.tagName;
-        const tagType = e.type == "gaawc" ? "Google 애널리틱스: GA4 구성" : "Google 애널리틱스: GA4 이벤트";
+        const tagType = e.type == "googtag" ? "Google 애널리틱스: GA4 구성" : "Google 애널리틱스: GA4 이벤트";
         const tagTri = e.triggerType == "pageview" ? "All Pages" : ttt();
         function ttt() {
             for (i in triggers) {
@@ -554,6 +560,7 @@ function deleteTag() {
     }
 }
 
+// 리스트에서 태그 클릭 했을 때 해당 태그 정보를 폼에 설정해주는 함수
 function viewTag(e) {
     for (q of tags) {
         if (e.innerText === q.tagName) {
@@ -567,7 +574,7 @@ function viewTag(e) {
             //태그 이름 설정
             document.getElementById("tag_name").value = q.tagName;
             //태그 타입 설정
-            if (q.type == "gaawc") {
+            if (q.type == "googtag") {
                 document.getElementById("conf").checked = true;
                 changeTagType();
                 //측정 ID설정
@@ -791,7 +798,7 @@ function validation(type) {
             errorLabel('noInput', e);
             returnVal = false;
         }
-        if (checkValue == 'gaawc' && e.value == '##ecommerce') {
+        if (checkValue == 'googtag' && e.value == '##ecommerce') {
             errorLabel('noEco', e);
             returnVal = false;
         }
@@ -923,7 +930,7 @@ function reset() {
 //     return variables;
 // }
 
-// (new)최종적으로 변수 설정해주는 함수
+// (new)이벤트 변수의 변수 설정해주는 함수
 function setVariables(eventVariables) {
     let set = new Set();
 
