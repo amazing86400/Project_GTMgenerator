@@ -935,7 +935,7 @@ function setVariables(eventVariables) {
             set.add(j.variable);
         }
     }
-    return set;
+    return [...set];
 }
 
 function setTriggers(triggers) {
