@@ -231,9 +231,9 @@ function changeTagType() {
         eventEle.innerHTML =
             `<div id="change_tagType">
                 <div id="form_aa">
-                    <label class="caption" for="aa">구성태그</label><br>
+                    <label class="caption" for="aa">Google 태그</label><br>
                     <select class="select_box" name="aa" id="aa">
-                        <option value="undefined">구성 태그 선택...</option>
+                        <option value="undefined">Google 태그 선택...</option>
                         <option value="none">없음-직접 ID 설정</option>
                     </select>
                 </div>
@@ -242,6 +242,9 @@ function changeTagType() {
                     <div class="caption">이벤트 이름</div>
                     <input type="text" class="form_input" id="event_name">
                 </div>
+                <div class="caption">전자상거래</div>
+                <input type="checkbox" id="isEcommerce" value="true">
+                <label for="isEcommerce"><div>전자상거래 데이터 전송</div></label>
             </div>`;
         document.getElementById('form_mid').append(eventEle);
         document.getElementsByClassName('field_title')[0].innerHTML = '이벤트 매개변수'
@@ -345,7 +348,7 @@ function setData() {
         const up_value = document.getElementsByName('up_value');
         const eventArr = [];
         const userArr = [];
-        isEcommerce = false;
+        isEcommerce = document.getElementById('isEcommerce') ? document.getElementById('isEcommerce').checked : false;
 
         //이벤트 매개변수 값 설정
         for (let i = 0; i < ep_key.length; i++) {
@@ -463,7 +466,7 @@ function setDataList() {
     // 태그 생성
     tags.forEach((e) => {
         const tagName = e.tagName;
-        const tagType = e.type == "googtag" ? "Google 애널리틱스: GA4 구성" : "Google 애널리틱스: GA4 이벤트";
+        const tagType = e.type == "googtag" ? "Google 태그" : "Google 애널리틱스: GA4 이벤트";
         const tagTri = e.triggerType == "pageview" ? "All Pages" : ttt();
         function ttt() {
             for (i in triggers) {
@@ -873,7 +876,7 @@ function errorLabel(type, e) {
             break;
         case 'noEco':
             if (e.parentElement.lastChild.className != 'errorLabel') {
-                e.parentElement.insertAdjacentHTML('beforeend', `<div class="errorLabel">구성 태그에는 전자상거래 설정이 불가합니다.</div>`)
+                e.parentElement.insertAdjacentHTML('beforeend', `<div class="errorLabel">Google 태그에는 전자상거래 설정이 불가합니다.</div>`)
             }
             break;
     }

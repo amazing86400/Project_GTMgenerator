@@ -786,13 +786,59 @@ th > i::before, .check_box_icon::before {
     border-color: #d2e3fc;
 }
 
-.field_title {
+.field_title, .ecommerce_title {
     font-size: 14px;
     color: rgba(0, 0, 0, 0.54);
     letter-spacing: .3px;
     margin: 16px -24px 0px 0px;
     padding: 19px 0px 15px 0px;
     border-top: 1px solid #dadce0;
+}
+
+#isEcommerce {
+    display: none;
+}
+
+#isEcommerce + label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-family: "Material Icons Extended";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    margin-top: 12px;
+    text-align: center;
+}
+
+#isEcommerce + label > div {
+    color: rgba(0,0,0,.74);
+    font-size: 14px;
+    font-family: 'Material Icons Extended';
+}
+
+#isEcommerce + label::before {
+    content: "check_box_outline_blank";
+    margin-right: 10px;
+    user-select: none;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    color: #80868b;
+}
+
+#isEcommerce:checked + label::before {
+    content: "check_box";
+    color: #1a73e8;
+    cursor: pointer;
+}
+
+.ecommerce {
+    color: rgba(0,0,0,.74);
+    display: inline;
+    vertical-align: super;
+    font-size: 14px;
+    font-family: 'Material Icons Extended';
 }
 
 .input_title {
