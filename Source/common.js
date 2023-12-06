@@ -3,6 +3,7 @@ let triggerId = 70;     //트리거Id 초기 값
 const editor = document.getElementById('editor');    //editor
 const editor_backgroud = document.querySelector('.editor_background');  // editor_background
 let tags = []; //태그 배열 선언
+let eventVariables = []; //이벤트 변수 배열 선언
 let triggers = []; //트리거 배열 선언
 let updateTagName = ""; // 업데이트 시 현재 선택한 태그 이름 변수
 let updateTriggerName = ""; // 업데이트 시 현재 선택한 트리거 이름 변수
@@ -81,7 +82,7 @@ function editorOpen() {
                             <input class="tagType" id="conf" type="radio" name="tagType" onclick="changeTagType()" value="gaawc" checked="checked">
                             <label for="conf" class="radio_label conf">
                                     <div class="radio_img">
-                                        <img class="conf_img" src="gaImg2.svg">
+                                        <img class="conf_img" src="assets/gaImg2.svg">
                                     </div>
                                     <div class="radio_caption">
                                         <div>Google 태그</div>
@@ -91,7 +92,7 @@ function editorOpen() {
                             <input class="tagType" id="event" type="radio" name="tagType" onclick="changeTagType()" value="gaawe">
                             <label for="event" class="radio_label">
                                 <div class="radio_img">
-                                    <img class="conf_img" src="gaImg.svg">
+                                    <img class="conf_img" src="assets/gaImg.svg">
                                 </div>
                                 <div class="radio_caption">
                                     <div>Google 애널리틱스: GA4 이벤트</div>
@@ -109,16 +110,23 @@ function editorOpen() {
                         </div>
                     </div>
                     <div>
-                        <div class="field_title">설정할 필드</div>
+                        <div class="field_title">공유된 이벤트 설정</div>
+                        <div id="form_bb">
+                            <label class="caption" for="bb">이벤트 설정 변수</label><br>
+                            <select class="select_box" name="bb" id="eventVariable">
+                                <option value="undefined">이벤트 변수 선택...</option>
+                                <option disabled value="undefined">---------</option>
+                                <option value="new">새 변수...</option>
+                            </select>
+                        </div>
                         <div class="input_area">
-                            <div>
+                            <div> 
                                 <div id="event_parameter">
                                     <div class="input_title">
-                                        <div class="field_name">필드 이름</div><div class="field_name">값</div>
+                                        <div class="field_name">이벤트 매개변수</div><div class="field_name">값</div>
                                     </div>
-                                    <div id="test1"><input type="text" name="ep_key" class="form_input" value="page_title"><input type="text" name="ep_value" class="form_input" value="title"><i class="remove_button" onclick='deleteInput(1)'></i></div>
                                 </div>
-                                <button class="add_input" onclick="addEventInput();">행 추가</button>
+                                <button class="add_input" onclick="addEventInput();">매개변수 추가</button>
                             </div>
                             <div class="textarea">
                                 <textarea class="textarea_box" id="event_excelData"></textarea><br><button class="add_input" type="button" onclick="addEvent()">입력</button>
@@ -133,7 +141,6 @@ function editorOpen() {
                                     <div class="input_title">
                                         <div class="field_name">속성 이름</div><div class="field_name">값</div>
                                     </div>
-                                    <div id="test2"><input type="text" name="up_key" class="form_input" value="up_cid"><input type="text" name="up_value" class="form_input" value="up_cid"><i class="remove_button" onclick='deleteInput(2)'></i></div>
                                 </div>
                                 <button class="add_input" onclick="addUserInput();">행 추가</button>
                             </div>
@@ -174,6 +181,20 @@ function editorOpen() {
     editor.classList.toggle('open');
     editor_backgroud.classList.toggle('open');
     document.body.style.overflow = "hidden";
+
+    const eventVariable = document.getElementById('eventVariable');
+    eventVariable.addEventListener('change', changeEventVariable);
+
+    const uniqueEventVariableNames = new Set();
+    if (tags) {
+        for (i of tags) {
+            const eventVariableName = i.eventVariable.eventVariableName;
+            if (eventVariableName && !uniqueEventVariableNames.has(eventVariableName)) {
+                eventVariable.insertAdjacentHTML('beforeend',`<option value="${eventVariableName}">${eventVariableName}</option>`);
+                uniqueEventVariableNames.add(eventVariableName);
+            }
+        }
+    }
 }
 
 //editor창 닫는 함수
@@ -227,7 +248,7 @@ function changeTagType() {
         if (tags) {
             for (i of tags) {
                 if (i.type == 'gaawc') {
-                    selectTag.insertAdjacentHTML('beforeend', `<option value="${i.tagName}">${i.tagName}</option>`)
+                    selectTag.insertAdjacentHTML('beforeend', `<option value="${i.measurementId}">${i.tagName}</option>`)
                 }
             }
         }
@@ -246,6 +267,29 @@ function changeAAInput() {
     } else {
         formMid.replaceChildren()
         formMid.insertAdjacentHTML('beforeend', `<input type="hidden" class="form_input" id="measurementId" value="${selectUndefined}">`)
+    }
+}
+
+function changeEventVariable() {
+    const eventVariable = document.getElementById('eventVariable');
+    const selectEventVaiable = eventVariable.options[eventVariable.selectedIndex].value;
+    const formEventVariable = document.getElementById('form_bb');
+    // const eventArea = document.getElementById('event_parameter');
+    // const userArea = document.getElementById('user_property');
+    if (selectEventVaiable == 'new') {
+        formEventVariable.insertAdjacentHTML('beforeend',
+        `<div id="eventVariableName">
+            <div class="caption">이벤트 변수 이름</div>
+            <input type="text" class="form_input" id="variableName">
+        </div>`);
+        addEventInput();
+        addUserInput();
+    } else {
+        if (document.getElementById('eventVariableName')) {
+            formEventVariable.lastChild.remove();
+            // eventArea.innerHTML = ''
+            // userArea.innerHTML = ''
+        }
     }
 }
 
@@ -319,13 +363,24 @@ function setData() {
             });
         }
 
-        //데이터 영역변수 설정
-        // const testInputs = eventArr.concat(userArr)
-        // for(i in testInputs){
-        //     if(variable.indexOf(testInputs[i].variable) == -1){
-        //         variable.push(testInputs[i].variable);
-        //     }
-        // }
+        //이벤트 변수 설정
+        let eventVariable;
+        if (document.getElementById('eventVariable').value == 'new') {
+            eventVariable = {
+                eventVariableName: document.getElementById('variableName').value,
+                eventSettig: eventArr,
+                userSetting: userArr
+            }
+            eventVariables.push(eventVariable);
+        } else {
+            if (document.getElementById('eventVariable').value) {
+                for (i of eventVariables) {
+                    if (document.getElementById('eventVariable').value == i.eventVariableName) {
+                        eventVariable = i
+                    }
+                }
+            }
+        }
 
         //태그 설정
         const tagType = document.querySelector('input[name="tagType"]:checked').value;
@@ -335,8 +390,9 @@ function setData() {
             measurementId: document.getElementById('measurementId').value,
             triggerType: document.querySelector('input[name="triggerType"]:checked').value,
             triggerId: triggerId,
-            VAR_Array: eventArr,
-            user_Array: userArr,
+            eventVariable,
+            // VAR_Array: eventArr,
+            // user_Array: userArr,
             isEcommerce: isEcommerce
         };
 
@@ -505,8 +561,8 @@ function viewTag(e) {
             updateTriggerName = e.parentElement.children[3].innerText; // 현재 선택한 트리거 이름 설정
             editorOpen();
             //여기다가 input값 설정
-            document.getElementsByClassName("input_title")[0].nextElementSibling.remove();
-            document.getElementsByClassName("input_title")[1].nextElementSibling.remove();
+            // document.getElementsByClassName("input_title")[0].nextElementSibling.remove();
+            // document.getElementsByClassName("input_title")[1].nextElementSibling.remove();
 
             //태그 이름 설정
             document.getElementById("tag_name").value = q.tagName;
@@ -537,6 +593,16 @@ function viewTag(e) {
                 }
             }
 
+            if (q.eventVariable.eventVariableName) {
+                const eventVariable = document.getElementById("eventVariable");
+                for (j of eventVariable.options) {
+                    if (j.value == q.eventVariable.eventVariableName) {
+                        j.selected = true;
+                        changeEventVariable();
+                    }
+                }
+            }
+
             //트리거 설정
             if (q.triggerType == "event") {
                 document.getElementById("event2").checked = true;
@@ -550,16 +616,16 @@ function viewTag(e) {
             }
 
             //매개변수 설정
-            for (j of q.VAR_Array) {
-                const eventParameter = document.getElementById("event_parameter");
-                inputNo += 1;
-                eventParameter.insertAdjacentHTML("beforeend", `<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input' value="${j.name}"><input type='text' name="ep_value" class='form_input' value="${j.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`);
-            }
-            for (z of q.user_Array) {
-                const userParameter = document.getElementById("user_property");
-                inputNo += 1;
-                userParameter.insertAdjacentHTML("beforeend", `<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value="${z.name}"><input type='text' name="up_value" class='form_input' value="${z.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`);
-            }
+            // for (j of q.VAR_Array) {
+            //     const eventParameter = document.getElementById("event_parameter");
+            //     inputNo += 1;
+            //     eventParameter.insertAdjacentHTML("beforeend", `<div id='test${inputNo}'><input type='text' name="ep_key" class='form_input' value="${j.name}"><input type='text' name="ep_value" class='form_input' value="${j.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`);
+            // }
+            // for (z of q.user_Array) {
+            //     const userParameter = document.getElementById("user_property");
+            //     inputNo += 1;
+            //     userParameter.insertAdjacentHTML("beforeend", `<div id='test${inputNo}'><input type='text' name="up_key" class='form_input' value="${z.name}"><input type='text' name="up_value" class='form_input' value="${z.variable}"><i class='remove_button' onclick='deleteInput(${inputNo})'></i></div>`);
+            // }
             //button class명 추가
             document.getElementById("setData").setAttribute("onclick", "updateTag('"+ e.innerText +"')");
         }
@@ -830,31 +896,45 @@ function reset() {
 // };
 
 // 최종적으로 변수 설정해주는 함수
-function setVariables(tags) {
-    const regex = /{{|}}/g;
+// function setVariables(tags) {
+//     const regex = /{{|}}/g;
+//     let set = new Set();
+
+//     tags.forEach((obj) => {
+//         if (obj.VAR_Array) {
+//             obj.VAR_Array.forEach((ele) => {
+//                 set.add(ele.variable);
+//             });
+//         }
+
+//         if (obj.user_Array) {
+//             obj.user_Array.forEach((ele) => {
+//                 set.add(ele.variable);
+//             });
+//         }
+
+//         if (regex.test(obj.eventName)) {
+//             let replaceEle = obj.eventName.replace(regex, '');
+//             set.add(replaceEle);
+//         }
+//     });
+//     let variables = [...set];
+
+//     return variables;
+// }
+
+// (new)최종적으로 변수 설정해주는 함수
+function setVariables(eventVariables) {
     let set = new Set();
 
-    tags.forEach((obj) => {
-        if (obj.VAR_Array) {
-            obj.VAR_Array.forEach((ele) => {
-                set.add(ele.variable);
-            });
+    for (i of eventVariables) {
+        for(j of i.eventSettig) {
+            set.add(j.variable);
         }
-
-        if (obj.user_Array) {
-            obj.user_Array.forEach((ele) => {
-                set.add(ele.variable);
-            });
+        for(j of i.userSetting) {
+            set.add(j.variable);
         }
-
-        if (regex.test(obj.eventName)) {
-            let replaceEle = obj.eventName.replace(regex, '');
-            set.add(replaceEle);
-        }
-    });
-    let variables = [...set];
-
-    return variables;
+    }
 }
 
 function setTriggers(triggers) {
@@ -866,8 +946,8 @@ function setTriggers(triggers) {
 
 //내보내기 클릭했을 때 json파일 함수 호출
 function setJson() {
-    let variables = setVariables(tags);
+    let variables = setVariables(eventVariables);
     triggers = setTriggers(triggers);
-    json(tags, triggers, variables);
+    json(tags, triggers, eventVariables, variables);
 }
 
