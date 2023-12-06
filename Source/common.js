@@ -601,8 +601,14 @@ function viewTag(e) {
                         }
                     }
                 }
+
+                // 전자상거래 전송 체크
+                if (q.isEcommerce) {
+                    document.getElementById('isEcommerce').checked = true;
+                }
             }
 
+            // 이벤트 변수 설정
             if (q.eventVariable.eventVariableName) {
                 const eventVariable = document.getElementById("eventVariable");
                 for (j of eventVariable.options) {

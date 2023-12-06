@@ -814,6 +814,7 @@ th > i::before, .check_box_icon::before {
 
 #isEcommerce + label > div {
     color: rgba(0,0,0,.74);
+    user-select: none;
     font-size: 14px;
     font-family: 'Material Icons Extended';
 }
