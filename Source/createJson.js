@@ -52,7 +52,7 @@ function setParameter(arg) {
     const ecommerceData = {
       type: 'BOOLEAN',
       key: 'sendEcommerceData',
-      value: arg.isEcommerce,
+      value: String(arg.isEcommerce),
     };
 
     const eventName = {
@@ -148,13 +148,15 @@ function setVariable(arrs) {
     fingerprint += 1;
     // CID 설정
     if (arg.includes('##')) {
-      return [
-        createGoogleVariable('GA_Cookie', 'k', [
-          { type: 'BOOLEAN', key: 'decodeCookie', value: 'false' },
-          { type: 'TEMPLATE', key: 'name', value: '_ga' },
-        ]),
-        createGoogleVariable(arg.split('##')[1], 'jsm', [{ type: 'TEMPLATE', key: 'javascript', value: 'function() { return {{GA_Cookie}}.substring(6); }' }]),
-      ];
+      const gaCookie = createGoogleVariable('GA_Cookie', 'k', [
+        { type: 'BOOLEAN', key: 'decodeCookie', value: 'false' },
+        { type: 'TEMPLATE', key: 'name', value: '_ga' },
+      ]);
+      variableId += 1;
+      fingerprint += 1;
+      const gaCid = createGoogleVariable(arg.split('##')[1], 'jsm', [{ type: 'TEMPLATE', key: 'javascript', value: 'function() { return {{GA_Cookie}}.substring(6); }' }]);
+
+      return [gaCookie, gaCid];
     }
     // 데이터 영역 변수
     else {
@@ -186,7 +188,7 @@ function setVariable(arrs) {
 // 구글 이벤트 변수 설정 함수 정의
 function setGoogleEvent(args) {
   let setEventParam = createList('eventSettingsTable', args.eventSettig, 'parameter', 'parameterValue');
-  let setUserParam = createList('userProperties', args.userSetting, 'parameter', 'parameterValue');
+  let setUserParam = createList('userProperties', args.userSetting, 'name', 'value');
 
   return [createGoogleEvent(args.eventVariableName, 'gtes', [setEventParam, setUserParam])];
 
@@ -194,13 +196,17 @@ function setGoogleEvent(args) {
     return {
       type: 'LIST',
       key: key1,
-      list: listItems.map((param) => ({
-        type: 'MAP',
-        map: [
-          { type: 'TEMPLATE', key: key2, value: param.name },
-          { type: 'TEMPLATE', key: key3, value: `{{${param.variable}}}` },
-        ],
-      })),
+      list: listItems.map((param) => {
+        const value = param.variable.includes('##') ? param.variable.split('##')[1] : param.variable;
+
+        return {
+          type: 'MAP',
+          map: [
+            { type: 'TEMPLATE', key: key2, value: param.name },
+            { type: 'TEMPLATE', key: key3, value: `{{${value}}}` },
+          ],
+        };
+      }),
     };
   }
 
@@ -256,7 +262,7 @@ function setContainer(tag, trigger, eventVariable, variable) {
           supportZones: true,
           supportTransformations: false,
         },
-        tagIds: ['GTM-1234567'],
+        tagIds: ['GTM-12345678'],
       },
       tag: createTag(tag), // 태그 설정
       trigger: createTrigger(trigger), // 트리거 설정
