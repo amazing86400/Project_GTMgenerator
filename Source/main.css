@@ -811,10 +811,6 @@ th > i::before, .check_box_icon::before {
     justify-content: space-between;
 }
 
-.input_area > div {
-    /* width: 590px; */
-}
-
 .textarea {
     margin: 10px 0 0 20px
 }
