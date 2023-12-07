@@ -65,15 +65,17 @@ Google 태그의 경우 GA4 측정 ID를 사용자가 직접 입력하여 설정
 **4. json 파일 저장**
 
 <p align="center">
+  <img src="https://github.com/amazing86400/Project_GTMgenerator/assets/96508771/4fa894a0-7b7f-44ae-852c-9cfc9a90df6d" width="70%" height="70%" />
 </p>
 
-태그, 트리거, 변수 설정까지 마친 다음, "내보내기" 버튼을 누르면 사용자가 설정한 내용 토대로 json 파일을 만들어 사용자가 다운받을 수 있도록 구현했습니다.
+태그, 트리거, 변수 설정까지 모두 마친 다음, "내보내기" 버튼을 누르면 사용자가 설정한 내용을 토대로 json 파일을 생성하여 사용자가 다운로드할 수 있도록 구현했습니다.
 <br>
 <br>
 
 **5. GTM 가져오기**
 
 <p align="center">
+  <img src="https://github.com/amazing86400/Project_GTMgenerator/assets/96508771/91447a07-b6dc-4dc4-a505-a00d002f368d" width="70%" height="70%" />
 </p>
 
 GTM 작업 공간 내 "가져오기" 기능을 통해 GTM Generator에서 설정한 태그를 그대로 설정할 수 있습니다. 해당 기능을 통해 손쉽게 초기 설정을 마무리할 수 있습니다.
