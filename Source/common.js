@@ -5,6 +5,7 @@ const editor_backgroud = document.querySelector('.editor_background'); // editor
 let tags = []; //태그 배열 선언
 let eventVariables = []; //이벤트 변수 배열 선언
 let triggers = []; //트리거 배열 선언
+let variables = new Set();
 let updateTagName = ''; // 업데이트 시 현재 선택한 태그 이름 변수
 let updateTriggerName = ''; // 업데이트 시 현재 선택한 트리거 이름 변수
 
@@ -389,10 +390,13 @@ function setData() {
     //이벤트 매개변수 값 설정
     for (let i = 0; i < ep_key.length; i++) {
       if (!(ep_key[i].value == '##ecommerce' || ep_key[i].value == true)) {
+        const name = ep_key[i].value.trim();
+        const variable = ep_value[i].value.trim();
         eventArr.push({
-          name: ep_key[i].value.trim(),
-          variable: ep_value[i].value.trim(),
+          name,
+          variable,
         });
+        variables.add(variable);
       } else {
         isEcommerce = true;
       }
@@ -400,10 +404,13 @@ function setData() {
 
     //사용자 속성 매개변수 설정
     for (let i = 0; i < up_key.length; i++) {
+      const name = up_key[i].value.trim();
+      const variable = up_value[i].value.trim();
       userArr.push({
-        name: up_key[i].value.trim(),
-        variable: up_value[i].value.trim(),
+        name,
+        variable,
       });
+      variables.add(variable);
     }
 
     //이벤트 변수 설정
@@ -447,11 +454,11 @@ function setData() {
     //이벤트 태그 일 경우
     if (tagType == 'gaawe') {
       const eventName = document.getElementById('event_name').value;
-      // const regex = /{{|}}/g;
-      // if(regex.test(eventName) && variable.indexOf(eventName) == -1){
-      //     const varEventName = eventName.replace(regex, '');
-      //     variable.push(varEventName);
-      //     }
+      const regex = /{{|}}/g;
+      if (regex.test(eventName)) {
+        const varEventName = eventName.replace(regex, '');
+        variables.add(varEventName);
+      }
       setTag.eventName = eventName;
     }
     tags.push(setTag);
@@ -1000,19 +1007,19 @@ function reset() {
 // }
 
 // (new)이벤트 변수의 변수 설정해주는 함수
-function setVariables(eventVariables) {
-  let set = new Set();
+// function setVariables(eventVariables) {
+//   let set = new Set();
 
-  for (i of eventVariables) {
-    for (j of i.eventSetting) {
-      set.add(j.variable);
-    }
-    for (j of i.userSetting) {
-      set.add(j.variable);
-    }
-  }
-  return [...set];
-}
+//   for (i of eventVariables) {
+//     for (j of i.eventSetting) {
+//       set.add(j.variable);
+//     }
+//     for (j of i.userSetting) {
+//       set.add(j.variable);
+//     }
+//   }
+//   return [...set];
+// }
 
 function setTriggers(triggers) {
   const set = new Set(triggers);
@@ -1023,7 +1030,6 @@ function setTriggers(triggers) {
 
 //내보내기 클릭했을 때 json파일 함수 호출
 function setJson() {
-  let variables = setVariables(eventVariables);
   triggers = setTriggers(triggers);
-  json(tags, triggers, eventVariables, variables);
+  json(tags, triggers, eventVariables, [...variables]);
 }
