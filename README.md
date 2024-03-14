@@ -10,13 +10,14 @@ GTM Generator를 통해 사용자는 원하는 태그, 트리거, 변수 정보�
 ## 프로젝트 소개
 
 - 프로젝트명: GTM Generator
-- 기간: 2023. 04. 27 ~ 2023. 12. 06
+- 기간: 2023. 04. 27 ~ 2023. 12. 06 (약 7개월)
 - 기술: HTML, CSS, JavaScript
 - 멤버: 신기범, 홍성호
 - 프로젝트 배포 주소(URL): http://210.114.9.23/GA_part/shhong/workspace/TechProject/GTMgenerator/Source/main.html
   <br>
 
 ## 프로젝트 기능
+
 ![main](https://github.com/amazing86400/Project_GTMgenerator/assets/96508771/8d34cd22-a659-47da-9051-56635467b415)
 GTM Generator는 GTM 초기 설정 서비스인만큼 태그, 트리거, 변수 모두 설정해야 합니다. 모두 설정을 마친 뒤 json 파일을 저장하여 GTM 컨테이너 작업공간에 "가져오기" 기능을 사용하여 GTM 설정을 마칩니다.
 
