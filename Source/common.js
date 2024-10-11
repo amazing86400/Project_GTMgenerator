@@ -376,7 +376,7 @@ function setData() {
         if (document.getElementById('eventVariable').value == 'new') {
             eventVariable = {
                 eventVariableName: document.getElementById('variableName').value,
-                eventSettig: eventArr,
+                eventSetting: eventArr,
                 userSetting: userArr
             }
             eventVariables.push(eventVariable);
@@ -940,7 +940,7 @@ function setEventVariables(eventVariables) {
     let set = new Set();
 
     for (i of eventVariables) {
-        for(j of i.eventSettig) {
+        for(j of i.eventSetting) {
             set.add(j.variable);
         }
         for(j of i.userSetting) {
