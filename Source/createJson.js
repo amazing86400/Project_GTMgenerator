@@ -70,6 +70,50 @@ function setParameter(arg) {
       value: arg.measurementId,
     };
 
+    const eventParams = {
+      type: "LIST",
+      key: "eventSettingsTable",
+      list: arg.dimensions.map((ep)=> {
+        return {
+          type: "MAP",
+          map: [
+            {
+              type: "TEMPLATE",
+              key: "parameter",
+              value: ep.name
+            },
+            {
+              type: "TEMPLATE",
+              key: "parameterValue",
+              value: '{{' + ep.variable + '}}'
+            }
+          ]
+        }
+      })
+    }
+
+    const userProperties = {
+      type: "LIST",
+      key: "userProperties",
+      list: arg.userProperties.map((up)=> {
+        return {
+          type: "MAP",
+          map: [
+            {
+              type: "TEMPLATE",
+              key: "name",
+              value: up.name
+            },
+            {
+              type: "TEMPLATE",
+              key: "value",
+              value: '{{' + up.variable + '}}'
+            }
+          ]
+        }
+      })
+    }
+
     const eventVariable = {
       type: "TEMPLATE",
       key: "eventSettingsVariable",
@@ -94,7 +138,7 @@ function setParameter(arg) {
     }
     // 아닌 경우
     else {
-      return [ecommerceData, eventName, measurementId, eventVariable];
+      return [ecommerceData, eventName, measurementId, eventParams, userProperties, eventVariable];
     }
   }
 }

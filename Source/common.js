@@ -389,6 +389,7 @@ function setData() {
                     }
                 }
             }
+
         }
 
         //태그 설정
@@ -400,19 +401,14 @@ function setData() {
             triggerType: document.querySelector('input[name="triggerType"]:checked').value,
             triggerId: triggerId,
             eventVariable,
-            // VAR_Array: eventArr,
-            // user_Array: userArr,
+            dimensions: document.getElementById('eventVariable').value == 'new' ? [] : eventArr,
+            userProperties: document.getElementById('eventVariable').value == 'new' ? [] : userArr,
             isEcommerce: isEcommerce
         };
 
         //이벤트 태그 일 경우
         if (tagType == 'gaawe') {
             const eventName = document.getElementById('event_name').value;
-            // const regex = /{{|}}/g;
-            // if(regex.test(eventName) && variable.indexOf(eventName) == -1){
-            //     const varEventName = eventName.replace(regex, '');
-            //     variable.push(varEventName);
-            //     }
             setTag.eventName = eventName;
         }
         tags.push(setTag);
@@ -912,35 +908,35 @@ function reset() {
 // };
 
 // 최종적으로 변수 설정해주는 함수
-// function setVariables(tags) {
-//     const regex = /{{|}}/g;
-//     let set = new Set();
+function setVariables(tags) {
+    const regex = /{{|}}/g;
+    let set = new Set();
 
-//     tags.forEach((obj) => {
-//         if (obj.VAR_Array) {
-//             obj.VAR_Array.forEach((ele) => {
-//                 set.add(ele.variable);
-//             });
-//         }
+    tags.forEach((obj) => {
+        if (obj.dimensions) {
+            obj.dimensions.forEach((ele) => {
+                set.add(ele.variable);
+            });
+        }
 
-//         if (obj.user_Array) {
-//             obj.user_Array.forEach((ele) => {
-//                 set.add(ele.variable);
-//             });
-//         }
+        if (obj.userProperties) {
+            obj.userProperties.forEach((ele) => {
+                set.add(ele.variable);
+            });
+        }
 
-//         if (regex.test(obj.eventName)) {
-//             let replaceEle = obj.eventName.replace(regex, '');
-//             set.add(replaceEle);
-//         }
-//     });
-//     let variables = [...set];
+        if (regex.test(obj.eventName)) {
+            let replaceEle = obj.eventName.replace(regex, '');
+            set.add(replaceEle);
+        }
+    });
+    let variables = [...set];
 
-//     return variables;
-// }
+    return variables;
+}
 
 // (new)이벤트 변수의 변수 설정해주는 함수
-function setVariables(eventVariables) {
+function setEventVariables(eventVariables) {
     let set = new Set();
 
     for (i of eventVariables) {
@@ -963,8 +959,11 @@ function setTriggers(triggers) {
 
 //내보내기 클릭했을 때 json파일 함수 호출
 function setJson() {
-    let variables = setVariables(eventVariables);
+    let Eventvariables = setEventVariables(eventVariables);
+    let variables = setVariables(tags);
+    let fullVariables = [...Eventvariables, ...variables]
+    variables.push(setVariables)
     triggers = setTriggers(triggers);
-    json(tags, triggers, eventVariables, variables);
+    json(tags, triggers, eventVariables, fullVariables);
 }
 
