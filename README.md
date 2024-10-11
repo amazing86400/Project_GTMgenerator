@@ -10,13 +10,14 @@ GTM Generator를 통해 사용자는 원하는 태그, 트리거, 변수 정보�
 ## 프로젝트 소개
 
 - 프로젝트명: GTM Generator
-- 기간: 2023. 04. 27 ~ 2023. 12. 06
+- 기간: 2023. 04. 27 ~ 2023. 12. 06 (약 7개월)
 - 기술: HTML, CSS, JavaScript
 - 멤버: 신기범, 홍성호
 - 프로젝트 배포 주소(URL): http://210.114.9.23/GA_part/shhong/workspace/TechProject/GTMgenerator/Source/main.html
   <br>
 
 ## 프로젝트 기능
+
 ![main](https://github.com/amazing86400/Project_GTMgenerator/assets/96508771/8d34cd22-a659-47da-9051-56635467b415)
 GTM Generator는 GTM 초기 설정 서비스인만큼 태그, 트리거, 변수 모두 설정해야 합니다. 모두 설정을 마친 뒤 json 파일을 저장하여 GTM 컨테이너 작업공간에 "가져오기" 기능을 사용하여 GTM 설정을 마칩니다.
 
@@ -79,3 +80,13 @@ Google 태그의 경우 GA4 측정 ID를 사용자가 직접 입력하여 설정
 </p>
 
 GTM 작업 공간 내 "가져오기" 기능을 통해 GTM Generator에서 설정한 태그를 그대로 설정할 수 있습니다. 해당 기능을 통해 손쉽게 초기 설정을 마무리할 수 있습니다.
+<br>
+<br>
+
+**6. 태그 삭제하기**
+
+<p align="center">
+  <img src="https://github.com/amazing86400/Project_GTMgenerator/assets/96508771/ecc19603-bd06-46a1-9490-fa13de86465e" width="70%" height="70%" />
+</p>
+
+생성한 태그 중 필요 없는 태그는 삭제할 수 있도록 태그 선택 버튼과 선택한 태그 삭제 처리 기능을 추가했습니다. 태그 선택의 경우 전체 태그를 선택할 수 있는 버튼과 일부 태그만 선택할 수 있는 버튼을 각각 구현했습니다.
