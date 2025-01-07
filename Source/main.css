@@ -5,11 +5,6 @@
   src: url(https://fonts.gstatic.com/s/materialiconsextended/v149/kJEjBvgX7BgnkSrUwT8UnLVc38YydejYY-oE_LvJ.woff2) format('woff2');
 }
 
-@font-face {
-  font-family: 'Noto';
-  src: url(assets/NotoSansKR-VariableFont_wght.ttf) format("woff2");
-}
-
 html {
   height: 94.9%;
 }
@@ -59,7 +54,7 @@ body {
   display: flex;
   height: 40px;
   align-items: center;
-  font-family: 'Noto';
+  font-family: 'Noto Sans', serif;
   border: 1px solid rgb(210, 213, 218);
   padding-right: 9px;
   border-radius: 5px 5px 0px 0px;
