@@ -55,12 +55,13 @@ body {
   /* margin-right: 1px; */
 }
 
-.firebase,
-.gtm {
+.firebase, .gtm, .gaTester {
   display: flex;
   height: 40px;
   align-items: center;
+  font-family: 'Noto';
   border: 1px solid rgb(210, 213, 218);
+  padding-right: 9px;
   border-radius: 5px 5px 0px 0px;
   justify-content: center;
 }
@@ -71,10 +72,8 @@ a {
 
 .firebase {
   width: 160px;
-  font-family: 'Noto';
   font-size: 15px;
   font-weight: 400;
-  padding-right: 9px;
   color: rgb(59, 68, 81);
   /* border-bottom: none; */
 }
@@ -92,12 +91,22 @@ a {
 .gtm {
   width: 170px;
   color: rgb(86, 90, 232);
-  font-family: 'Noto';
   font-size: 15px;
   font-weight: 500;
-  padding-right: 9px;
   background-color: rgb(242, 245, 249);
   border-bottom: 1px solid rgb(242, 245, 249);
+}
+
+.gaImg {
+  width: 24px;
+  margin: 0px 5px; 
+}
+
+.gaTester {
+  width: 120px;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgb(59,68,81);
 }
 
 .contentContainer {
